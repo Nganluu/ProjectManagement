@@ -30,12 +30,16 @@ export default class header extends Component {
                             <Button color="link" onClick={this.toggleAddProject}>
                                 <i className="fas fa-plus-circle" style={{ cursor: "pointer", fontSize: "28px" }}></i>
                             </Button>
+                            <Link to='/contact'>
                             <Button color="link">
                                 <i className="fas fa-info-circle" style={{ cursor: "pointer", fontSize: "28px" }}></i>
                             </Button>
+                            </Link>
+                            <Link to='/user'>
                             <Button color="link">
                                 <i className="fas fa-user-circle" style={{ cursor: "pointer", fontSize: "28px" }}></i>
                             </Button>
+                            </Link>
                         </div>
                         <ModalAddProject modal={this.state.modalAdd} toggle={this.toggleAddProject}/>
                     </div>

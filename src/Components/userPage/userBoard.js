@@ -69,7 +69,8 @@ class homePage extends Component {
                                 <b>CÔNG NGHỆ WEB</b>
                             </div>
                             <div onClick={this.toggleAddProject} style={{ color: "#989999", cursor: "pointer" }}>+ Create new </div>
-                            <CardGroup className="card" style={{ height: "100%", width: "20%" }}>
+                           <Link to='/detailboard' style={{textDecoration: "none"}}>
+                            <CardGroup className="card" style={{ height: "100%", width: "20%", cursor: "pointer" }}>
                                 <article  >
                                     <div >
                                         Write 3D table in js
@@ -80,6 +81,7 @@ class homePage extends Component {
                                     </div>
                                 </article>
                             </CardGroup>
+                            </Link>
                         </div>
                     </div>
                 </div>
