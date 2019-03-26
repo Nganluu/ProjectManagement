@@ -13,7 +13,8 @@ class boardList extends Component {
         this.state = {
             modalAddProject: false,
             modalAddTask: false,
-            data: []
+            data: [],
+            date: new Date()
         }
     }
     toggleAddProject = () => {
@@ -42,7 +43,11 @@ class boardList extends Component {
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>Write 3D table in js</b>
                                 </Button>
-                                <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
+                                <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>
+                                + Create new
+                                
+                                </div>
+
                             </div>
                             <ModalAddProject modal={this.state.modalAddProject} toggle={this.toggleAddProject} />
                         </div>
@@ -50,34 +55,49 @@ class boardList extends Component {
                             <div style={{ fontSize: "20px", marginBottom: "1%" }}>
                                 <b>Write 3D table in js</b>
                             </div>
-                            <div className="row" onClick={this.toggleAddProject} style={{ color: "#989999", cursor: "pointer" }}>+ Create new </div>
+                            <div style={{ color: "#989999", cursor: "pointer" }}>
+                            <span onClick={this.toggleAddProject}>+ Create new</span>  
+                            <span>
+                            <i className="fas fa-cog" style={{marginLeft: "82px", marginTop: "5px", paddingRight: "5px"}}/>
+                            Setting
+                            </span>
+                            </div>
+                           
+                            {/* công việc đang lên kế hoạch */}
                             <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
                                    <b> Plan </b>
                                         <div>
-                                        <Button color="light" style={{ width: "95%", textAlign: "left" }}>
+                                        <Button color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
-                                        <i className="fas fa-pen" style={{textAlign: "right"}}></i>
+                                        <i className="fas fa-pen" style={{textAlign: "right"}}></i><br/>
+                                       <span style={{backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px"}}>
+                                       <i className="far fa-clock"></i>17:30, May 25 2019
+                                       </span>
                                       </Button>
                                     </div>
                                 </div>
                             </CardGroup>
-                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "408px", top: "-226px" }}>
+                            {/* công việc đang làm  */}
+                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "408px", top: "-255.5px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
                                    <b> Doing </b>
                                         <div>
-                                        <Button color="light" style={{ width: "95%", textAlign: "left" }}>
+                                        <Button color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
                                         <i className="fas fa-pen" style={{textAlign: "right"}}></i>
+                                        <center style={{ marginBottom: "-20px" }}>25%</center>
+                                        <Progress value="25" style={{ width: "100%", marginBottom: "10px" }} />
                                       </Button>
                                     </div>
                                 </div>
                             </CardGroup>
-                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "814px", top: "-452px" }}>
+                            {/* công việc đã làm xong */}
+                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "814px", top: "-512px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
                                    <b> Done </b>
                                         <div>
-                                        <Button color="light" style={{ width: "95%", textAlign: "left" }}>
+                                        <Button color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
                                         <i className="fas fa-pen" style={{textAlign: "right"}}></i>
                                       </Button>
