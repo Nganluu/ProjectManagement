@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UserBoard from './userPage/userBoard'
+import UserBoard from './homePage/userBoard'
 import Header from './header'
 
 export default class userPage extends Component {

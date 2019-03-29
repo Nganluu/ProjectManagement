@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Button} from 'reactstrap'
 import {Link} from 'react-router-dom'
-import ModalAddProject from './userPage/modalAddProject'
+import ModalAddProject from './homePage/modalAddProject'
 
 export default class header extends Component {
     constructor (props){

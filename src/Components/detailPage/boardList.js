@@ -4,24 +4,30 @@ import { Progress, Button, CardGroup,Card } from 'reactstrap'
 import { connect } from 'react-redux'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
-import ModalAddProject from '../userPage/modalAddProject'
+import ModalAddProject from '../homePage/modalAddProject'
 import { addNewProject } from '../../Actions/createNew'
-
+import DetailTask from './detailTask'
 class boardList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modalAddProject: false,
             modalAddTask: false,
+            modalShowDetailTask: false,
             data: [],
             date: new Date()
         }
     }
-    toggleAddProject = () => {
-        this.setState({
-            modalAddProject: !this.state.modalAddProject
-        })
+    // toggleAddProject = () => {
+    //     this.setState({
+    //         modalAddProject: !this.state.modalAddProject
+    //     })
 
+    // }
+    toggleShowDetailTask =()=>{
+        this.setState({
+            modalShowDetailTask: !this.state.modalShowDetailTask
+        })
     }
     toggleAddTask = () => {
         this.setState({
@@ -44,10 +50,8 @@ class boardList extends Component {
                                     <b>Write 3D table in js</b>
                                 </Button>
                                 <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>
-                                + Create new
-                                
+                                + Create new                                
                                 </div>
-
                             </div>
                             <ModalAddProject modal={this.state.modalAddProject} toggle={this.toggleAddProject} />
                         </div>
@@ -56,9 +60,9 @@ class boardList extends Component {
                                 <b>Write 3D table in js</b>
                             </div>
                             <div style={{ color: "#989999", cursor: "pointer" }}>
-                            <span onClick={this.toggleAddProject}>+ Create new</span>  
+                            {/* <span onClick={this.toggleAddProject}>+ Create new</span>   */}
                             <span>
-                            <i className="fas fa-cog" style={{marginLeft: "82px", marginTop: "5px", paddingRight: "5px"}}/>
+                            <i className="fas fa-cog" style={{ paddingRight: "5px"}}/>
                             Setting
                             </span>
                             </div>
@@ -68,13 +72,17 @@ class boardList extends Component {
                                 <div style={{ height: "100%", width: "100%" }}>
                                    <b> Plan </b>
                                         <div>
-                                        <Button color="light" style={{ width: "98%", textAlign: "left" }}>
+                                        <Button onClick={this.toggleShowDetailTask} 
+                                         color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
                                         <i className="fas fa-pen" style={{textAlign: "right"}}></i><br/>
                                        <span style={{backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px"}}>
                                        <i className="far fa-clock"></i>17:30, May 25 2019
                                        </span>
                                       </Button>
+                                      <DetailTask
+                                      toggle={this.toggleShowDetailTask} 
+                                      modal={this.state.modalShowDetailTask}/>
                                     </div>
                                 </div>
                             </CardGroup>

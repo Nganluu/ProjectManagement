@@ -15,7 +15,7 @@ class App extends Component {
          <Route exact path='/home' component={userPage}/>
          <Route exact path='/contact' component={contactPage}/>
          <Route exact path='/user' component={userInfo}/>
-         <Route exact path='/detailboard' component={detailPage}/>
+         <Route exact path='/detailpage' component={detailPage}/>
          </div>
        </Router>
       </div>
