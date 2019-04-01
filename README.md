@@ -26,26 +26,26 @@
 # Chuyển đường dẫn đến thư mục xampp\htdocs\cnwtt tùy vào đường dẫn của máy mọi người
 # gõ:
 
-# composer install
-# copy .ven.example .ven
+        # composer install
+        # copy .ven.example .ven
 
 
 
 # Vào file .ven trong project rồi chỉnh sửa 
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=project_manager
-# DB_USERNAME=root
-# DB_PASSWORD=
+        # DB_CONNECTION=mysql
+        # DB_HOST=127.0.0.1
+        # DB_PORT=3306
+        # DB_DATABASE=project_manager
+        # DB_USERNAME=root
+        # DB_PASSWORD=
 
 
 # Mở cmd lên gõ tiếp:
 
-# php artisan key:generate 
-# php artisan migrate
-# php artisan db:seed
-# php artisan serve 
+        # php artisan key:generate 
+        # php artisan migrate
+        # php artisan db:seed
+        # php artisan serve 
 
 Lúc này cổng 8000 trên localhost đang mở ta gọi api trên cổng này
 
