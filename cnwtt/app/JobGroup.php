@@ -9,7 +9,7 @@ class JobGroup extends Model
     //
     protected $table = 'job_group';
     protected $fillable = [
-        'job_group_name', 'job_group_status', 'job_group_process',
+        'job_group_name', 'job_group_process', 'job_group_status',
     ];
     public $timestamps = false;
     public function project(){
@@ -18,7 +18,5 @@ class JobGroup extends Model
     public function job(){
         return $this->hasMany('App\Job', 'job_group_id', 'id');
     }
-    public function comment(){
-        return $this->hasMany('App\Comment', 'job_group_id', 'id');
-    }
+   
 }

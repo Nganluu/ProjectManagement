@@ -17,13 +17,13 @@ class MiJob extends Migration
         Schema::create('job', function($table){
             $table->increments('id');
             $table->string('job_name');
-            $table->boolean('job_done')->default(0);
+            $table->integer('job_process')->default(0);
             $table->boolean('job_outdate')->default(0);
-            $table->integer('user_id')->unsigned();
             $table->integer('job_group_id')->unsigned();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->dateTime('done_date')->nullable();
+            $table->text('job_description')->nullable();
         });
     }
 

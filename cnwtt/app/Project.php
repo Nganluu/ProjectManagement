@@ -10,7 +10,7 @@ class Project extends Model
     protected $table = 'project';
     public $timestamps = false;
     protected $fillable = [
-        'project_name', 'project_process',
+        'project_name',
     ];
     public function jobgroup(){
         return $this->hasMany('App\JobGroup', 'project_id', 'id');

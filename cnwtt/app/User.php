@@ -45,7 +45,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Project', 'user_project', 'user_id', 'project_id')->withPivot('user_role');
     }
     public function job(){
-        return $this->hasMany('App\Job', 'user_id', 'id');
+        return $this->belongsToMany('App\Job', 'user_job', 'user_id', 'job_id');
+    }
+    public function personal(){
+        return $this->hasMany('App\Personal', 'user_id', 'id');
     }
     
 }

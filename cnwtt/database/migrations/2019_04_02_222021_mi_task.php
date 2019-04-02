@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MiJobGroup extends Migration
+class MiTask extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,11 @@ class MiJobGroup extends Migration
     public function up()
     {
         //
-        Schema::create('job_group', function($table){
+        Schema::create('task', function($table){
             $table->increments('id');
-            $table->string('job_group_name');
-            $table->integer('job_group_process')->default('0');
-            $table->string('job_group_status')->default('plan');
-            $table->integer('project_id')->unsigned();
+            $table->string('task_name');
+            $table->boolean('task_tick')->default(0);
+            $table->integer('job_id')->unsigned();
         });
     }
 
@@ -31,6 +30,6 @@ class MiJobGroup extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('job_group');
+        Schema::dropIfExists('task');
     }
 }

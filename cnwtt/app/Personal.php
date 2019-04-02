@@ -4,18 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Personal extends Model
 {
     //
-    protected $table = 'comment';
+    protected $table = 'personal';
     protected $fillable = [
-        'content',
+        'personal_name', 'personal_process',
     ];
     public $timestamps = false;
-    public function job(){
-        return $this->belongsTo('App\Job', 'job_id', 'id');
-    }
+
     public function user(){
         return $this->belongsTo('App\User', 'user_id', 'id');
+    }
+    public function ptask(){
+        return $this->hasMany('App\PTask', 'personal_id', 'id');
     }
 }

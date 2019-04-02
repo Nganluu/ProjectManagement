@@ -17,7 +17,7 @@ class MiComment extends Migration
         Schema::create('comment', function($table){
             $table->increments('id');
             $table->text('content');
-            $table->integer('job_group_id')->unsigned();
+            $table->integer('job_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->dateTime('comment_date');
         });

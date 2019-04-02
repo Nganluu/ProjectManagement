@@ -18,5 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call(job_seed::class);
         $this->call(job_group_seed::class);
         $this->call(comment_seed::class);
+        $this->call(p_task_seed::class);
+        $this->call(task_seed::class);
+        $this->call(personal_seed::class);
+        $this->call(user_job_seed::class);
+        $this->call(sanpham_seed::class);
     }
 }
