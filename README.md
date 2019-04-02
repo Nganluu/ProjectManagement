@@ -27,7 +27,7 @@
 # gõ:
 
         # composer install
-        # copy .ven.example .ven
+        # copy .env.example .env
 
 
 
