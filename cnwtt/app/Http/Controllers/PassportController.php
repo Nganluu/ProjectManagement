@@ -44,7 +44,7 @@ class PassportController extends Controller
             $token = auth()->user()->createToken('cnwtt')->accessToken;
             $user = auth()->user();
             return response()->json([
-                'succes' => true,
+                'success' => true,
                 'token' => $token,
                 'id' => $user->id,
                 'name' => $user->name,
@@ -52,7 +52,7 @@ class PassportController extends Controller
             ], 200);
         }else{
             return response()->json([
-                'succes' => false
+                'success' => false
             ], 401);
         }
     }
