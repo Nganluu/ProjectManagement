@@ -17,8 +17,7 @@ export default class header extends Component {
     }
   render() {
     return (
-         <div style={{ backgroundColor: "rgba(231, 231, 231, 0.07)" }}>
-                <div id="header">
+                <div className="container-fluid" id="header">
                     <div className="row">
                         <div className="col-md-7">
                             <i className="fas fa-tasks" style={{ marginRight: "10px" }}></i>
@@ -44,7 +43,7 @@ export default class header extends Component {
                         <ModalAddProject modal={this.state.modalAdd} toggle={this.toggleAddProject}/>
                     </div>
                 </div>
-      </div>
+     
     )
   }
 }

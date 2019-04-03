@@ -57,7 +57,7 @@ class modalAddProject extends Component {
                                        <option value = "Project">Project</option>
                                        <option value="Task">Task</option>
                                    </select>
-                                   {console.log(this.state.type)}
+                                   
                                 </Col>
                             </FormGroup>
                             <FormGroup>

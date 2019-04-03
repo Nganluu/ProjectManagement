@@ -1,48 +1,64 @@
 import React, { Component } from 'react'
 import '../../styles/Login.css'
 import { Button } from 'reactstrap'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { Input, InputGroup } from 'reactstrap'
+import {connect} from 'react-redux'
+import {userLogin} from '../../Actions/accountActions'
 
 class header extends Component {
   constructor(props){
     super(props);
     this.state={
-      userName: "",
-      pass: "",
+      email: "",
+      password: "",
+      passError: "",
+      emailError: "",
       signined: false,
     }
   }
-  handleUser=(event)=>{
-    this.setState({
-      userName: event.target.value
-    })
-  }
-  handlePass=(event)=>{
-    this.setState({
-      pass: event.target.value
-    })
-  }
-  fetchLogin=()=>{
-    fetch("",{
-      method: "POST",
-      body: JSON.stringify({
-        name: this.state.name,
-        pass: this.state.pass
+  onChangeEmail = (event)=>{
+    this.setState({email: event.target.value}, ()=>{this.validateEmail()})
+}
+validateEmail = () => {
+  const { email } = this.state;
+  this.setState({
+    emailError:
+      email.length > 0 ? null : true
+  });
+}
+onChangePassword = (event)=>{
+  this.setState({password: event.target.value}, ()=>{this.validatePassword()})
+}
+validatePassword = () => {
+  const { password } = this.state;
+  this.setState({
+   passError:
+      password.length > 0 ? null : true
+  });
+}
+  componentDidUpdate(){
+    if(!this.state.signined){
+      if(this.props.account.loginSuccess){
+        this.setState({
+          signined: true
+        })
       }
-      )
-    },
-    ).then(response=>response.json)
-    .then(response=>this.setState({}))
+    }
+    localStorage.setItem("signined", this.props.account.loginSuccess);
+    localStorage.setItem("userId", this.props.account.id); 
+    if(localStorage.getItem("signined")){
+      this.props.history.push('/home');
+    }
+    
   }
-  onClick=()=>{
+
+  onLogin=()=>{
     this.setState({signined: true})
-    this.fetchLogin();
-    localStorage.setItem("signined", this.state.signined);
-    localStorage.setItem("userId", ""); 
-    let path='/home';
-    this.props.history.push(path)
+    this.props.userLogin(this.state.email, this.state.password);
+    
   }
+
   render() {
     return (
       <div className="container-fluid" id="header">
@@ -53,12 +69,12 @@ class header extends Component {
           </div>
           <div className="col-md-4">
           <InputGroup>
-            <Input placeholder="Your Email.." type="email" style={{marginRight: "15px"}}  />
-            <Input placeholder="Enter your password" type="password"/>
+            <Input type="text" onBlur={this.validateEmail} onChange={this.onChangeEmail} value={this.state.email} placeholder="Your Email.." type="email" style={{marginRight: "15px"}}  />
+            <Input type="text" onBlur={this.validatePassword} onChange={this.onChangePassword} value={this.state.password} placeholder="Enter your password" type="password"/>
             </InputGroup>
           </div>
           <div className="col-md-1" style={{top: "-9px"}}>
-            <Button onClick={this.onClick}>
+            <Button onClick={this.onLogin}>
               Log in
             </Button>
             </div>
@@ -67,4 +83,7 @@ class header extends Component {
     )
   }
 }
-export default withRouter(header)
+const mapStatetoProps = state => ({
+  account: state.account
+})
+export default connect(mapStatetoProps, {userLogin})(withRouter(header))

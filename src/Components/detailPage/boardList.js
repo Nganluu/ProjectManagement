@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Progress, Button, CardGroup,Card } from 'reactstrap'
+import { Progress, Button, CardGroup, Card } from 'reactstrap'
 import { connect } from 'react-redux'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
@@ -14,17 +14,16 @@ class boardList extends Component {
             modalAddProject: false,
             modalAddTask: false,
             modalShowDetailTask: false,
-            data: [],
             date: new Date()
         }
     }
-    // toggleAddProject = () => {
-    //     this.setState({
-    //         modalAddProject: !this.state.modalAddProject
-    //     })
+    toggleAddProject = () => {
+        this.setState({
+            modalAddProject: !this.state.modalAddProject
+        })
 
-    // }
-    toggleShowDetailTask =()=>{
+    }
+    toggleShowDetailTask = () => {
         this.setState({
             modalShowDetailTask: !this.state.modalShowDetailTask
         })
@@ -50,7 +49,7 @@ class boardList extends Component {
                                     <b>Write 3D table in js</b>
                                 </Button>
                                 <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>
-                                + Create new                                
+                                    + Create new
                                 </div>
                             </div>
                             <ModalAddProject modal={this.state.modalAddProject} toggle={this.toggleAddProject} />
@@ -60,55 +59,59 @@ class boardList extends Component {
                                 <b>Write 3D table in js</b>
                             </div>
                             <div style={{ color: "#989999", cursor: "pointer" }}>
-                            {/* <span onClick={this.toggleAddProject}>+ Create new</span>   */}
-                            <span>
-                            <i className="fas fa-cog" style={{ paddingRight: "5px"}}/>
-                            Setting
+                                {/* <span onClick={this.toggleAddProject}>+ Create new</span>   */}
+                                <span>
+                                    <i className="fas fa-cog" style={{ paddingRight: "5px" }} />
+                                    Setting
                             </span>
                             </div>
-                           
+
                             {/* công việc đang lên kế hoạch */}
                             <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
-                                   <b> Plan </b>
-                                        <div>
-                                        <Button onClick={this.toggleShowDetailTask} 
-                                         color="light" style={{ width: "98%", textAlign: "left" }}>
+                                    <b> Plan </b>
+                                    <div>
+                                        <Button onClick={this.toggleShowDetailTask}
+                                            color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
-                                        <i className="fas fa-pen" style={{textAlign: "right"}}></i><br/>
-                                       <span style={{backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px"}}>
-                                       <i className="far fa-clock"></i>17:30, May 25 2019
+                                        <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
+                                            <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
+                                                <i className="far fa-clock"></i>17:30, May 25 2019
                                        </span>
+                                        </Button>
+                                        <DetailTask
+                                            toggle={this.toggleShowDetailTask}
+                                            modal={this.state.modalShowDetailTask} />
+                                        <Button
+                                            color="light" style={{ color: "#989999", width: "98%", textAlign: "left" }}>
+                                            + Add more
                                       </Button>
-                                      <DetailTask
-                                      toggle={this.toggleShowDetailTask} 
-                                      modal={this.state.modalShowDetailTask}/>
                                     </div>
                                 </div>
                             </CardGroup>
                             {/* công việc đang làm  */}
-                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "408px", top: "-255.5px" }}>
+                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "408px", top: "-281px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
-                                   <b> Doing </b>
-                                        <div>
+                                    <b> Doing </b>
+                                    <div>
                                         <Button color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
-                                        <i className="fas fa-pen" style={{textAlign: "right"}}></i>
-                                        <center style={{ marginBottom: "-20px" }}>25%</center>
-                                        <Progress value="25" style={{ width: "100%", marginBottom: "10px" }} />
-                                      </Button>
+                                        <i className="fas fa-pen" style={{ textAlign: "right" }}></i>
+                                            <center style={{ marginBottom: "-20px" }}>25%</center>
+                                            <Progress value="25" style={{ width: "100%", marginBottom: "10px" }} />
+                                        </Button>
                                     </div>
                                 </div>
                             </CardGroup>
                             {/* công việc đã làm xong */}
-                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "814px", top: "-512px" }}>
+                            <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "814px", top: "-564px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
-                                   <b> Done </b>
-                                        <div>
+                                    <b> Done </b>
+                                    <div>
                                         <Button color="light" style={{ width: "98%", textAlign: "left" }}>
                                             this is a test for pen hihihiihihi
-                                        <i className="fas fa-pen" style={{textAlign: "right"}}></i>
-                                      </Button>
+                                        <i className="fas fa-pen" style={{ textAlign: "right" }}></i>
+                                        </Button>
                                     </div>
                                 </div>
                             </CardGroup>

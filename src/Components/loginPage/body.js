@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../../styles/Login.css'
 import {userSignup} from '../../Actions/accountActions'
-import { FormGroup, Label, Input, Button } from 'reactstrap'
+import { FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {connect} from 'react-redux'
 
 class body extends Component {
@@ -14,7 +14,8 @@ class body extends Component {
             nameError: false,
             emailError: false,
             passError: false,
-            registered: false
+            registered: false,
+            modalErr: false
         }
     }
     //Name
@@ -51,26 +52,22 @@ class body extends Component {
             password.length > 0 ? null : true
         });
       }
-  
-    // fetchRegister=()=>{
-    //     fetch("",{
-    //         method: "POST",
-    //         body: JSON.stringify({
-    //             name: this.state.name,
-    //             email: this.state.email,
-    //             password: this.state.password,
-    //                        })
-    //     }).then(res=>{
-    //         this.setState({registered: true})
-    //     })
-        
-    // }
+
     handleRegister=()=>{
        this.props.userSignup(this.state.name, this.state.email, this.state.password)
-        // this.fetchRegister()
+        this.setState({
+            name: "",
+            email: "",
+            password: "",
+        })
+    }
+    toggle = ()=>{
+        this.setState({
+            modalErr: !this.state.modalErr
+        })
     }
     render() {
-      
+        const signupErr = !this.props.account.signupSuccess
         return (
             <div id="body" className="row">
                 <div style={{ fontSize: "25px" }} className="col-md-7">
@@ -94,9 +91,7 @@ class body extends Component {
                             : null}
                             <Input type="text" id="input" name="input" placeholder="Proman Team"
                             onChange={this.onChangeName} value={this.state.name}
-                            onBlur={this.validateName}></Input>
-                           
-                            
+                            onBlur={this.validateName}></Input>       
                         </FormGroup>
                         <FormGroup>
                             <Label for="input">Email</Label>
@@ -117,18 +112,28 @@ class body extends Component {
                             <Input type="password" id="input" name="input" placeholder="********"
                             onChange={this.onChangePassword} value={this.state.password}></Input>
                         </FormGroup>
-                       
+                        
                         <div>
                         <Button onClick={this.handleRegister}>Sign up</Button>
                         </div> 
+                     {/* <Modal isOpen={signupErr}>
+                            <ModalHeader>Register Error</ModalHeader>
+                            <ModalBody style={{color: "red"}}>
+                            <i className="fas fa-exclamation-triangle"></i>
+                                Please check all the fields again!
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button onClick={this.toggle}>OK</Button>
+                            </ModalFooter>
+                        </Modal> */}
+                    
                     </div>
                 </div>
             </div>
         )
     }
 }
-const mapStatetoProps=(state)=>{
-
-}
-
+const mapStatetoProps = state =>({
+    account: state.account
+})
 export default connect(mapStatetoProps, {userSignup})(body)

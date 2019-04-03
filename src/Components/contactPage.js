@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import Header from './header'
+import ContactPage from './contactPage/contact'
+
 export default class contactPage extends Component {
   render() {
     return (
       <div>
-        <Header/>
-        
+        <div>
+          <Header />
+        </div>
+        <div>
+          <ContactPage />
+        </div>
       </div>
     )
   }

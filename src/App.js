@@ -5,6 +5,7 @@ import userPage from './Components/userPage';
 import contactPage from './Components/contactPage';
 import userInfo from './Components/userInfo';
 import detailPage from './Components/detailPage';
+
 class App extends Component {
   render() {
     return (
@@ -16,6 +17,7 @@ class App extends Component {
          <Route exact path='/contact' component={contactPage}/>
          <Route exact path='/user' component={userInfo}/>
          <Route exact path='/detailpage' component={detailPage}/>
+         
          </div>
        </Router>
       </div>

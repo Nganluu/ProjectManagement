@@ -58,7 +58,7 @@ class homePage extends Component {
                                 <b style={{ fontSize: "25px" }}>PERSONAL</b>
                                 <Button color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                    <b>All Tasks</b>
+                             <b>All Tasks</b>
                                 </Button>
                                 <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>   
                             </div>
