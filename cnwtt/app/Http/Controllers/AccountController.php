@@ -77,7 +77,7 @@ class AccountController extends Controller
         return response()->json([
             'success' => true,
             'data' => $user->toArray()
-        ]);
+        ], 200);
       
     }
 

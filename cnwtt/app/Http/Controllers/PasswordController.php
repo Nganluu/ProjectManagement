@@ -84,7 +84,7 @@ class PasswordController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Mật khẩu thay đổi thành công'
-            ]);
+            ], 200);
         }
         elseif(!Hash::check($request['password'], $user->password)){
             return response()->json([

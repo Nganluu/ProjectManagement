@@ -14,6 +14,15 @@ class PassportController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        $users = User::all();
+        foreach($users as $user){
+            if($user->email == $request->email){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email đã tồn tại'
+                ]);
+            }
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
