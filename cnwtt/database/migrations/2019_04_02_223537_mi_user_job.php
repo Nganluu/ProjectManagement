@@ -28,6 +28,6 @@ class MiUserJob extends Migration
     public function down()
     {
         //
-        Schema::dropIfExist('user_job');
+        Schema::dropIfExists('user_job');
     }
 }

@@ -29,6 +29,6 @@ class SanphamTable extends Migration
     public function down()
     {
         //
-        Schema::dropIfExist('sanpham');
+        Schema::dropIfExists('sanpham');
     }
 }
