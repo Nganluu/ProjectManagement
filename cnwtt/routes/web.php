@@ -113,6 +113,14 @@ route::get('sanpham/insert', function(){
 });
 
 
+// test 
+
+route::get('testvl', function(){
+    $personal = App\Personal::find(2);
+    var_dump($personal);
+});
+
+
 
 
 

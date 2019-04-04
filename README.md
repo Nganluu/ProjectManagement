@@ -31,7 +31,7 @@
 
 
 
-# Vào file .ven trong project rồi chỉnh sửa 
+# Vào file .env trong project rồi chỉnh sửa 
         # DB_CONNECTION=mysql
         # DB_HOST=127.0.0.1
         # DB_PORT=3306
@@ -45,6 +45,7 @@
         # php artisan key:generate 
         # php artisan migrate
         # php artisan db:seed
+	# php artisan passport:install
         # php artisan serve 
 
 Lúc này cổng 8000 trên localhost đang mở ta gọi api trên cổng này

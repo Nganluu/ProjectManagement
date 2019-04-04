@@ -128,7 +128,7 @@ route::put('sanpham/{id}', 'ControllerSanPham@update');
 route::delete('sanpham/{id}', 'ControllerSanPham@destroy');
 
 
-// Star Project
+// Start Project
 
 // Acount
 
@@ -138,6 +138,34 @@ route::put('updatepassword/{id}', 'PasswordController@update');
 route::put('updateaccount/{id}', 'AccountController@update');
 
 
-// Project
+// Personal
+
+route::middleware('auth:api')->group(function () {
+    route::get('personal', 'PersonalController@index');
+    route::get('personal/{id}', 'PersonalController@show');
+
+    // Chuyền lên: personal_name, personal_process
+    route::post('personal', 'PersonalController@store');
+    // Chuyền lên: personal_name, personal_process mới để cập nhật
+    route::put('personal/{id}', 'PersonalController@update');
+    route::delete('personal/{id}', 'PersonalController@destroy');
+   
+});
+
+
+// PTask
+
+    // Lấy ra tất cả các p_task của personal_id
+route::get('allptask/{personal_id}', 'PTaskController@index');
+    // Lấy ra p_task có id là id
+route::get('ptask/{id}', 'PTaskController@show');
+    // Tạo p_task mới chuyền lên: p_task_name, personal_id
+route::post('ptask', 'PTaskController@store');
+    //
+route::put('ptask/{id}', 'PTaskController@update');
+    // Xóa  p_task có id là id
+route::delete('ptask/{id}', 'PTaskController@destroy');
+
+
 
 

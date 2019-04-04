@@ -17,7 +17,7 @@ class MiPersonal extends Migration
         Schema::create('personal', function($table){
             $table->increments('id');
             $table->string('personal_name');
-            $table->integer('personal_process');
+            $table->integer('personal_process')->default(0);
             $table->integer('user_id')->unsigned();
         });
     }
