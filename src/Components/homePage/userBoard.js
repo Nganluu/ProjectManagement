@@ -6,6 +6,7 @@ import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import ModalAddProject from './modalAddProject'
 import { addNewProject } from '../../Actions/createNew'
+import AddJobGroup from '../job_group/add_job_group'
 
 class homePage extends Component {
     constructor(props) {
@@ -82,6 +83,8 @@ class homePage extends Component {
                                 </article>
                             </CardGroup>
                             </Link>
+
+                            <AddJobGroup />
                         </div>
                     </div>
                 </div>
