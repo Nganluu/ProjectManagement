@@ -152,19 +152,24 @@ route::middleware('auth:api')->group(function () {
    
 });
 
+// Hiển thị phần trăm của personal hiện tại
+route::get('percentpersonal/{id}', 'PersonalController@percent');
+
 
 // PTask
 
     // Lấy ra tất cả các p_task của personal_id
-route::get('allptask/{personal_id}', 'PTaskController@index');
+route::get('allPtask/{personal_id}', 'PTaskController@index');
     // Lấy ra p_task có id là id
 route::get('ptask/{id}', 'PTaskController@show');
     // Tạo p_task mới chuyền lên: p_task_name, personal_id
 route::post('ptask', 'PTaskController@store');
-    //
+    // Cập nhật p_task chuyền lên: p_task_name hoặc p_task_tick
 route::put('ptask/{id}', 'PTaskController@update');
     // Xóa  p_task có id là id
 route::delete('ptask/{id}', 'PTaskController@destroy');
+    
+
 
 
 

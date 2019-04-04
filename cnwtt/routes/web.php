@@ -115,9 +115,28 @@ route::get('sanpham/insert', function(){
 
 // test 
 
-route::get('testvl', function(){
+route::get('count', function(){
     $personal = App\Personal::find(2);
-    var_dump($personal);
+        $count = $personal->ptask()->count();
+        echo $count;
+        $tick = 0;
+        foreach($personal->ptask as $p_task_tick){
+            if($p_task_tick->p_task_tick == 1){
+                $tick++;
+            }
+        }
+        echo $tick;
+        if($tick == $count){
+            $personal->personal_process = 100;
+            $personal->save();
+        }
+        else{
+            $personal->personal_process = (int)($tick/$count*100);
+            $personal->save();
+        }
+        return response()->json([
+            $personal
+        ]);
 });
 
 
