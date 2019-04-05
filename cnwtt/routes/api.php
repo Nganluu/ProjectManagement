@@ -139,7 +139,8 @@ route::put('updateaccount/{id}', 'AccountController@update');
 
 
 // Personal
-
+    // Tất cả phải truyền lên Authorization = 'Bearer' + ' ' + 'Mã Token'
+    // để xác thực người dùng
 route::middleware('auth:api')->group(function () {
     route::get('personal', 'PersonalController@index');
     route::get('personal/{id}', 'PersonalController@show');
@@ -158,8 +159,8 @@ route::get('percentpersonal/{id}', 'PersonalController@percent');
 
 // PTask
 
-    // Lấy ra tất cả các p_task của personal_id
-route::get('allPtask/{personal_id}', 'PTaskController@index');
+    // Lấy ra tất cả các p_task của personal_id chuyền vào personal_id
+route::get('allptask/{personal_id}', 'PTaskController@index');
     // Lấy ra p_task có id là id
 route::get('ptask/{id}', 'PTaskController@show');
     // Tạo p_task mới chuyền lên: p_task_name, personal_id
@@ -168,6 +169,27 @@ route::post('ptask', 'PTaskController@store');
 route::put('ptask/{id}', 'PTaskController@update');
     // Xóa  p_task có id là id
 route::delete('ptask/{id}', 'PTaskController@destroy');
+
+
+// Comment
+
+    // Lấy ra tất cả các comment trong một job truyền vào job_id
+route::get('allcomment/{job_id}', 'CommentController@index');
+
+    // Làm việc với comment thông qua người dùng cần phải xác thực, truyền thêm:
+    // Authorization = 'Bearer' + ' ' + 'Mã Token'
+route::middleware('auth:api')->group(function(){
+    // Hiển thị một comment của một người cụ thể truyền vào id của comment
+    route::get('comment/{id}', 'CommentController@show');
+    // Lưu lại một comment truyền vào: content, job_id
+    route::post('comment', 'CommentController@store');
+    // Cập nhật nội dung của comment truyền vào: conntent
+    route::put('comment/{id}', 'CommentController@update');
+    // Xóa một comment truyền vào id của comment
+    route::delete('comment/{id}', 'CommentController@destroy');
+});
+
+
     
 
 

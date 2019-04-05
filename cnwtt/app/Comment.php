@@ -9,7 +9,7 @@ class Comment extends Model
     //
     protected $table = 'comment';
     protected $fillable = [
-        'content',
+        'job_id','content','comment_date'
     ];
     public $timestamps = false;
     public function job(){

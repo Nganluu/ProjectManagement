@@ -1,35 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Job;
+use App\User;
+use App\Comment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Personal;
-use App\PTask;
 
-class PTaskController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($personal_id)
+    public function index($job_id)
     {
         //
-        $personal = Personal::find($personal_id);
-        if(!$personal){
+        $job = Job::find($job_id);
+        if(!$job){
             return response()->json([
                 'success' => false,
-                'message' => 'Không tìm thấy bảng cá nhân'
+                'message' => 'Không tìm thấy job'
             ], 400);
         }else{
-            $ptask = $personal->ptask;
+            $comment = $job->comment;
             return response()->json([
                 'success' => true,
-                'data' => $ptask
+                'data' => $comment
             ], 200);
         }
-        
     }
 
     /**
@@ -51,28 +51,25 @@ class PTaskController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'p_task_name' => 'required',
-            'personal_id' => 'required'
+        $this->validate($request,[
+            'content' => 'required',
+            'job_id' => 'required'
         ]);
-        // $p_task = new PTask();
-        // $p_task->p_task_name = $request['p_task_name'];
-        // $p_task->personal_id = $request['personal_id'];
-        // $p_task->save();
-        $p_task = PTask::create($request->all());
-        if($p_task){
+        $comment = new Comment();
+        $comment->job_id = $request['job_id'];
+        $comment->content = $request['content'];
+        $comment->comment_date = Carbon::now();
+        if(auth()->user()->comment()->save($comment)){
             return response()->json([
                 'success' => true,
-                'data' => $p_task
+                'data' => $comment
             ], 201);
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Không thể tạo mới p_task'
+                'message' => 'Comment không được thêm'
             ], 500);
         }
-
-        
     }
 
     /**
@@ -84,18 +81,19 @@ class PTaskController extends Controller
     public function show($id)
     {
         //
-        $p_task = PTask::find($id);
-        if($p_task){
-            return response()->json([
-                'success' => true,
-                'data' => $p_task
-            ], 200);
-        }else{
+        $comment = auth()->user()->comment()->find($id);
+        if(!$comment){
             return response()->json([
                 'success' => false,
-                'message' => "Không tìm thấy p_task"
+                'message' => 'Không tồn tại comment này của người dùng hiện tại'
             ], 400);
+        }else{
+            return response()->json([
+                'success' => true,
+                'data' => $comment
+            ], 200);
         }
+
     }
 
     /**
@@ -119,23 +117,26 @@ class PTaskController extends Controller
     public function update(Request $request, $id)
     {
         //
-        // $this->validate($request, [
-        //     'p_task_name' => 'required'
-        // ]);
-        $p_task = PTask::find($id);
-        $updated = $p_task->update($request->all());
+        $comment = auth()->user()->comment()->find($id);
+        if(!$comment){
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy comment'
+            ], 400);
+        }
+        // $updated = $comment->fill($request->all())->save();
+        $updated = $comment->update($request->all());
         if($updated){
             return response()->json([
-            'success' => true,
-            'data' => $p_task   
-            ], 200);
+                'success' => "abcd",
+                'data' => $comment
+            ]);
         }
         return response()->json([
             'success' => false,
-            'message' => 'p_task không được cập nhật'
+            'message' => 'Comment không được cập nhật'
         ], 500);
-
-
+    
     }
 
     /**
@@ -147,23 +148,22 @@ class PTaskController extends Controller
     public function destroy($id)
     {
         //
-        $p_task = PTask::find($id);
-
-        if(!$p_task) {
+        $comment = auth()->user()->comment()->find($id);
+        if(!$comment){
             return response()->json([
                 'success' => false,
-                'message' => 'Không tìm thấy p_task'
+                'message' => 'Không tìm thấy comment'
             ], 400);
         }
-        if($p_task->delete()){
+        if($comment->delete()){
             return response()->json([
                 'success' => true,
-                'message' => 'Đã xóa thành công'
+                'message' => 'Đã xóa comment'
             ], 200);
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Xóa thất bại'
+                'message' => 'Không thể xóa comment'
             ], 500);
         }
     }

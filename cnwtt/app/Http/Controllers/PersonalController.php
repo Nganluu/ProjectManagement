@@ -148,18 +148,20 @@ class PersonalController extends Controller
                 'success' => false,
                 'message' => 'Không tìm thấy bảng cá nhân'
             ], 400);
+        }else{
+            $personal->ptask()->delete();
         }
         if($personal->delete()){
             return response()->json([
                 'success' => true,
                 'message' => 'Bảng cá nhân đã được xóa'
-            ]);
+            ], 200);
         }
         else{
             return response()->json([
                 'success' => false,
                 'message' => 'Không xóa được bảng cá nhân'
-            ]);
+            ], 500);
         }
 
     }
@@ -182,7 +184,7 @@ class PersonalController extends Controller
         }
         return response()->json([
             $personal
-        ]);
+        ], 200);
 
     }
 }
