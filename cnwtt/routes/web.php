@@ -92,8 +92,10 @@ route::get('personal/test', function(){
 
 // test model PTask
 route::get('ptask/test', function(){
-    $ptask = App\PTask::find(1);
+    $ptask = App\PTask::find(2);
     echo $ptask->personal->personal_name;
+    echo $ptask->personal->user_id;
+    echo $ptask->personal->personal_process;
 });
 
 //test model task

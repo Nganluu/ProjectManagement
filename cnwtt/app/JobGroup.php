@@ -9,7 +9,7 @@ class JobGroup extends Model
     //
     protected $table = 'job_group';
     protected $fillable = [
-        'job_group_name', 'job_group_process', 'job_group_status',
+        'job_group_name', 'job_group_process', 'job_group_status', 'project_id',
     ];
     public $timestamps = false;
     public function project(){

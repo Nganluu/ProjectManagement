@@ -145,16 +145,19 @@ route::middleware('auth:api')->group(function () {
     route::get('personal', 'PersonalController@index');
     route::get('personal/{id}', 'PersonalController@show');
 
-    // Chuyền lên: personal_name, personal_process
+    // Chuyền lên: personal_name
     route::post('personal', 'PersonalController@store');
-    // Chuyền lên: personal_name, personal_process mới để cập nhật
+    // Chuyền lên: personal_name mới để cập nhật
     route::put('personal/{id}', 'PersonalController@update');
     route::delete('personal/{id}', 'PersonalController@destroy');
    
 });
-
-// Hiển thị phần trăm của personal hiện tại
-route::get('percentpersonal/{id}', 'PersonalController@percent');
+    // route này dùng method get nhưng làm thay đổi giá trị của nhiều trường
+    // nên không dùng nữa, comment lại để tính sau, phần trăm thì chỉ cần hiện thị
+    // personal thì sẽ có phần trăm kèm theo
+    // Phần trăm thay đổi được tạo ra trong các hàm thêm, sửa, xóa pTask
+    // Hiển thị phần trăm của personal hiện tại
+    // route::get('percentpersonal/{id}', 'PersonalController@percent');
 
 
 // PTask
@@ -183,11 +186,42 @@ route::middleware('auth:api')->group(function(){
     route::get('comment/{id}', 'CommentController@show');
     // Lưu lại một comment truyền vào: content, job_id
     route::post('comment', 'CommentController@store');
-    // Cập nhật nội dung của comment truyền vào: conntent
+    // Cập nhật nội dung của comment truyền vào: content
     route::put('comment/{id}', 'CommentController@update');
     // Xóa một comment truyền vào id của comment
     route::delete('comment/{id}', 'CommentController@destroy');
 });
+
+
+// Project
+
+
+// JobGroup
+    // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
+route::get('alljobgroup/{project_id}', 'JobGroupController@index');
+    // Hiển thị một jobgroup truyền vào id
+route::get('jobgroup/{id}', 'JobGroupController@show');
+    // Thêm một nhóm công việc truyền vào job_group_name, project_id
+route::post('jobgroup', 'JobGroupController@store');
+    // Chỉnh sửa một nhóm công việc truyền vào job_group_name
+route::put('jobgroup/{id}', 'JobGroupController@update');
+    // Xóa một nhóm công việc truyền vào id nhóm công việc
+route::delete('jobgroup/{id}', 'JobGroupController@destroy');
+   
+
+
+
+// Job
+    // Hiển thị tất cả các job trong một job_group truyền vào: job_group_id
+route::get('alljob/{job_group_id}', 'JobController@index');
+    // Hiển thị một job truyền vào id
+route::get('job/{id}', 'JobController@show');
+    // Thêm vào một job truyền vào: job_name, start_date, end_date, job_group_id
+route::post('job', 'JobController@store');
+    // Chỉnh sủa một job truyền vào: job_name, start_date, end_date,
+route::put('job/{id}', 'JobController@update');
+    // Xóa một job truyền vào một id
+route::delete('job/{id}', 'JobController@destroy');
 
 
     

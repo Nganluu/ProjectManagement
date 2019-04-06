@@ -165,26 +165,26 @@ class PersonalController extends Controller
         }
 
     }
-    public function percent($id){
-        $personal = Personal::find($id);
-        $count =  $personal->ptask()->count();
-        $tick = 0;
-        foreach($personal->ptask as $p_task_tick){
-            if($p_task_tick->p_task_tick == 1){
-                $tick++;
-            }
-        }
-        if($tick == $count){
-            $personal->personal_process = 100;
-            $personal->save();
-        }
-        else{
-            $personal->personal_process = (int)($tick/$count*100);
-            $personal->save();
-        }
-        return response()->json([
-            $personal
-        ], 200);
+    // public function percent($id){
+    //     $personal = Personal::find($id);
+    //     $count =  $personal->ptask()->count();
+    //     $tick = 0;
+    //     foreach($personal->ptask as $p_task_tick){
+    //         if($p_task_tick->p_task_tick == 1){
+    //             $tick++;
+    //         }
+    //     }
+    //     if($tick == $count){
+    //         $personal->personal_process = 100;
+    //         $personal->save();
+    //     }
+    //     else{
+    //         $personal->personal_process = (int)($tick/$count*100);
+    //         $personal->save();
+    //     }
+    //     return response()->json([
+    //         $personal
+    //     ], 200);
 
-    }
+    // }
 }

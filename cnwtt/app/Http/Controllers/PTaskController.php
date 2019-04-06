@@ -22,12 +22,18 @@ class PTaskController extends Controller
                 'success' => false,
                 'message' => 'Không tìm thấy bảng cá nhân'
             ], 400);
-        }else{
-            $ptask = $personal->ptask;
+        }
+        $ptask = $personal->ptask;
+        if($ptask->count() != 0){
             return response()->json([
                 'success' => true,
                 'data' => $ptask
             ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có P_Task nào để hiển thị'
+            ], 500);
         }
         
     }
@@ -61,6 +67,22 @@ class PTaskController extends Controller
         // $p_task->save();
         $p_task = PTask::create($request->all());
         if($p_task){
+            $personal = $p_task->personal;
+            $count =  $personal->ptask()->count();
+            $tick = 0;
+            foreach($personal->ptask as $p_task_tick){
+                if($p_task_tick->p_task_tick == 1){
+                    $tick++;
+                }
+            }
+            if($tick == $count){
+                $personal->personal_process = 100;
+                $personal->save();
+            }
+            else{
+                $personal->personal_process = (int)($tick/$count*100);
+                $personal->save();
+            }       
             return response()->json([
                 'success' => true,
                 'data' => $p_task
@@ -125,6 +147,22 @@ class PTaskController extends Controller
         $p_task = PTask::find($id);
         $updated = $p_task->update($request->all());
         if($updated){
+            $personal = $p_task->personal;
+            $count =  $personal->ptask()->count();
+            $tick = 0;
+            foreach($personal->ptask as $p_task_tick){
+                if($p_task_tick->p_task_tick == 1){
+                    $tick++;
+                }
+            }
+            if($tick == $count){
+                $personal->personal_process = 100;
+                $personal->save();
+            }
+            else{
+                $personal->personal_process = (int)($tick/$count*100);
+                $personal->save();
+            }       
             return response()->json([
             'success' => true,
             'data' => $p_task   
@@ -156,6 +194,22 @@ class PTaskController extends Controller
             ], 400);
         }
         if($p_task->delete()){
+            $personal = $p_task->personal;
+            $count =  $personal->ptask()->count();
+            $tick = 0;
+            foreach($personal->ptask as $p_task_tick){
+                if($p_task_tick->p_task_tick == 1){
+                    $tick++;
+                }
+            }
+            if($tick == $count){
+                $personal->personal_process = 100;
+                $personal->save();
+            }
+            else{
+                $personal->personal_process = (int)($tick/$count*100);
+                $personal->save();
+            }       
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa thành công'
