@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Progress, Button, CardGroup } from 'reactstrap'
 import { connect } from 'react-redux'
+import { Button } from 'reactstrap'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import ModalAddProject from './modalAddProject'
 import { addNewProject } from '../../Actions/createNew'
+import Project from '../project/project'
 import AddJobGroup from '../job_group/add_job_group'
+import JobGroup from '../job_group/job_group'
 
 class homePage extends Component {
     constructor(props) {
@@ -39,18 +40,11 @@ class homePage extends Component {
                                 <b style={{ fontSize: "23px" }}>MY PROJECT</b>
                             </div>
                             <div style={{ marginBottom: "5%" }}>
-                                <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                                    <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                    <b>CNW</b>
-                                </Button>
-                                <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                                    <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                    <b>BTT </b>
-                                </Button>
-                                <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                                    <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                    <b>CNW</b>
-                                </Button>
+                                <Project projectName="CNW" />
+                                <Project projectName="PTTK" />
+                                <Project projectName="NLP" />
+                                <Project projectName="SQA" />
+
                                 <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                                     {/* <ModalAddProject  modal={this.state.modalAddProject} toggle={this.toggleAddProject}/> */}
                             </div>
@@ -70,21 +64,28 @@ class homePage extends Component {
                                 <b>CÔNG NGHỆ WEB</b>
                             </div>
                             <div onClick={this.toggleAddProject} style={{ color: "#989999", cursor: "pointer" }}>+ Create new </div>
-                           <Link to='/detailPage' style={{textDecoration: "none"}}>
-                            <CardGroup className="card" style={{ height: "100%", width: "20%", cursor: "pointer" }}>
-                                <article  >
-                                    <div >
-                                        Write 3D table in js
-                                   </div>
-                                    <div>
-                                        <center style={{ marginBottom: "-20px" }}>25%</center>
-                                        <Progress value="25" style={{ width: "100%", marginBottom: "10px" }} />
-                                    </div>
-                                </article>
-                            </CardGroup>
-                            </Link>
 
-                            <AddJobGroup />
+                            <div class="row">
+                                <div class="col-md-3" style={{ marginBottom: "10px" }}>
+                                    <JobGroup name="Write 3D table in JS" process="25" />
+                                </div>
+
+                                <div class="col-md-3" style={{ marginBottom: "10px" }}>
+                                    <JobGroup name="fix hang ngang" process="10" />
+                                </div>
+
+                                <div class="col-md-3" style={{ marginBottom: "10px" }}>
+                                    <JobGroup name="fix hang doc" process="20" />
+                                </div>
+
+                                <div class="col-md-3" style={{ marginBottom: "10px" }}>
+                                    <JobGroup name="tap the duc buoi sang" process="35" />
+                                </div>
+
+                                <div class="col-md-3" style={{ marginBottom: "10px" }}>
+                                    <AddJobGroup />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

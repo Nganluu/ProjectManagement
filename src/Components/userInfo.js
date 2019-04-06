@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import Header from './header'
-import UserInfoPage from './userInfoPage/userInfoPage'
-import Information from './userRight/information'
+import UserLeft from './userInfoPage/userLeft'
+import Information from './userInfoPage/information'
 
 export default class userInfo extends Component {
   render() {
     return (
       <div>
         <Header/>
-        <UserInfoPage/>
+        <UserLeft />
         <Information />
       </div>
     )
