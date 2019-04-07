@@ -1,3 +1,6 @@
 export const USER_SIGNUP = 'USER_SIGNUP'
 export const ADD_NEW_PROJECT = 'ADD_NEW_PROJECT'
 export const USER_LOGIN = "USER_LOGIN"
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD"
+export const UPDATE_NAME = "UPDATE_NAME"
+export const LOGIN_ERROR = "LOGIN_ERROR"
