@@ -18,11 +18,17 @@ class PersonalController extends Controller
     {
     
         $personal = auth()->user()->personal;
- 
-        return response()->json([
-            'success' => true,
-            'data' => $personal
-        ], 200);
+        if($personal->count() != null){
+            return response()->json([
+                'success' => true,
+                'data' => $personal
+            ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có bảng cá nhân nào để hiển thị'
+            ], 500);
+        }
     }
 
     /**

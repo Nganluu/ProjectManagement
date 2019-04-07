@@ -224,6 +224,30 @@ route::put('job/{id}', 'JobController@update');
 route::delete('job/{id}', 'JobController@destroy');
 
 
+
+// Task
+    
+route::middleware('auth:api')->group(function(){
+    // Hiển thị tất cả các task trong 1 job.... Vì thế người nào có trong job
+    // hoặc là admin mới có quyền xem
+    // truyền vào: Authorization = Bearer + ' ' + 'Mã Token'
+    // truyền vào: job_id
+    route::get('alltask/{job_id}', 'TaskController@index');     
+});
+    // Vì bất cứ ai xem được toàn bộ các task thì người đó đã là admin hoặc người trong job
+    // nên không cần phải xác thực nữa, đều có quyền xem một task, sửa task, và xóa task
+    // Hiển thị một task truyền vào: id
+route::get('task/{id}', 'TaskController@show');
+    // Thêm một task truyền vào: task_name, job_id
+route::post('task', 'TaskController@store');
+    // Cập nhật một task truyền vào : task_name hoặc task_tick
+route::put('task/{id}', 'TaskController@update');
+    // Xóa một task truyền vào: id
+route::delete('task/{id}', 'TaskController@destroy');
+
+// CRUD người tương ứng với công việc
+// Hiển thị công việc quá thời hạn
+
     
 
 

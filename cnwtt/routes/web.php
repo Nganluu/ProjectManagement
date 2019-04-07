@@ -141,6 +141,23 @@ route::get('count', function(){
         ]);
 });
 
+//test user_role
+route::get('test/role', functioN(){
+    $project_id = App\Job::find(3)->jobgroup->project->id;
+    // echo $project_id->project->id;
+    echo $project_id;
+}); 
+
+//test count
+route::get('test/countxx', functioN(){
+    $job_group = App\JobGroup::find(2);
+    // echo $job_group->job()->task()->count();
+    $count = 0;
+    foreach($job_group->job as $job){
+        echo $job->task()->count();
+    }
+}); 
+
 
 
 

@@ -61,6 +61,7 @@ class JobController extends Controller
             'job_name' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
+            'job_group_id' => 'required'
         ]);
         $job = Job::create($request->all());
         if($job){
