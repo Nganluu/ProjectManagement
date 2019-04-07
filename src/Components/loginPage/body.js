@@ -3,7 +3,7 @@ import '../../styles/Login.css'
 import {userSignup} from '../../Actions/accountActions'
 import { FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {connect} from 'react-redux'
-
+import {withRouter} from 'react-router-dom'
 class body extends Component {
     constructor(props){
         super(props);
@@ -14,8 +14,8 @@ class body extends Component {
             nameError: false,
             emailError: false,
             passError: false,
-            registered: false,
-            modalErr: false
+            modalErr: false,
+            checkAccount: false //biến phụ để componentdidupdate không maximumloop
         }
     }
     //Name
@@ -54,20 +54,50 @@ class body extends Component {
       }
 
     handleRegister=()=>{
-       this.props.userSignup(this.state.name, this.state.email, this.state.password)
-        this.setState({
+        if(!this.state.name){
+            this.setState({
+                nameError: true
+            })
+        }
+        if(!this.state.password){
+            this.setState({
+                passError: true
+            })
+        }
+        if(!this.state.email){
+            this.setState({
+                emailError: true
+            })
+        }
+       if(this.state.name&&this.state.email&&this.state.password){
+           this.props.userSignup(this.state.name, this.state.email, this.state.password)
+           this.setState({
             name: "",
             email: "",
             password: "",
+            checkAccount: true
         })
+       }
+    }
+
+    componentDidUpdate(){
+        if(this.state.checkAccount === true){
+                this.setState({
+                    modalErr: true,
+                    checkAccount: false
+                })
+        }
     }
     toggle = ()=>{
         this.setState({
-            modalErr: !this.state.modalErr
+            modalErr: !this.state.modalErr,
+            
         })
+        if(this.props.account.signupSuccess === true){
+            this.props.history.push('/home')
+        }
     }
     render() {
-        const signupErr = !this.props.account.signupSuccess
         return (
             <div id="body" className="row">
                 <div style={{ fontSize: "25px" }} className="col-md-7">
@@ -100,7 +130,7 @@ class body extends Component {
                             <b style={{color: "#ac2403", fontSize: "15px"}}>* Cannot be blank</b>                         
                             : null}
                             <Input type="text" id="input" name="input" placeholder="promanteam@proman.com"
-                            onChange={this.onChangeEmail} value={this.state.email}></Input>
+                            onChange={this.onChangeEmail} onBlur={this.validateEmail} value={this.state.email}></Input>
                         </FormGroup>
                         <FormGroup>
                             <Label for="input">Password</Label>
@@ -108,24 +138,28 @@ class body extends Component {
                             {this.state.passError? 
                             <b style={{color: "#ac2403", fontSize: "15px"}}>* Cannot be blank</b>                         
                             : null}
-                            <br />
                             <Input type="password" id="input" name="input" placeholder="********"
-                            onChange={this.onChangePassword} value={this.state.password}></Input>
+                            onChange={this.onChangePassword} onBlur={this.validatePassword} value={this.state.password}></Input>
                         </FormGroup>
                         
                         <div>
                         <Button onClick={this.handleRegister}>Sign up</Button>
                         </div> 
-                     {/* <Modal isOpen={signupErr}>
+                     <Modal isOpen={this.state.modalErr}>
                             <ModalHeader>Register Error</ModalHeader>
                             <ModalBody style={{color: "red"}}>
+                          {  this.props.account.signupSuccess ? 
+                            <div>Register Successfully</div>:
+                            <div>
                             <i className="fas fa-exclamation-triangle"></i>
-                                Please check all the fields again!
+                               Email is existed
+                               </div>
+                               }
                             </ModalBody>
                             <ModalFooter>
                                 <Button onClick={this.toggle}>OK</Button>
                             </ModalFooter>
-                        </Modal> */}
+                        </Modal>
                     
                     </div>
                 </div>
@@ -136,4 +170,4 @@ class body extends Component {
 const mapStatetoProps = state =>({
     account: state.account
 })
-export default connect(mapStatetoProps, {userSignup})(body)
+export default connect(mapStatetoProps, {userSignup})(withRouter(body))
