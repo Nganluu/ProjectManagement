@@ -194,7 +194,25 @@ route::middleware('auth:api')->group(function(){
 
 
 // Project
+route::middleware('auth:api')->group(function () {
+    //Hiển thị danh sách dự án của người đang đăng nhập
+    route::get('allproject', 'ProjectController@index');
+    //Hiển thị dự án có  id
+    route::get('project/{id}', 'ProjectController@show');
 
+    /* Người dùng tạo 1 dự án mới
+    Truyền vào: project_name
+    */
+    route::post('project', 'ProjectController@store');
+    /* Chỉnh sửa 1 dự án có id 
+    Truyền vào : project_name
+    */
+    route::put('project/{id}', 'ProjectController@update');
+    //  xóa dự án có id là id
+    route::delete('project/{id}', 'ProjectController@destroy');
+   
+
+});
 
 // JobGroup
     // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
