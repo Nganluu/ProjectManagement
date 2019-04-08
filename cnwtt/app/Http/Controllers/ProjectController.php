@@ -82,9 +82,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     function show($project_id)
+     function show($id)
     {
-        $project = auth()->user()->project()->find($project_id);//hiển thị dự án có id = $id trong những dự án của người dùng hiện tại
+        $project = auth()->user()->project()->find($id);//hiển thị dự án có id = $id trong những dự án của người dùng hiện tại
         if(!$project){
             return response()->json([
                 'success' => false,
@@ -116,11 +116,11 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $project_id)
+    public function update(Request $request, $id)
     {
 
 
-        $project = auth()->user()->project()->find($project_id);
+        $project = auth()->user()->project()->find($id);
 
         if(!$project){
             return response()->json([
