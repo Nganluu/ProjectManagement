@@ -173,4 +173,19 @@ class JobController extends Controller
             }
         }
     }
+    public function showHistory($id){
+        $job = Job::find($id);
+        $history = $job->history;
+        if($history->count() != 0){
+            return response()->json([
+                'success' => true,
+                'data' => $history
+            ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Chưa có lịch sử'
+            ], 400);
+        }
+    }
 }

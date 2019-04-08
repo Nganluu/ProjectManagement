@@ -25,4 +25,7 @@ class Job extends Model
     public function task(){
         return $this->hasMany('App\Task', 'job_id', 'id');
     }
+    public function history(){
+        return $this->hasMany('App\History', 'job_id', 'id');
+    }
 }

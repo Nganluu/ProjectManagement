@@ -34,7 +34,7 @@ route::get('jobgroup/test', function(){
 
 //test model job
 route::get('job/test', function(){
-    $job = App\Job::find(2);
+    $job = App\Job::find(3);
     echo $job->jobgroup->job_group_name;
     foreach($job->user as $user){
         echo $user->name;
@@ -149,7 +149,7 @@ route::get('test/role', functioN(){
 }); 
 
 //test count
-route::get('test/countxx', functioN(){
+route::get('test/countxx', function(){
     $job_group = App\JobGroup::find(2);
     // echo $job_group->job()->task()->count();
     $count = 0;
@@ -157,6 +157,43 @@ route::get('test/countxx', functioN(){
         echo $job->task()->count();
     }
 }); 
+
+//test email
+route::get('test/email', function(){
+    // $user = App\User::where('email', 'phuongx@gmail.com')->get();
+    // if($user->count() == 0){
+    //     echo "Khong co";
+    // }
+    // foreach($user as $u){
+    //    if($u){
+    //        echo "Co nguoi";
+    //    }else{
+    //        echo "khong co nguoi";
+    //    }
+    // }
+    $user = App\User::find(2);
+    if($user->job()->find(1)){
+        echo "kaka";
+    }
+    else{
+        echo "heheh";
+    }
+    
+    
+});
+use Carbon\Carbon;
+route::get('test/history', function(){
+    // $history = new App\History();
+    $task = App\Task::find(1);
+    // $history->content = (string)App\User::find(1)->name + " đã thêm task " + (string)$task->name + ", thời gian:" + (string)Carborn::now();
+    // $history->job_id = 1;
+    // $history->save();
+    // $history->content = "lala" + $task->name;
+    // $history->job_id = 1;
+    // $history->save();
+    // echo "thêm lịch sử thành công";
+    echo "lala " . $task->task_name;
+});
 
 
 

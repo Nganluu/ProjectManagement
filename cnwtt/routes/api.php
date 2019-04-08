@@ -222,6 +222,8 @@ route::post('job', 'JobController@store');
 route::put('job/{id}', 'JobController@update');
     // Xóa một job truyền vào một id
 route::delete('job/{id}', 'JobController@destroy');
+    // Hiển thị tất cả lịch sử trong job hiện tại truyền vào id của job
+route::get('showhistory/{id}', 'JobController@showHistory');
 
 
 
@@ -232,21 +234,35 @@ route::middleware('auth:api')->group(function(){
     // hoặc là admin mới có quyền xem
     // truyền vào: Authorization = Bearer + ' ' + 'Mã Token'
     // truyền vào: job_id
-    route::get('alltask/{job_id}', 'TaskController@index');     
+    route::get('alltask/{job_id}', 'TaskController@index');   
+
+    // Thêm sửa xóa một task cần lưu lại lịch sử nên cần truyền vào 
+    // Authorization = Bearer + ' ' + 'Mã Token'
+        // Thêm một task truyền vào: task_name, job_id, Authorization = Bearer + ' ' + 'Mã Token'
+    route::post('task', 'TaskController@store');
+        // Cập nhật một task truyền vào : id, task_name hoặc task_tick,  Authorization = Bearer + ' ' + 'Mã Token'
+    route::put('task/{id}', 'TaskController@update');
+        // Xóa một task truyền vào: id,  Authorization = Bearer + ' ' + 'Mã Token'
+    route::delete('task/{id}', 'TaskController@destroy');
+    
+
 });
-    // Vì bất cứ ai xem được toàn bộ các task thì người đó đã là admin hoặc người trong job
-    // nên không cần phải xác thực nữa, đều có quyền xem một task, sửa task, và xóa task
     // Hiển thị một task truyền vào: id
-route::get('task/{id}', 'TaskController@show');
-    // Thêm một task truyền vào: task_name, job_id
-route::post('task', 'TaskController@store');
-    // Cập nhật một task truyền vào : task_name hoặc task_tick
-route::put('task/{id}', 'TaskController@update');
-    // Xóa một task truyền vào: id
-route::delete('task/{id}', 'TaskController@destroy');
+    route::get('task/{id}', 'TaskController@show');
+
 
 // CRUD người tương ứng với công việc
-// Hiển thị công việc quá thời hạn
+
+    // Vì cài đặt job không hiển thị cho user bình thường mà chỉ hiện thị cho admin cho nên
+    // không cần xác thực người dùng
+    // Hiển thị tất cả các người trong một job truyền vào job_id
+    route::get('userjob/{job_id}', 'UserJobController@index');
+
+    // Thêm người vào job truyền vào: user_id, job_id
+    route::post('userjob', 'UserJobController@store');
+    // Xóa người ra khỏi job truyền vào: 'user_id (người), 'job_id' (công việc)
+    route::delete('userjob', 'UserJobController@destroy');
+
 
     
 

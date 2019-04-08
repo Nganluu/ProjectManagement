@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(user_job_seed::class);
         $this->call(sanpham_seed::class);
         $this->call(p_task_seed::class);
+        $this->call(history_seed::class);
     }
 }

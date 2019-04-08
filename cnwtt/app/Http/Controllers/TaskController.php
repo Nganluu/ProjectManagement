@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\User;
 use App\Job;
+use App\History;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 
@@ -126,7 +128,11 @@ class TaskController extends Controller
                 $job_group->job_group_process = (int)($tick/$count*100);
                 $job_group->save();
             }   
-
+            // Chèn vào bảng lịch sử  
+            $history = new History();
+            $history->content = auth()->user()->name . " đã thêm Task: " . $task->task_name . ", Thời gian: " . Carbon::now();
+            $history->job_id = $request['job_id'];
+            $history->save();
             return response()->json([
                 'success' => true,
                 'data' => $task
@@ -185,6 +191,7 @@ class TaskController extends Controller
     {
         //
         $task = Task::find($id);
+        $task_name_old = $task->task_name;
         $updated = $task->update($request->all());
         if($updated){
             $job = $task->job;
@@ -225,6 +232,28 @@ class TaskController extends Controller
                 $job_group->job_group_process = (int)($tick/$count*100);
                 $job_group->save();
             }   
+
+            if($request['task_name']){
+                 // Chèn vào bảng lịch sử  
+                $history = new History();
+                $history->content = auth()->user()->name . " đã sửa Task: " . $task_name_old . " thành Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                $history->job_id = $job->id;
+                $history->save();
+            }
+            if($request['task_tick'] == 1){
+                // Chèn vào bảng lịch sử  
+                $history = new History();
+                $history->content = auth()->user()->name . " đã tick vào Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                $history->job_id = $job->id;
+                $history->save();
+           }
+           if($request['task_tick'] == 0){
+                // Chèn vào bảng lịch sử  
+                $history = new History();
+                $history->content = auth()->user()->name . " đã bỏ tick ở Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                $history->job_id = $job->id;
+                $history->save();
+            }
 
             return response()->json([
                 'success' => true,
@@ -293,6 +322,14 @@ class TaskController extends Controller
                 $job_group->job_group_process = (int)($tick/$count*100);
                 $job_group->save();
             }   
+
+            // Chèn vào bảng lịch sử  
+            $history = new History();
+            $history->content = auth()->user()->name . " đã xóa Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+            $history->job_id = $job->id;
+            $history->save();
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa task thành công'
