@@ -39,22 +39,24 @@ class header extends Component {
   }
 
   componentDidUpdate() {
-    localStorage.setItem("signined", this.props.account.loginSuccess);
+    localStorage.setItem("signined", this.props.account.loginSuccess)
     localStorage.setItem("userId", this.props.account.id);
     localStorage.setItem("name", this.props.account.name)
     localStorage.setItem("email", this.props.account.email)
     localStorage.setItem("token", this.props.account.token)
-    console.log(this.props.account.error)
+
+    if (localStorage.getItem("signined")) {
+      this.props.history.push('/home');
+    }
+    if(this.props.account.callapidone&&this.state.checkAccount&&this.props.account.error){
     
-    if(this.props.account.error&&this.state.checkAccount){
+      console.log("LOGIN_ERROR "+this.props.account.error)
       this.setState({
         modalErr: true,
         checkAccount: false
       })
     }
-    if (localStorage.getItem("signined")) {
-      this.props.history.push('/home');
-    }
+    
   }
   toggle = () => {
     this.setState({
@@ -109,7 +111,7 @@ class header extends Component {
             </Button>
           </div>
           <Modal isOpen={this.state.modalErr}>
-            <ModalHeader>Register Error</ModalHeader>
+            <ModalHeader>Sign in Error</ModalHeader>
             <ModalBody style={{ color: "red" }}>
                 <div>
                   <i className="fas fa-exclamation-triangle"></i>

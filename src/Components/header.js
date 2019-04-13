@@ -45,8 +45,8 @@ class header extends Component {
                                 <i className="fas fa-info-circle" style={{ cursor: "pointer", fontSize: "28px" }}></i>
                             </Button>
                         </Link>
-                        <ButtonDropdown isOpen={this.state.userDrop} style={{ marginTop: "-4px" }}>
-                            <DropdownToggle tag="span">
+                        <ButtonDropdown isOpen={this.state.userDrop} toggle={this.toggleUser} style={{ marginTop: "-4px" }}>
+                            <DropdownToggle data-toggle="dropdown" tag="span">
                                 <Button color="link" onClick={this.toggleUser}>
                                     <i className="fas fa-user-circle" style={{ cursor: "pointer", fontSize: "28px" }}></i>
                                 </Button>

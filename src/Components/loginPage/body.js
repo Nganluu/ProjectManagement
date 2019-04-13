@@ -81,19 +81,27 @@ class body extends Component {
     }
 
     componentDidUpdate(){
-        if(this.state.checkAccount === true){
+        if(this.props.account.callapidone){
+        if(this.state.checkAccount&&!this.props.account.signupSuccess){
                 this.setState({
                     modalErr: true,
                     checkAccount: false
                 })
-        }
+        }else if(this.props.account.signupSuccess){
+            if(this.state.checkAccount){
+                this.setState({
+                    modalErr: true,
+                    checkAccount: false
+                })
+            }
+        }}
     }
     toggle = ()=>{
         this.setState({
             modalErr: !this.state.modalErr,
             
         })
-        if(this.props.account.signupSuccess === true){
+        if(this.props.account.signUpErr === false){
             this.props.history.push('/home')
         }
     }
@@ -147,10 +155,10 @@ class body extends Component {
                         </div> 
                      <Modal isOpen={this.state.modalErr}>
                             <ModalHeader>Register Error</ModalHeader>
-                            <ModalBody style={{color: "red"}}>
-                          {  this.props.account.signupSuccess ? 
+                            <ModalBody>
+                          {  this.props.account.signupSuccess? 
                             <div>Register Successfully</div>:
-                            <div>
+                            <div style={{color: "red"}}>
                             <i className="fas fa-exclamation-triangle"></i>
                                Email is existed
                                </div>

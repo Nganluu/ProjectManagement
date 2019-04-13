@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import '../../styles/changePass.css'
 import {connect} from 'react-redux'
 import {updatePassword} from '../../Actions/accountActions'
@@ -9,7 +9,13 @@ class Information extends Component {
         this.state = {
             password : "",
             newPassword: "",
-            rewritePassword: ""
+            rewritePassword: "",
+            isTypingName: "",
+            isTypingEmail: "",
+            stringMatching: true,
+            changePassModal: false,
+            flag: false,
+            changePassMessage: ""
         }
     }
     onChangePassword = (event)=>{
@@ -27,15 +33,37 @@ class Information extends Component {
             rewritePassword: event.target.value
         })
     }
+  componentDidUpdate = ()=>{
+      if(this.state.flag&&this.props.account.callapidone){
+          this.setState({
+              flag: false,
+              changePassModal: true
+          })
+      }
+  }
     handleUpdatePassword = ()=>{
-        const flag = this.state.password.localeCompare(this.state.rewritePassword)
-        console.log(flag)
+        const flag = this.state.newPassword.localeCompare(this.state.rewritePassword)
         if(this.state.password&&this.state.newPassword&&this.state.rewritePassword) {
-            if(flag){
-                this.props.updatePassword(this.state.password, this.state.rewritePassword)
+            if(flag===0){
+                this.props.updatePassword(this.state.password, this.state.newPassword)
+                this.setState({
+                  flag: true
+                })
+            }
+            else{
+                this.setState({
+                    stringMatching: false
+                })
             }
         }
     }
+    changePassSuccess = ()=>{
+    this.setState({
+            changePassModal: !this.state.changePassModal
+        })
+        
+    }
+    
     render() {
         return (
             <div style={{ marginTop: "10%", marginLeft: "25%" }}>
@@ -44,20 +72,20 @@ class Information extends Component {
                 </div>
                 <div style={{ backgroundColor: "rgba(231, 231, 231, 0.07)" }}>
                     <div className="row" style={{ marginLeft: "10px"}} >
-                        <div class="col-sm-3 col-md-2 col-5">
+                        <div className="col-sm-3 col-md-2 col-5">
                             <b>Full Name</b>
                         </div>
-                        <div class="col-md-8 col-6">
+                        <div className="col-md-8 col-6">
                             <i>{localStorage.getItem("name")}</i>
                         </div>
                     </div>
                     <hr />
 
                     <div className="row" style={{ marginLeft: "10px"}} >
-                        <div class="col-sm-3 col-md-2 col-5">
+                        <div className="col-sm-3 col-md-2 col-5">
                             <b>Email</b>
                         </div>
-                        <div class="col-md-8 col-6">
+                        <div className="col-md-8 col-6">
                             <i>{localStorage.getItem("email")}</i>
                         </div>
                     </div>
@@ -72,33 +100,53 @@ class Information extends Component {
                         <b><u>CHANGE YOUR PASSWORD</u></b>
                 </div>
                 <div style={{ marginLeft: "150px"}}>
-                    <div class="row">
-                        <div class="col-sm-8">
+                    <div className="row">
+                        <div className="col-sm-8">
                             <form role="form">
-                                <div class="form-group float-label-control">
-                                    <label for="">Password</label>
+                                <div className="form-group float-label-control">
+                                    <label>Password</label>
                                     <input type="password" 
                                     value={this.state.password}
                                      onChange={this.onChangePassword} 
-                                     class="form-control" placeholder="Username" />
+                                     className="form-control" placeholder="Username" />
                                 </div>
-                                <div class="form-group float-label-control">
-                                    <label for="">New password</label>
+                                <div className="form-group float-label-control">
+                                    <label>New password</label>
                                     <input type="password"
                                     value={this.state.newPassword}
                                      onChange={this.onChangeNewPassword}
-                                      class="form-control" placeholder="Password" />
+                                      className="form-control" placeholder="Password" />
                                 </div>
-                                <div class="form-group float-label-control">
-                                    <label for="">Confirm password</label>
+                                <div className="form-group float-label-control">
+                                    <label>Confirm password</label>
                                     <input type="password"
                                     value={this.state.rewritePassword}
                                      onChange={this.onChangeRewritePassword}
-                                      class="form-control" placeholder="Password" />
+                                      className="form-control" placeholder="Password" />
                                 </div>
+                                {this.state.stringMatching?
+                                    null : 
+                                    <div style={{color: "red"}}>Confirm Password and New Password didn't match</div>
+                                }
                                 <center>
                                     <Button color="primary" onClick={this.handleUpdatePassword}>Save</Button>
                                 </center>
+                          
+                                <Modal isOpen={this.state.changePassModal}>
+                                    <ModalHeader>
+                                        Change Password
+                                    </ModalHeader>
+                                    <ModalBody>
+                                        {this.props.account.changePassSuccess?
+                                        <div>Your password changed!</div>:
+                                        <div style={{color: "red"}}>Error! Check your password again!</div>
+                                        } 
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button onClick={this.changePassSuccess}>OK</Button>
+                                    </ModalFooter>
+                                </Modal>
+                               
                             </form>
                         </div>
                     </div>
@@ -107,5 +155,7 @@ class Information extends Component {
         )
     }
 }
-
-export default connect(null, {updatePassword} )(Information)
+const mapStatetoProps = state => ({
+    account: state.account
+})
+export default connect(mapStatetoProps, {updatePassword} )(Information)

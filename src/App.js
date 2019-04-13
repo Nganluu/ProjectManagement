@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import LoginPage from './Components/loginPage';
-import userPage from './Components/userPage';
+import homePage from './Components/homePage';
 import contactPage from './Components/contactPage';
 import userInfo from './Components/userInfo';
 import detailPage from './Components/detailPage';
@@ -21,10 +21,10 @@ class App extends Component {
        <div>
        <Switch>
          <Route exact path='/' component={LoginPage}/>
-         <PrivateRoute exact path='/home' component={userPage}/>
+         <PrivateRoute exact path='/home' component={homePage}/>
          <Route exact path='/contact' component={contactPage}/>
          <PrivateRoute exact path='/user' component={userInfo}/>
-         <Route exact path='/detailpage' component={detailPage}/>
+         <PrivateRoute exact path='/detailpage' component={detailPage}/>
          </Switch>
          </div>
        </Router>
