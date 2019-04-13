@@ -76,7 +76,7 @@ export default function accountReducer(state= iniState, action){
             else {console.log("NAME_UPDATE_FAILURE")}
             return {
                 ...state, 
-                name: action.payload.name,
+                name: action.payload.data.name,
                 callapidone: true
             }
             default: return state;    

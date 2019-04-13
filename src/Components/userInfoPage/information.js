@@ -2,21 +2,28 @@ import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import '../../styles/changePass.css'
 import {connect} from 'react-redux'
-import {updatePassword} from '../../Actions/accountActions'
+import {updatePassword, updateName} from '../../Actions/accountActions'
 class Information extends Component {
     constructor(props){
         super(props);
         this.state = {
+            name: "",
             password : "",
             newPassword: "",
             rewritePassword: "",
             isTypingName: "",
-            isTypingEmail: "",
             stringMatching: true,
             changePassModal: false,
             flag: false,
+            flagChangeName: false,
             changePassMessage: ""
         }
+    }
+    componentDidMount(){
+        this.setState({
+            name: localStorage.getItem('name'),
+            email: localStorage.getItem("email")
+        })
     }
     onChangePassword = (event)=>{
         this.setState({
@@ -40,6 +47,15 @@ class Information extends Component {
               changePassModal: true
           })
       }
+      if(this.state.flagChangeName&&this.props.account.callapidone){
+          console.log(this.props.account.name) 
+          localStorage.setItem("name", this.props.account.name)
+          this.setState({
+              name: this.props.account.name,
+              flagChangeName: false
+          })
+      }
+
   }
     handleUpdatePassword = ()=>{
         const flag = this.state.newPassword.localeCompare(this.state.rewritePassword)
@@ -63,6 +79,25 @@ class Information extends Component {
         })
         
     }
+
+    handleChangeName = ()=>{
+        if(this.state.name){
+            this.props.updateName(this.state.name)
+            this.setState({
+                flagChangeName: true
+            })
+        }
+    }
+    onChangeName = (event)=>{
+        this.setState({
+            name: event.target.value
+        })
+    }
+    typingName = ()=>{
+        this.setState({
+            isTypingName :!this.state.isTypingName
+        })
+    }
     
     render() {
         return (
@@ -76,7 +111,11 @@ class Information extends Component {
                             <b>Full Name</b>
                         </div>
                         <div className="col-md-8 col-6">
-                            <i>{localStorage.getItem("name")}</i>
+                        {this.state.isTypingName? 
+                        <input className='form-control' type="text" onBlur={this.typingName} onChange={this.onChangeName} value={this.state.name}></input>
+                        :  <i onClick={this.typingName}>{this.state.name}</i>
+                        }
+                           
                         </div>
                     </div>
                     <hr />
@@ -86,13 +125,13 @@ class Information extends Component {
                             <b>Email</b>
                         </div>
                         <div className="col-md-8 col-6">
-                            <i>{localStorage.getItem("email")}</i>
+                            <i>{this.state.email}</i>
                         </div>
                     </div>
                     <hr />
 
                     <div>
-                        <a href="">Change your information</a>
+                        <center><Button color="link" onClick={this.handleChangeName}>Save</Button></center>
                     </div>
                 </div>
 
@@ -158,4 +197,4 @@ class Information extends Component {
 const mapStatetoProps = state => ({
     account: state.account
 })
-export default connect(mapStatetoProps, {updatePassword} )(Information)
+export default connect(mapStatetoProps, {updatePassword, updateName} )(Information)

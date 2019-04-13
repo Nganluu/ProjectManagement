@@ -66,7 +66,7 @@ export const updateName = (name)=>dispatch=>{
     console.log("NAME_UPDATING"))
     axios.put("/api/updateaccount/"+localStorage.getItem("userId"), {
         name: name
-    }, console.log("NAME_UPDATING"))
+    })
     .then(res => dispatch({
         type: UPDATE_NAME,
         payload: res.data
