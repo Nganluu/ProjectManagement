@@ -154,10 +154,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+   public function destroy($id)
     {
         $project = auth()->user()->project()->find($id);
-        $project->user()->detach(auth::id(), ['user_role' => 'admin']);//xóa trong bảng user_project trước 
+           foreach($project->user as $user){
+           $project->user()->detach($user->id);
+        
+    
         if(!$project) {
             return response()->json([
                 'success' => false,
@@ -165,17 +168,22 @@ class ProjectController extends Controller
             ], 400);
         }
         else{
-            if( $project->job_group && $project->job_group->job){
-            foreach($project->job_group->job as $job){
-                $job->task()->delete();
+            if( $project->job_group ){
+                if($project->job_group->job){
+                     foreach($project->job_group->job as $job){
+                     $job->task()->delete();
             }
+        
             foreach($project->job_group as $job_group){
                 $job_group->job()->delete();
             }
-            $project->job_group()->delete();
         }
+    }
+            $project->delete();
+        }
+            
 
-        if($project->delete()){
+        if($project){
             return response()->json([
                 'success' => true,
                 'message' => 'Đã xóa thành công dự án'
@@ -189,6 +197,7 @@ class ProjectController extends Controller
     }
 }
 }
+
     
 
     
