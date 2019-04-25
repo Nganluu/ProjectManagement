@@ -3,7 +3,7 @@ import { Button } from 'reactstrap'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
 
-export default class Project extends Component {
+export default class ProjectMenu extends Component {
     render() {
         return (
             <Button color="light" style={{ width: "100%", textAlign: "left" }}>

@@ -3,8 +3,7 @@ import { Progress, CardGroup, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
-import '../../styles/style1.css'
-import '../../styles/style_common.css'
+import '../../styles/menu.css'
 
 export default class JobGroup extends Component {
 
@@ -24,25 +23,29 @@ export default class JobGroup extends Component {
 
     render() {
         return (
+            <div className="col-md-3 menu-inside">
             <Link to='/detailPage' style={{textDecoration: "none"}}>
-                <div className="view view-first">
+                    <div className="delete">
+                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }}></i>
+                    </div>
+                
                     <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
                         <div >                            
                             <span>{this.props.name}</span>
+                       
                         </div>
                         <div style={{ width: "100%", marginRight: "5%" }}>
-                            <center style={{ marginBottom: "-20px" }}>{this.props.process}%</center>
                             <Progress value={this.props.process} style={{ marginBottom: "10px" }} />
+                            <center>{this.props.process}%</center>
                         </div>
                     </CardGroup>
-
+                    
                     <div className="mask">
-                        <Button type="submit" outline color="primary" onClick=""><b>Chi tiết</b></Button>
-                        <Button type="submit" outline color="primary" onClick=""><b>Chỉnh sửa</b></Button>
-                        <Button type="submit" outline color="primary" onClick=""><b>Xóa</b></Button>
+                        <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
                     </div>
-                </div>
+                
             </Link>
+            </div>
         );
     }
 }

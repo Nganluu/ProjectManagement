@@ -1,0 +1,42 @@
+.menu-inside {
+    position: relative;
+    float:left;
+    margin-bottom: 20px;
+}
+
+.menu-inside:hover .card{
+    background-color: rgb(131, 127, 127, 0.7);
+    opacity: 0.8;
+}
+.menu-inside:hover .delete, .menu-inside:hover .mask {
+    display: block;
+    z-index: 1000;
+}
+.menu-inside .delete, .menu-inside .mask {
+    position:absolute;
+    display:none;
+}
+.menu-inside .delete {
+    top: -10px;
+    right: 0px;
+}
+.menu-inside .mask {
+    top: 32%;
+    left: 27%;
+}
+
+.project {
+    margin-top: 7%;
+    margin-left: 17%;
+}
+
+.project-name:hover, .project .input {
+    background-color: rgba(204, 197, 197, 0.3);
+    padding: 15px;
+    margin: 0;
+}
+
+.project .input div {
+    margin: 0;
+    padding: 0;
+}

@@ -48,7 +48,7 @@ export const updatePassword = (password, newpassword)=>dispatch=>{
     },
     console.log("PASSWORD_UPDATING"))
 
-    axios.put("http://localhost:8000/api/updatepassword/"+localStorage.getItem("userId"), {
+    axios.put("/api/updatepassword/"+localStorage.getItem("userId"), {
             password: password,
             new_password: newpassword
     }, console.log("PASSWORD_UPDATING"))
