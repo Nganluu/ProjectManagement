@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import UserBoard from './homePage/userBoard'
+import React, { Component } from 'react';
+import UserBoard from './homePage/userBoard';
+import MemberList from './homePage/memberList';
+import JobGroupList from './job_group/job_group_list';
 import Header from './header'
 
 export default class homePage extends Component {
@@ -7,7 +9,11 @@ export default class homePage extends Component {
     return (
       <div>
         <Header/>
-        <UserBoard/>
+        <div className="row">
+          <UserBoard />
+          <JobGroupList />
+          <MemberList />
+        </div>
       </div>
     )
   }
