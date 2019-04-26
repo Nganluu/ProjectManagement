@@ -14,3 +14,6 @@ console.log("Mong là sẽ có cách");
 console.log("Êu, cho t xem nào - Quay xong m push cho t merge thử nha <3");
 
 console.log("bay gio la 23h50p, test git mai chua xong")
+
+//vua them dong nay nha
+console.log("bay gio la 23h52p, dang cho Mung test git")
