@@ -23,3 +23,5 @@ console.log("bay gio la 23h52p, dang cho Mung test git")
 //cách mà m dùng ấy Ngân ah ^^
 
 //lần cuối lần thứ 1, giờ là 0h07p
+
+console.log("lần cuối lần thứ 2, 0h10p, chờ Mừng upcode")
