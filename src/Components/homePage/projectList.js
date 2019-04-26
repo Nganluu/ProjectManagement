@@ -42,6 +42,7 @@ class ProjectList extends Component {
                                     <div>
                                         <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
                                             <div >
+                                            abc
                                                 <span>{item.project_name}</span>
                                             </div>
                                         </CardGroup>
