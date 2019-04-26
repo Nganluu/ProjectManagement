@@ -8,3 +8,9 @@ console.log("abcbcbbbc thầy mà nhìn thấy hai con nghịch git kiểu này 
 console.log("test phát nữa")
 
 console.log("day la luc chua pull cai gi ve ca nhe")
+
+console.log("Mong là sẽ có cách");
+
+console.log("Êu, cho t xem nào - Quay xong m push cho t merge thử nha <3");
+
+console.log("bay gio la 23h50p, test git mai chua xong")
