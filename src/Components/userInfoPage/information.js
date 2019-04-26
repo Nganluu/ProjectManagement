@@ -112,7 +112,7 @@ class Information extends Component {
                         </div>
                         <div className="col-md-8 col-6">
                         {this.state.isTypingName? 
-                        <input className='form-control' type="text" onBlur={this.typingName} onChange={this.onChangeName} value={this.state.name}></input>
+                        <input type="text" onBlur={this.typingName} onChange={this.onChangeName} value={this.state.name}></input>
                         :  <i onClick={this.typingName}>{this.state.name}</i>
                         }
                            
@@ -130,9 +130,8 @@ class Information extends Component {
                     </div>
                     <hr />
 
-                    <div>
-                        <center><Button color="link" onClick={this.handleChangeName}>Save</Button></center>
-                    </div>
+                        <center><Button color="primary" onClick={this.handleChangeName}>Save</Button></center>
+                    
                 </div>
 
                 <div style={{fontSize: "25px", marginTop: "50px", marginBottom: "70px"}}>

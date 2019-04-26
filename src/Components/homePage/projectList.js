@@ -1,19 +1,25 @@
 
 import React, { Component } from 'react';
 import { Button, CardGroup, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
 
-export default class ProjectList extends Component {
+class ProjectList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isDeleteProject: false
+            isDeleteProject: false,
+            projectList: []
         }
     }
-
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            projectList: nextProps.project.projectList
+        })
+    }
     deleteProject = () => {
         this.setState({
             isDeleteProject: !this.state.isDeleteProject
@@ -24,24 +30,32 @@ export default class ProjectList extends Component {
         return (
             <div className="col-md-10 project">
                 <div className="row">
-                    <div className="col-md-3 menu-inside">
-                        <div className="delete">
-                            <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteProject}></i>
-                        </div>
-                    
-                        <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
-                            <div >                            
-                                <span>Công nghệ web</span>
-                            </div>
-                        </CardGroup>
-                        
-                        <div className="mask">
-                            <Link to='/project' style={{textDecoration: "none"}}>
-                                <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
-                            </Link>
-                        </div>
-                    </div>
+                    {this.state.projectList ?
+                        this.state.projectList.map(
+                            item =>
 
+                                <div className="col-md-3 menu-inside">
+                                    <div className="delete">
+                                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteProject}></i>
+                                    </div>
+
+                                    <div>
+                                        <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
+                                            <div >
+                                                <span>{item.project_name}</span>
+                                            </div>
+                                        </CardGroup>
+                                    </div>
+
+
+                                    <div className="mask">
+                                        <Link to='/project' style={{ textDecoration: "none" }}>
+                                            <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                        ) : null
+                    }
                     <div>
                         <Modal isOpen={this.state.isDeleteProject} >
                             <ModalBody>
@@ -58,3 +72,7 @@ export default class ProjectList extends Component {
         );
     }
 }
+const mapStatetoProps = state => ({
+    project: state.project
+})
+export default connect(mapStatetoProps)(ProjectList)

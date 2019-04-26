@@ -5,7 +5,7 @@ import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import '../../styles/member.css'
 import ModalAddProject from './modalAddProject'
-import { addNewProject } from '../../Actions/createNew'
+import { getProject } from '../../Actions/projectActions'
 
 class homePage extends Component {
     constructor(props) {
@@ -13,8 +13,17 @@ class homePage extends Component {
         this.state = {
             modalAddProject: false,
             modalAddTask: false,
-            data: []
+            projectList: []
         }
+    }
+    componentDidMount(){
+        this.props.getProject();
+    }
+    
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            projectList: nextProps.project.projectList
+        })
     }
     toggleAddProject = () => {
         this.setState({
@@ -35,20 +44,13 @@ class homePage extends Component {
                     <b style={{ fontSize: "23px" }}>MY PROJECT</b>
                 </div>
                 <div style={{ marginBottom: "5%" }}>
-                    <Button color="light" style={{ width: "100%", textAlign: "left" }}>
+                 {this.state.projectList? this.state.projectList.map(
+                     (item)=>
+                     <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
                         <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                        <b>CNW</b>
+                        <b>{item.project_name}</b>
                     </Button>
-
-                    <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                        <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                        <b>PTTK</b>
-                    </Button>
-
-                    <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                        <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                        <b>SQA</b>
-                    </Button>
+                 ) : null }
 
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                         {/* <ModalAddProject  modal={this.state.modalAddProject} toggle={this.toggleAddProject}/> */}
@@ -69,10 +71,10 @@ class homePage extends Component {
 }
 const mapStatetoProps=state=>{
     return {
-         data: state.data
+         project: state.project
         }
 }
 const mapActiontoProps = (dispatch) => ({
-    addNewProject: () => dispatch(addNewProject())
+    getProject: ()=> dispatch(getProject())
 })
 export default connect(mapStatetoProps, mapActiontoProps)(homePage)
