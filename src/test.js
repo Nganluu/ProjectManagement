@@ -14,3 +14,7 @@ console.log("Mong là sẽ có cách");
 console.log("Êu, cho t xem nào - Quay xong m push cho t merge thử nha <3");
 
 console.log("bay gio la 23h50p, test git mai chua xong")
+//Sửa cái gì bây giờ nhỉ
+
+//Ơ có cái accept both change hay phết nè :v
+//cách mà m dùng ấy Ngân ah ^^
