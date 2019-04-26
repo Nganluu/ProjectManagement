@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserBoard from './homePage/userBoard';
-import ProjectList from './homePage/projectList';
+import MemberList from './homePage/memberList';
+import JobGroupList from './job_group/job_group_list';
 import Header from './header'
 
 export default class homePage extends Component {
@@ -10,7 +11,8 @@ export default class homePage extends Component {
         <Header/>
         <div className="row">
           <UserBoard />
-          <ProjectList />
+          <JobGroupList />
+          <MemberList />
         </div>
       </div>
     )

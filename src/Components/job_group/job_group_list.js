@@ -101,7 +101,7 @@ export default class JobGroupList extends Component {
                         </Modal>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3" style={{ color: "#4267b2"}}>
                         <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
                             {
                                 !this.state.inputShown ? 
@@ -113,6 +113,9 @@ export default class JobGroupList extends Component {
                                     : 
 
                                     <div>
+                                        <div className="delete-add">
+                                            <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.clickAdd}></i>
+                                        </div>
                                         <Form>
                                             <FormGroup>
                                                 <Col sm="12" md={{ size: 12 }}>

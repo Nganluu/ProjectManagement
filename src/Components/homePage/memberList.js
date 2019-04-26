@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, Input } from 'reactstrap';
 import '../../styles/member.css'
 
 export default class MemberList extends Component {
@@ -7,7 +7,8 @@ export default class MemberList extends Component {
         super(props);
 
         this.state = {
-            isDeleteMember: false
+            isDeleteMember: false,
+            isInviteMember: false
         }
     }
 
@@ -15,6 +16,12 @@ export default class MemberList extends Component {
         this.setState({
             isDeleteMember: !this.state.isDeleteMember
         });
+    }
+
+    inviteMember = () => {
+        this.setState({
+            isInviteMember: !this.state.isInviteMember
+        })
     }
 
     render() {
@@ -32,6 +39,10 @@ export default class MemberList extends Component {
                     <i className="fas fa-times-circle" style={{ fontSize: "14px" }} onClick={this.deleteMember}></i>
                 </div>
 
+                <div style={{ color: "#989999" }} onClick={this.inviteMember}>
+                    <span>+ Invite</span>
+                </div>
+
                 <div>
                     <Modal isOpen={this.state.isDeleteMember} >
                         <ModalBody>
@@ -40,6 +51,25 @@ export default class MemberList extends Component {
                         <ModalFooter>
                             <Button type="submit" outline color="primary" onClick={this.deleteMember}><b>Cancel</b></Button>
                             <Button type="submit" outline color="primary" onClick=""><b>Delete</b></Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+
+                <div>
+                    <Modal isOpen={this.state.isInviteMember}>
+                        <ModalHeader>Invite new member</ModalHeader>
+                        <ModalBody>
+                            <Form>
+                                <span>Member's email:</span>
+                                <Input 
+                                    type="text"
+                                >
+                                </Input>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline color="primary" onClick={this.inviteMember}><b>Cancel</b></Button>
+                            <Button type="submit" outline color="primary" onClick=""><b>Invite</b></Button>
                         </ModalFooter>
                     </Modal>
                 </div>
