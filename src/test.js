@@ -17,3 +17,9 @@ console.log("bay gio la 23h50p, test git mai chua xong")
 
 //vua them dong nay nha
 console.log("bay gio la 23h52p, dang cho Mung test git")
+//Sửa cái gì bây giờ nhỉ
+
+//Ơ có cái accept both change hay phết nè :v
+//cách mà m dùng ấy Ngân ah ^^
+
+//lần cuối lần thứ 1, giờ là 0h07p
