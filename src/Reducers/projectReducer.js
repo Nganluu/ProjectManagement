@@ -1,4 +1,4 @@
-import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID } from "../Actions/types";
+import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME } from "../Actions/types";
 
 
 const iniState = {
@@ -35,7 +35,12 @@ export default function projectReducer(state=iniState, action){
                 callapidone: true
             }
         }
-            
+        case UPDATE_PROJECT_NAME: 
+            if(action.payload.success) {console.log("UPDATE_PROJECT_NAME_DONE")}
+            return {
+                ...state,
+                callapidone: true
+            }
             
         default: 
             return state

@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
-import { getProjectWithId } from '../../Actions/projectActions'
+import { getProjectWithId, updateProjectName } from '../../Actions/projectActions'
 
 
 class JobGroupList extends Component {
@@ -18,28 +18,44 @@ class JobGroupList extends Component {
         this.state = {
             isEditProjectName: false,
             isDeleteJobGroup: false,
-            inputShown: false
+            inputShown: false,
+            name: ""
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();
         const id = url.substr(9);
         this.props.getProjectWithId(id)
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            name: nextProps.project.projectDetail.project_name
+        })
     }
     editProjectName = () => {
         this.setState({
             isEditProjectName: !this.state.isEditProjectName
         });
     }
-
+    onChangeProjectName = event => {
+        this.setState({
+            name: event.target.value
+        })
+    }
     deleteJobGroup = () => {
         this.setState({
             isDeleteJobGroup: !this.state.isDeleteJobGroup
         });
     }
-
+    update = () => {
+        //lấy giá trị id của url hiện tại
+        const url = window.location.pathname.toString();
+        const id = url.substr(9);
+        this.props.updateProjectName(this.state.name, id)
+        window.location.reload()
+    }
     clickAdd = () => {
         this.setState({
             inputShown: !this.state.inputShown
@@ -47,36 +63,42 @@ class JobGroupList extends Component {
     }
 
     render() {
+         
         return (
             <div className="col-md-8 project">
-                {this.props.project.callapidone ?
+                {this.props.project.callapidone?
                     <div>
                         <div style={{ fontSize: "24px", margin: "2%" }}>
                             {
                                 !this.state.isEditProjectName ?
-                                <div>
-                                    <b style={{marginRight: "1rem", fontSize: "30px"}} >
-                                    {this.props.project.projectDetail.project_name}
-                                    </b>
-                                    <i style={{top: "-0.2rem",position: "relative", cursor: "pointer"}} onClick={this.editProjectName} className="fas fa-pen"></i>
-                                 </div>
+                                    <div>
+                                        <b style={{ marginRight: "1rem", fontSize: "30px" }} >
+                                            {this.props.project.projectDetail.project_name}
+                                        </b>
+                                        <i style={{ top: "-0.2rem", position: "relative", cursor: "pointer" }} 
+                                        onClick={this.editProjectName} className="fas fa-pen"></i>
+                                    </div>
                                     :
                                     <div className="row input">
-                                        <div className="col-md-2"><i>New name:</i></div>
+                                        <div className="col-md-2"><i>Project name:</i></div>
                                         <div className="col-md-4">
                                             <Form>
                                                 <FormGroup>
                                                     <Col sm="12" md={{ size: 12 }}>
                                                         <Input
                                                             type="text"
-                                                            onChange=""
+                                                            value={this.state.name}
+                                                            onChange={this.onChangeProjectName}
                                                         />
                                                     </Col>
                                                 </FormGroup>
                                             </Form>
                                         </div>
                                         <div className="col-md-3">
-                                            <Button type="submit" outline color="primary" onClick="">Edit</Button>
+                                            <Button type="submit" outline color="primary"
+                                                onClick={this.update}>
+                                                Edit
+                                            </Button>
                                             <Button type="submit" outline color="primary" onClick={this.editProjectName}>Cancel</Button>
                                         </div>
                                     </div>
@@ -161,7 +183,8 @@ class JobGroupList extends Component {
     }
 }
 const mapActiontoProps = dispatch => ({
-    getProjectWithId: (id) => dispatch(getProjectWithId(id))
+    getProjectWithId: (id) => dispatch(getProjectWithId(id)),
+    updateProjectName: (name, id) => dispatch(updateProjectName(name, id))
 })
 const mapStatetoProps = state => ({
     project: state.project
