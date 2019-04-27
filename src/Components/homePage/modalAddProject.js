@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Col, Form, FormGroup, Input, Label, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
 import DateTimePicker from 'react-datetime-picker'
 import {connect} from 'react-redux'
-import { addNewProject } from '../../Actions/createNew';
+import { addNewProject } from '../../Actions/projectActions';
 
 class modalAddProject extends Component {
     constructor(props){
@@ -15,32 +15,41 @@ class modalAddProject extends Component {
         }
     }
     
-    handleChangeEndDate=endDate=>{
+    handleChangeEndDate = endDate => {
         this.setState({endDate})
     }
-    handleChangeStartDate=startDate=>{
+
+    handleChangeStartDate = startDate => {
         this.setState({startDate})
     }
-    handleChangeType=(event)=>{
+
+    handleChangeType = (event) => {
         this.setState({
             type: event.target.value
-        })
+        });
     }
-    handleChangeName = (event)=>{
+
+    handleChangeName = (event) => {
         this.setState({
             name: event.target.value
-        })
+        });
     }
-    handleCancel=()=>{
+    
+    handleCancel = () => {
         this.setState({
             type: "Project"
-        })
+        });
+
         this.props.toggle()
     }
-    fetchSubmit=()=>{
+
+    fetchSubmit = () => {
         this.props.toggle();
-        this.props.addNewProject()
-        this.setState({type: "Project"})
+        if (this.state.type == "Project") {
+            this.props.addNewProject(this.state.name);
+        }
+        window.location.reload();
+        this.setState({type: "Project"});
     }
     render() {
         return (
@@ -96,7 +105,7 @@ class modalAddProject extends Component {
         )
     }
 }
-const mapActiontoProps = dispatch=>({
-    addNewProject: ()=>dispatch(addNewProject())
-})
-export default connect(mapActiontoProps)(modalAddProject)
+const mapActiontoProps = dispatch => ({
+    addNewProject: (project_name) => dispatch(addNewProject(project_name))
+    });
+export default connect(null, mapActiontoProps)(modalAddProject)
