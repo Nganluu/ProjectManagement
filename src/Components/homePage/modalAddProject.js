@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Modal, Col, Form, FormGroup, Input, Label, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
 import DateTimePicker from 'react-datetime-picker'
 import {connect} from 'react-redux'
-import { addNewProject } from '../../Actions/createNew';
 
 class modalAddProject extends Component {
     constructor(props){
@@ -39,7 +38,6 @@ class modalAddProject extends Component {
     }
     fetchSubmit=()=>{
         this.props.toggle();
-        this.props.addNewProject()
         this.setState({type: "Project"})
     }
     render() {
@@ -97,6 +95,5 @@ class modalAddProject extends Component {
     }
 }
 const mapActiontoProps = dispatch=>({
-    addNewProject: ()=>dispatch(addNewProject())
 })
 export default connect(mapActiontoProps)(modalAddProject)

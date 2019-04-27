@@ -33,8 +33,7 @@ class ProjectList extends Component {
                     {this.state.projectList ?
                         this.state.projectList.map(
                             item =>
-
-                                <div className="col-md-3 menu-inside">
+                                <div key={item.id} className="col-md-3 menu-inside">
                                     <div className="delete">
                                         <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteProject}></i>
                                     </div>

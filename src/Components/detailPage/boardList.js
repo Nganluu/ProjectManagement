@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import ModalAddProject from '../homePage/modalAddProject'
-import { addNewProject } from '../../Actions/createNew'
 import DetailTask from './detailTask'
 class boardList extends Component {
     constructor(props) {
@@ -128,6 +127,6 @@ const mapStatetoProps = state => {
     }
 }
 const mapActiontoProps = (dispatch) => ({
-    addNewProject: () => dispatch(addNewProject())
+    
 })
 export default connect(mapStatetoProps, mapActiontoProps)(boardList)
