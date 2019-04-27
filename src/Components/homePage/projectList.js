@@ -49,7 +49,7 @@ class ProjectList extends Component {
 
 
                                     <div className="mask">
-                                        <Link to='/project' style={{ textDecoration: "none" }}>
+                                        <Link to={'/project/' + item.id} style={{ textDecoration: "none" }}>
                                             <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
                                         </Link>
                                     </div>
