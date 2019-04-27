@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Project;
 use App\JobGroup;
 use Illuminate\Http\Request;
-
 class JobGroupController extends Controller
 {
     /**
@@ -15,7 +13,7 @@ class JobGroupController extends Controller
     public function index($project_id)
     {
         // 
-        $project = Project::find($project_id);
+        $project = auth()->user()->project()->find($project_id);
         if(!$project){
             return response()->json([
                 'success' => false,
@@ -35,7 +33,6 @@ class JobGroupController extends Controller
             ], 500);
         }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -45,7 +42,6 @@ class JobGroupController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -59,7 +55,9 @@ class JobGroupController extends Controller
             'job_group_name' => 'required',
             'project_id' => 'required'
         ]);
-        $job_group = JobGroup::create($request->all());
+        $project = auth()->user()->project()->find($request['project_id']);
+        
+        $job_group = $project->jobgroup()->create($request->all());
         if($job_group){
             return response()->json([
                 'success' => true,
@@ -72,17 +70,19 @@ class JobGroupController extends Controller
             ], 500);
         }
     }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($job_group_id)
     {
-        //
-        $job_group = JobGroup::find($id);
+       
+        $project_id = JobGroup::find($job_group_id)->project->id;
+        $project = auth()->user()->project()->find($project_id);
+        $job_group = $project->jobgroup()->find($job_group_id);
+        
         if($job_group){
             return response()->json([
                 'success' => true,
@@ -95,7 +95,6 @@ class JobGroupController extends Controller
             ], 400);
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -106,7 +105,6 @@ class JobGroupController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -114,10 +112,16 @@ class JobGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $job_group_id)
     {
         //
-        $job_group = JobGroup::find($id);
+        $this->validate($request, [
+            'job_group_name' => 'required'
+        ]);
+        $project_id = JobGroup::find($job_group_id)->project->id;
+        $project = auth()->user()->project()->find($project_id);
+        $job_group = $project->jobgroup()->find($job_group_id);
+
         if(!$job_group){
             return response()->json([
                 'success' => false,
@@ -137,17 +141,19 @@ class JobGroupController extends Controller
             ], 500);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($job_group_id)
     {
         //
-        $job_group = JobGroup::find($id);
+        $project_id = JobGroup::find($job_group_id)->project->id;
+        $project = auth()->user()->project()->find($project_id);
+        $job_group = $project->jobgroup()->find($job_group_id);
+
         if(!$job_group){
             return response()->json([
                 'success' =>  false,
@@ -171,5 +177,4 @@ class JobGroupController extends Controller
             }
         }
     }
-
 }
