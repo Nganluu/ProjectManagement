@@ -282,7 +282,7 @@ route::middleware('auth:api')->group(function(){
     route::delete('userjob', 'UserJobController@destroy');
 
 // JobGroup__Xác thực
-// JobGroup
+
 route::middleware('auth:api')->group(function () {
     // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
     route::get('alljobgroup/{project_id}', 'JobGroupController@index');
@@ -296,6 +296,15 @@ route::put('jobgroup/{id}', 'JobGroupController@update');
 route::delete('jobgroup/{id}', 'JobGroupController@destroy');
    
 });
+
+//user_project
+
+    //Hiển thị danh sách dự án của người đang đăng nhập
+    route::get('alluser/{id}', 'UserController@index');
+    //Thêm người dùng vào trong dự án ,truyền vào user_id, project_id
+    route::post('adduser','UserController@store');
+//Xóa  người dùng vào trong dự án ,truyền vào user_id, project_id
+    route::delete('deleteuser','UserController@store');
 
 
 
