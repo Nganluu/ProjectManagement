@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Button, CardGroup, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import { deleteProject } from '../../Actions/projectActions';
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
@@ -12,18 +13,40 @@ class ProjectList extends Component {
         super(props);
         this.state = {
             isDeleteProject: false,
-            projectList: []
+            projectList: [],
+            idDeleteProject: ""
         }
     }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             projectList: nextProps.project.projectList
         })
     }
-    deleteProject = () => {
+
+    cancelDeleteProject = () => {
+        this.setState({
+            idDeleteProject: ""
+        });
+
         this.setState({
             isDeleteProject: !this.state.isDeleteProject
         });
+    }
+
+    clickDeleteProject = (id) => {
+        this.setState({
+            idDeleteProject: id
+        });
+
+        this.setState({
+            isDeleteProject: !this.state.isDeleteProject
+        });
+    }
+
+    handleDeleteProject = () => {
+        this.props.deleteProject(this.state.idDeleteProject);
+        window.location.reload();
     }
 
     render() {
@@ -36,7 +59,7 @@ class ProjectList extends Component {
                             item =>
                                 <div key={item.id} className="col-md-3 menu-inside">
                                     <div className="delete">
-                                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteProject}></i>
+                                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.clickDeleteProject(item.id)}></i>
                                     </div>
 
                                     <div>
@@ -60,8 +83,8 @@ class ProjectList extends Component {
                                 <p>Do you want to delete this project?</p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button type="submit" outline color="primary" onClick={this.deleteProject}><b>Cancel</b></Button>
-                                <Button type="submit" outline color="primary" onClick=""><b>Delete</b></Button>
+                                <Button type="submit" outline color="primary" onClick={this.cancelDeleteProject}><b>Cancel</b></Button>
+                                <Button type="submit" outline color="primary" onClick={this.handleDeleteProject}><b>Delete</b></Button>
                             </ModalFooter>
                         </Modal>
                     </div>
@@ -73,4 +96,4 @@ class ProjectList extends Component {
 const mapStatetoProps = state => ({
     project: state.project
 })
-export default connect(mapStatetoProps)(ProjectList)
+export default connect(mapStatetoProps, { deleteProject })(ProjectList)
