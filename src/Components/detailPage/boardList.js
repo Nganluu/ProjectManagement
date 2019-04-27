@@ -40,7 +40,7 @@ class boardList extends Component {
                         <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
                             <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                                 <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                <b style={{ fontSize: "20px" }}>CÔNG NGHỆ WEB</b>
+                                <b style={{ fontSize: "20px" }}>CÔNG NGHỆ111 WEB</b>
                             </div>
                             <div style={{ marginBottom: "5%" }}>
                                 <Button color="light" style={{ width: "100%", textAlign: "left" }}>
@@ -123,10 +123,11 @@ class boardList extends Component {
 }
 const mapStatetoProps = state => {
     return {
-        data: state.data
+        project: state.project
     }
 }
-// const mapActiontoProps = (dispatch) => ({
-//     addNewProject: () => dispatch(addNewProject())
-// })
-export default connect(mapStatetoProps, null)(boardList)
+const mapActiontoProps = (dispatch) => ({
+    
+})
+export default connect(mapStatetoProps, mapActiontoProps)(boardList)
+

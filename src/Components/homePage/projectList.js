@@ -27,14 +27,14 @@ class ProjectList extends Component {
     }
 
     render() {
+        
         return (
-            <div className="col-md-10 project">
+            <div className="col-md-9 project">
                 <div className="row">
                     {this.state.projectList ?
                         this.state.projectList.map(
                             item =>
-
-                                <div className="col-md-3 menu-inside">
+                                <div key={item.id} className="col-md-3 menu-inside">
                                     <div className="delete">
                                         <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteProject}></i>
                                     </div>
@@ -46,10 +46,8 @@ class ProjectList extends Component {
                                             </div>
                                         </CardGroup>
                                     </div>
-
-
                                     <div className="mask">
-                                        <Link to={'/project/' + item.id} style={{ textDecoration: "none" }}>
+                                        <Link to={`/project/${item.id}`} style={{ textDecoration: "none" }}>
                                             <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
                                         </Link>
                                     </div>

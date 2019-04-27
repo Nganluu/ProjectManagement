@@ -32,7 +32,6 @@ export const userLogin = (email, password) => dispatch => {
         email: email,
         password: password
     },
-        console.log("LOGIN_FETCHING")
     ).then(
         res => dispatch({
             type: USER_LOGIN,

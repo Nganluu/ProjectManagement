@@ -6,7 +6,7 @@ export default class detailPage extends Component {
     return (
       <div>
       <Header/>
-        <BoardList/>
+      <BoardList/>
       </div>
     )
   }
