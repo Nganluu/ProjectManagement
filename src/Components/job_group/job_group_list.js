@@ -132,7 +132,7 @@ class JobGroupList extends Component {
 
                                 <div className="mask">
                                     <Link to='/detailPage' style={{ textDecoration: "none" }}>
-                                        <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
+                                        <Button type="submit" outline color="primary"><b>View Detail</b></Button>
                                     </Link>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@ class JobGroupList extends Component {
                                     </ModalBody>
                                     <ModalFooter>
                                         <Button type="submit" outline color="primary" onClick={this.deleteJobGroup}><b>Cancel</b></Button>
-                                        <Button type="submit" outline color="primary" onClick=""><b>Delete</b></Button>
+                                        <Button type="submit" outline color="primary"><b>Delete</b></Button>
                                     </ModalFooter>
                                 </Modal>
                             </div>

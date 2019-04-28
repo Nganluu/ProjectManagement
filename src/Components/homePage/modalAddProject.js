@@ -45,7 +45,7 @@ class modalAddProject extends Component {
 
     fetchSubmit = () => {
         this.props.toggle();
-        if (this.state.type == "Project") {
+        if (this.state.type === "Project") {
             this.props.addNewProject(this.state.name);
         }
         this.props.getAllProject()

@@ -9,7 +9,8 @@ export default class userInfoPage extends Component {
                     <div>
                         <div className="row">
                             <div className="col-md-3 menu" style={{ marginTop: "5%" }}>
-                             <center style={{ marginTop: "10%" }}>   <UserAvatar
+                             <center style={{ marginTop: "10%" }}>   
+                             <UserAvatar
                                     avatharBgColor="#858aa0"
                                     avatharTextColor="#fff"
                                     name="Ngan"

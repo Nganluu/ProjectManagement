@@ -42,8 +42,8 @@ class homePage extends Component {
                 <div style={{ marginBottom: "5%" }}>
                     {this.props.project.projectList ? this.props.project.projectList.map(
                         (item) =>
-                            <a href={`/project/${item.id}`}>
-                                <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
+                            <a key={item.id} href={`/project/${item.id}`}>
+                                <Button  color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>{item.project_name}</b>
                                 </Button>

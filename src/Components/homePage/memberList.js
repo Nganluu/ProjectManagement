@@ -50,7 +50,7 @@ export default class MemberList extends Component {
                         </ModalBody>
                         <ModalFooter>
                             <Button type="submit" outline color="primary" onClick={this.deleteMember}><b>Cancel</b></Button>
-                            <Button type="submit" outline color="primary" onClick=""><b>Delete</b></Button>
+                            <Button type="submit" outline color="primary" ><b>Delete</b></Button>
                         </ModalFooter>
                     </Modal>
                 </div>
@@ -69,7 +69,7 @@ export default class MemberList extends Component {
                         </ModalBody>
                         <ModalFooter>
                             <Button type="submit" outline color="primary" onClick={this.inviteMember}><b>Cancel</b></Button>
-                            <Button type="submit" outline color="primary" onClick=""><b>Invite</b></Button>
+                            <Button type="submit" outline color="primary"><b>Invite</b></Button>
                         </ModalFooter>
                     </Modal>
                 </div>
