@@ -36,7 +36,6 @@ export default function projectReducer(state=iniState, action){
             if( action.payload.success) { console.log("ADD_NEW_PROJECT_DONE")}
             return {
                 ...state,
-                project: action.payload.data,
                 callapidone: true
             }
         }

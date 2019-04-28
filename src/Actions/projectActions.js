@@ -69,7 +69,7 @@ export const deleteProject = (id) => dispatch => {
 
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
     axios.delete('/api/project/' + id).then(res => dispatch({
-            type: UPDATE_PROJECT_NAME,
+            type: DELETE_PROJECT,
             payload: res.data
         }))
 

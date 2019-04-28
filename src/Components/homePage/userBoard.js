@@ -21,11 +21,6 @@ class homePage extends Component {
         this.props.getAllProject();
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            projectList: nextProps.project.projectList
-        })
-    }
     toggleAddProject = () => {
         this.setState({
             modalAddProject: !this.state.modalAddProject
@@ -38,6 +33,7 @@ class homePage extends Component {
         })
     }
     render() {
+        {console.log(this.props.project.projectList)}
         return (
             <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>
@@ -45,7 +41,7 @@ class homePage extends Component {
                   <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "23px" }}>MY PROJECT</b></a>
                 </div>
                 <div style={{ marginBottom: "5%" }}>
-                    {this.state.projectList ? this.state.projectList.map(
+                    {this.props.project.projectList ? this.props.project.projectList.map(
                         (item) =>
                             <a href={`/project/${item.id}`}>
                                 <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>

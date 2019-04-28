@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Button, CardGroup, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { deleteProject } from '../../Actions/projectActions';
+import { deleteProject, getAllProject } from '../../Actions/projectActions';
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
@@ -20,7 +20,7 @@ class ProjectList extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            projectList: nextProps.project.projectList
+            projectList: [...nextProps.project.projectList]
         })
     }
 
@@ -46,7 +46,10 @@ class ProjectList extends Component {
 
     handleDeleteProject = () => {
         this.props.deleteProject(this.state.idDeleteProject);
-        window.location.reload();
+        this.setState({
+            isDeleteProject: !this.state.isDeleteProject
+        })
+        this.props.getAllProject()
     }
 
     render() {
@@ -54,8 +57,8 @@ class ProjectList extends Component {
         return (
             <div className="col-md-9 project">
                 <div className="row">
-                    {this.state.projectList ?
-                        this.state.projectList.map(
+                    {this.props.project.projectList ?
+                        this.props.project.projectList.map(
                             item =>
                                 <div key={item.id} className="col-md-3 menu-inside">
                                     <div className="delete">
@@ -96,4 +99,4 @@ class ProjectList extends Component {
 const mapStatetoProps = state => ({
     project: state.project
 })
-export default connect(mapStatetoProps, { deleteProject })(ProjectList)
+export default connect(mapStatetoProps, {getAllProject, deleteProject })(ProjectList)
