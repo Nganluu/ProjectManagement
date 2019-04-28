@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
-import { getProjectWithId, updateProjectName } from '../../Actions/projectActions'
+import { getProjectWithId, updateProjectName, getAllProject } from '../../Actions/projectActions'
 
 
 class JobGroupList extends Component {
@@ -35,7 +35,7 @@ class JobGroupList extends Component {
             name: nextProps.project.projectDetail.project_name
         })
     }
-
+   
     editProjectName = () => {
         this.setState({
             isEditProjectName: !this.state.isEditProjectName
@@ -59,7 +59,9 @@ class JobGroupList extends Component {
         const url = window.location.pathname.toString();
         const id = url.substr(9);
         this.props.updateProjectName(this.state.name, id)
-        window.location.reload()
+        this.props.getProjectWithId(id)
+        this.props.getAllProject()       
+        this.editProjectName()
     }
     clickAdd = () => {
         this.setState({
@@ -71,14 +73,14 @@ class JobGroupList extends Component {
          
         return (
             <div className="col-md-8 project">
-                {this.props.project.callapidone?
+                {this.props.project.callapidone? 
                     <div>
                         <div style={{ fontSize: "24px", margin: "2%" }}>
                             {
                                 !this.state.isEditProjectName ?
                                     <div>
                                         <b style={{ marginRight: "1rem", fontSize: "30px" }} >
-                                            {this.props.project.projectDetail.project_name}
+                                            {this.state.name}
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
@@ -183,7 +185,7 @@ class JobGroupList extends Component {
                             </div>
                         </div>
                     </div>
-                    : <Spinner color='primary' />
+                    : <Spinner color="primary"/>
                 }
             </div>
         );
@@ -191,7 +193,8 @@ class JobGroupList extends Component {
 }
 const mapActiontoProps = dispatch => ({
     getProjectWithId: (id) => dispatch(getProjectWithId(id)),
-    updateProjectName: (name, id) => dispatch(updateProjectName(name, id))
+    updateProjectName: (name, id) => dispatch(updateProjectName(name, id)),
+    getAllProject: () => dispatch(getAllProject())
 })
 const mapStatetoProps = state => ({
     project: state.project

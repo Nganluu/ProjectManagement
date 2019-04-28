@@ -16,7 +16,8 @@ class Information extends Component {
             changePassModal: false,
             flag: false,
             flagChangeName: false,
-            changePassMessage: ""
+            changePassMessage: "",
+            saved: false
         }
     }
     componentDidMount(){
@@ -40,6 +41,7 @@ class Information extends Component {
             rewritePassword: event.target.value
         })
     }
+    
   componentDidUpdate = ()=>{
       if(this.state.flag&&this.props.account.callapidone){
           this.setState({
@@ -84,7 +86,8 @@ class Information extends Component {
         if(this.state.name){
             this.props.updateName(this.state.name)
             this.setState({
-                flagChangeName: true
+                flagChangeName: true,
+                saved: true
             })
         }
     }

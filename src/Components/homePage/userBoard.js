@@ -33,7 +33,6 @@ class homePage extends Component {
         })
     }
     render() {
-        {console.log(this.props.project.projectList)}
         return (
             <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>

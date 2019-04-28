@@ -59,7 +59,7 @@ export const updateProjectName = (name, id) => dispatch => {
             type: UPDATE_PROJECT_NAME,
             payload: res.data
         }))
-
+    
 }
 
 export const deleteProject = (id) => dispatch => {
