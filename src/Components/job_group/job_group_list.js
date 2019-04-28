@@ -29,26 +29,31 @@ class JobGroupList extends Component {
         const id = url.substr(9);
         this.props.getProjectWithId(id)
     }
+
     componentWillReceiveProps(nextProps) {
         this.setState({
             name: nextProps.project.projectDetail.project_name
         })
     }
+
     editProjectName = () => {
         this.setState({
             isEditProjectName: !this.state.isEditProjectName
         });
     }
+
     onChangeProjectName = event => {
         this.setState({
             name: event.target.value
         })
     }
+
     deleteJobGroup = () => {
         this.setState({
             isDeleteJobGroup: !this.state.isDeleteJobGroup
         });
     }
+    
     update = () => {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();

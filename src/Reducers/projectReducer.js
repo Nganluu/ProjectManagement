@@ -1,4 +1,6 @@
-import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME } from "../Actions/types";
+import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID,
+             UPDATE_PROJECT_NAME, DELETE_PROJECT 
+        } from "../Actions/types";
 
 
 const iniState = {
@@ -14,12 +16,14 @@ export default function projectReducer(state=iniState, action){
             ...state,
             callapidone: false
         }
+
         case GET_ALL_PROJECT: 
           if(action.payload.success)  {console.log("GET_ALL_PROJECT_DONE")}
             return {...state,
                 projectList: action.payload.data,
                 callapidone: true 
             }
+
         case GET_PROJECT_WITH_ID:
             if(action.payload.success) {console.log("GET_PROJECT_WITH_ID_DONE")}
             return {
@@ -27,6 +31,7 @@ export default function projectReducer(state=iniState, action){
                 projectDetail: action.payload.data,
                 callapidone: true
             }
+
         case ADD_NEW_PROJECT: {
             if( action.payload.success) { console.log("ADD_NEW_PROJECT_DONE")}
             return {
@@ -35,12 +40,21 @@ export default function projectReducer(state=iniState, action){
                 callapidone: true
             }
         }
+
         case UPDATE_PROJECT_NAME: 
             if(action.payload.success) {console.log("UPDATE_PROJECT_NAME_DONE")}
             return {
                 ...state,
                 callapidone: true
             }
+
+        case DELETE_PROJECT: {
+            if(action.payload.success) { console.log("DELETE_PROJECT_DONE") }
+            return {
+                ...state,
+                callapidone: true
+            }
+        }
             
         default: 
             return state

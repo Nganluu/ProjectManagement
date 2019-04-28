@@ -1,4 +1,4 @@
-import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME } from "./types";
+import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME, DELETE_PROJECT } from "./types";
 import axios from "axios";
 
 
@@ -61,3 +61,17 @@ export const updateProjectName = (name, id) => dispatch => {
         }))
 
 }
+
+export const deleteProject = (id) => dispatch => {
+    dispatch({
+        type: API_CALLING
+    }, console.log("DELETING_PROJECT"));
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
+    axios.delete('/api/project/' + id).then(res => dispatch({
+            type: UPDATE_PROJECT_NAME,
+            payload: res.data
+        }))
+
+}
+
