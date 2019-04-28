@@ -3,13 +3,14 @@ import UserBoard from './homePage/userBoard';
 import MemberList from './homePage/memberList';
 import JobGroupList from './job_group/job_group_list';
 import Header from './header'
-
-export default class homePage extends Component {
+import {connect} from 'react-redux'
+import {Spinner} from 'reactstrap'
+class projectPage extends Component {
   render() {
     return (
       <div>
         <Header/>
-        <div className="row">
+          <div className="row">
           <UserBoard />
           <JobGroupList />
           <MemberList />
@@ -18,3 +19,7 @@ export default class homePage extends Component {
     )
   }
 }
+const mapStatetoProps = state => ({
+  project: state.project
+})
+export default connect(mapStatetoProps)(projectPage)

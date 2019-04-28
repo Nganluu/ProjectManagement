@@ -42,7 +42,7 @@ class homePage extends Component {
             <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                     <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                    <b style={{ fontSize: "23px" }}>MY PROJECT</b>
+                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "23px" }}>MY PROJECT</b></a>
                 </div>
                 <div style={{ marginBottom: "5%" }}>
                     {this.state.projectList ? this.state.projectList.map(

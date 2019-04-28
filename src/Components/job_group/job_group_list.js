@@ -75,8 +75,10 @@ class JobGroupList extends Component {
                                         <b style={{ marginRight: "1rem", fontSize: "30px" }} >
                                             {this.props.project.projectDetail.project_name}
                                         </b>
-                                        <i style={{ top: "-0.2rem", position: "relative", cursor: "pointer" }} 
+                                        <Button color="link">
+                                        <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
                                         onClick={this.editProjectName} className="fas fa-pen"></i>
+                                        </Button>
                                     </div>
                                     :
                                     <div className="row input">
