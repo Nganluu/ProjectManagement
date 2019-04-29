@@ -13,15 +13,13 @@ class ProjectList extends Component {
         super(props);
         this.state = {
             isDeleteProject: false,
-            projectList: [],
+            projectList: this.props.project.projectList,
             idDeleteProject: ""
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            projectList: [...nextProps.project.projectList]
-        })
+    componentDidMount() {
+        this.props.getAllProject();
     }
 
     cancelDeleteProject = () => {
@@ -55,42 +53,40 @@ class ProjectList extends Component {
     render() {
         
         return (
-            <div className="col-md-9 project">
-                <div className="row">
-                    {this.props.project.projectList ?
-                        this.props.project.projectList.map(
-                            item =>
-                                <div key={item.id} className="col-md-3 menu-inside">
-                                    <div className="delete">
-                                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.clickDeleteProject(item.id)}></i>
-                                    </div>
-
-                                    <div>
-                                        <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
-                                            <div >
-                                                <span>{item.project_name}</span>
-                                            </div>
-                                        </CardGroup>
-                                    </div>
-                                    <div className="mask">
-                                        <Link to={`/project/${item.id}`} style={{ textDecoration: "none" }}>
-                                            <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
-                                        </Link>
-                                    </div>
+            <div className="row">
+                {this.props.project.projectList ?
+                    this.props.project.projectList.map(
+                        item =>
+                            <div key={item.id} className="col-md-3 menu-inside">
+                                <div className="delete">
+                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.clickDeleteProject(item.id)}></i>
                                 </div>
-                        ) : null
-                    }
-                    <div>
-                        <Modal isOpen={this.state.isDeleteProject} >
-                            <ModalBody>
-                                <p>Do you want to delete this project?</p>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button type="submit" outline color="primary" onClick={this.cancelDeleteProject}><b>Cancel</b></Button>
-                                <Button type="submit" outline color="primary" onClick={this.handleDeleteProject}><b>Delete</b></Button>
-                            </ModalFooter>
-                        </Modal>
-                    </div>
+
+                                <div>
+                                    <CardGroup className="card" style={{ cursor: "pointer" }}>
+                                        <div >
+                                            <span>{item.project_name}</span>
+                                        </div>
+                                    </CardGroup>
+                                </div>
+                                <div className="mask">
+                                    <Link to={`/project/${item.id}`} style={{ textDecoration: "none" }}>
+                                        <Button type="submit" outline color="primary" onClick=""><b>View Detail</b></Button>
+                                    </Link>
+                                </div>
+                            </div>
+                    ) : null
+                }
+                <div>
+                    <Modal isOpen={this.state.isDeleteProject} >
+                        <ModalBody>
+                            <p>Do you want to delete this project?</p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline color="primary" onClick={this.cancelDeleteProject}><b>Cancel</b></Button>
+                            <Button type="submit" outline color="primary" onClick={this.handleDeleteProject}><b>Delete</b></Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </div>
         );

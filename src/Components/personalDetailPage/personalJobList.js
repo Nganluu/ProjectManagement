@@ -8,16 +8,16 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
-import '../../styles/homePage.css'
-import { getProjectWithId, updateProjectName, getAllProject } from '../../Actions/projectActions'
+import '../../styles/homePage.css';
+import { getPersonalProjectWithId, updatePersonalProjectName, getAllPersonalProject } from '../../Actions/personalProjectAction';
 
 
-class JobGroupList extends Component {
+class PersonalJobList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isEditProjectName: false,
-            isDeleteJobGroup: false,
+            isEditPersonalProjectName: false,
+            isDeletePersonalJob: false,
             inputShown: false,
             name: ""
         }
@@ -26,42 +26,42 @@ class JobGroupList extends Component {
     componentDidMount() {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();
-        const id = url.substr(9);
-        this.props.getProjectWithId(id)
+        const id = url.substr(17);
+        this.props.getPersonalProjectWithId(id)
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            name: nextProps.project.projectDetail.project_name
+            name: nextProps.personalProject.personalProjectDetail.personal_name
         })
     }
    
-    editProjectName = () => {
+    editPersonalProjectName = () => {
         this.setState({
-            isEditProjectName: !this.state.isEditProjectName
+            isEditPersonalProjectName: !this.state.isEditPersonalProjectName
         });
     }
 
-    onChangeProjectName = event => {
+    onChangePersonalProjectName = event => {
         this.setState({
             name: event.target.value
         })
     }
 
-    deleteJobGroup = () => {
+    deletePersonalJob = () => {
         this.setState({
-            isDeleteJobGroup: !this.state.isDeleteJobGroup
+            isDeletePersonalJob: !this.state.isDeletePersonalJob
         });
     }
     
     update = () => {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();
-        const id = url.substr(9);
-        this.props.updateProjectName(this.state.name, id)
-        this.props.getProjectWithId(id)
-        this.props.getAllProject()       
-        this.editProjectName()
+        const id = url.substr(17);
+        this.props.updatePersonalProjectName(this.state.name, id)
+        this.props.getPersonalProjectWithId(id)
+        this.props.getAllPersonalProject()       
+        this.editPersonalProjectName()
     }
     clickAdd = () => {
         this.setState({
@@ -70,26 +70,30 @@ class JobGroupList extends Component {
     }
 
     render() {
+        const url = window.location.pathname.toString();
+        const id = url.substr(17);
+        console.log(id);
+        console.log(this.props.personalProject.personalProjectDetail.personal_name)
          
         return (
-            <div className="col-md-8 project">
-                {this.props.project.callapidone? 
+            <div className="col-md-9 project">
+                {this.props.personalProject.callapidone? 
                     <div>
                         <div style={{ fontSize: "24px", margin: "2%" }}>
                             {
-                                !this.state.isEditProjectName ?
+                                !this.state.isEditPersonalProjectName ?
                                     <div>
                                         <b style={{ marginRight: "1rem", fontSize: "30px" }} >
                                             {this.state.name}
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
-                                        onClick={this.editProjectName} className="fas fa-pen"></i>
+                                        onClick={this.editPersonalProjectName} className="fas fa-pen"></i>
                                         </Button>
                                     </div>
                                     :
                                     <div className="row input">
-                                        <div className="col-md-3"><i>Project name:</i></div>
+                                        <div className="col-md-3"><i>New name:</i></div>
                                         <div className="col-md-4">
                                             <Form>
                                                 <FormGroup>
@@ -97,7 +101,7 @@ class JobGroupList extends Component {
                                                         <Input
                                                             type="text"
                                                             value={this.state.name}
-                                                            onChange={this.onChangeProjectName}
+                                                            onChange={this.onChangePersonalProjectName}
                                                         />
                                                     </Col>
                                                 </FormGroup>
@@ -108,7 +112,7 @@ class JobGroupList extends Component {
                                                 onClick={this.update}>
                                                 Edit
                                             </Button>
-                                            <Button type="submit" outline color="primary" onClick={this.editProjectName}>Cancel</Button>
+                                            <Button type="submit" outline color="primary" onClick={this.editPersonalProjectName}>Cancel</Button>
                                         </div>
                                     </div>
                             }
@@ -138,12 +142,12 @@ class JobGroupList extends Component {
                             </div>
 
                             <div>
-                                <Modal isOpen={this.state.isDeleteJobGroup} >
+                                <Modal isOpen={this.state.isDeletePersonalJob} >
                                     <ModalBody>
-                                        <p>Do you want to delete this job group?</p>
+                                        <p>Do you want to delete this job?</p>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button type="submit" outline color="primary" onClick={this.deleteJobGroup}><b>Cancel</b></Button>
+                                        <Button type="submit" outline color="primary" onClick={this.deletePersonalJob}><b>Cancel</b></Button>
                                         <Button type="submit" outline color="primary"><b>Delete</b></Button>
                                     </ModalFooter>
                                 </Modal>
@@ -170,7 +174,7 @@ class JobGroupList extends Component {
                                                                 type="text"
                                                                 id="Content"
                                                                 name="Content"
-                                                                value={this.state.name}
+                                                            
                                                                 onChange={this.handleChangeName}
                                                             />
                                                         </Col>
@@ -185,19 +189,20 @@ class JobGroupList extends Component {
                             </div>
                         </div>
                     </div>
-                    : <Spinner color="primary"/>
+                    : null
                 }
             </div>
         );
     }
 }
 const mapActiontoProps = dispatch => ({
-    getProjectWithId: (id) => dispatch(getProjectWithId(id)),
-    updateProjectName: (name, id) => dispatch(updateProjectName(name, id)),
-    getAllProject: () => dispatch(getAllProject())
-})
-const mapStatetoProps = state => ({
-    project: state.project
-})
+    getPersonalProjectWithId: (id) => dispatch(getPersonalProjectWithId(id)),
+    updatePersonalProjectName: (name, id) => dispatch(updatePersonalProjectName(name, id)),
+    getAllPersonalProject: () => dispatch(getAllPersonalProject())
+});
 
-export default connect(mapStatetoProps, mapActiontoProps)(JobGroupList)
+const mapStatetoProps = state => ({
+    personalProject: state.personalProject
+});
+
+export default connect(mapStatetoProps, mapActiontoProps)(PersonalJobList)

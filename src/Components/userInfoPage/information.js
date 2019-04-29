@@ -7,7 +7,7 @@ class Information extends Component {
     constructor(props){
         super(props);
         this.state = {
-            name: "",
+            name: localStorage.getItem('name'),
             password : "",
             newPassword: "",
             rewritePassword: "",
@@ -20,29 +20,33 @@ class Information extends Component {
             saved: false
         }
     }
+
     componentDidMount(){
         this.setState({
             name: localStorage.getItem('name'),
             email: localStorage.getItem("email")
         })
     }
+
     onChangePassword = (event)=>{
         this.setState({
             password: event.target.value
         })
     }
+
     onChangeNewPassword = (event)=>{
         this.setState({
             newPassword: event.target.value
         })
     }
+
     onChangeRewritePassword = (event)=>{
         this.setState({
             rewritePassword: event.target.value
         })
     }
     
-  componentDidUpdate = ()=>{
+    componentDidUpdate = ()=>{
       if(this.state.flag&&this.props.account.callapidone){
           this.setState({
               flag: false,
@@ -51,7 +55,6 @@ class Information extends Component {
       }
       if(this.state.flagChangeName&&this.props.account.callapidone){
           console.log(this.props.account.name) 
-          localStorage.setItem("name", this.props.account.name)
           this.setState({
               name: this.props.account.name,
               flagChangeName: false
@@ -75,27 +78,35 @@ class Information extends Component {
             }
         }
     }
+
     changePassSuccess = ()=>{
     this.setState({
-            changePassModal: !this.state.changePassModal
+            changePassModal: !this.state.changePassModal,
+            password : "",
+            newPassword: "",
+            rewritePassword: ""
         })
         
     }
 
     handleChangeName = ()=>{
         if(this.state.name){
-            this.props.updateName(this.state.name)
+            this.props.updateName(this.state.name);
+            console.log(localStorage.getItem('name'));
             this.setState({
                 flagChangeName: true,
                 saved: true
             })
+            localStorage.setItem('name', this.state.name);
         }
     }
+
     onChangeName = (event)=>{
         this.setState({
             name: event.target.value
         })
     }
+
     typingName = ()=>{
         this.setState({
             isTypingName :!this.state.isTypingName
@@ -120,6 +131,7 @@ class Information extends Component {
                         }
                            
                         </div>
+           
                     </div>
                     <hr />
 

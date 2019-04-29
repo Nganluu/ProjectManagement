@@ -6,6 +6,7 @@ import projectPage from './Components/projectPage';
 import contactPage from './Components/contactPage';
 import userInfo from './Components/userInfo';
 import detailPage from './Components/detailPage';
+import personalDetailPage from './Components/personalDetailPage';
 
 
 const PrivateRoute = ({component: Component, ...rest})=>(
@@ -24,6 +25,7 @@ class App extends Component {
          <Route exact path='/' component={LoginPage}/>
          <PrivateRoute exact path='/home' component={homePage}/>
          <PrivateRoute exact path='/project/:project_id' component={projectPage}/>
+         <PrivateRoute exact path='/personalProject/:personal_id' component={personalDetailPage}/>
          <Route exact path='/contact' component={contactPage}/>
          <PrivateRoute exact path='/user' component={userInfo}/>
          <PrivateRoute exact path='/detailpage' component={detailPage}/>

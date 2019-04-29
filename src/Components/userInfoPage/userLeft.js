@@ -10,17 +10,17 @@ export default class userInfoPage extends Component {
                         <div className="row">
                             <div className="col-md-3 menu" style={{ marginTop: "5%" }}>
                              <center style={{ marginTop: "10%" }}>   
-                             <UserAvatar
-                                    avatharBgColor="#858aa0"
-                                    avatharTextColor="#fff"
-                                    name="Ngan"
-                                    border="5px solid #474d56"
-                                    ifBorder={true}
-                                    imgHeight="150px"
-                                    imgWidth="150px" />
-                                    </center>
+                                <UserAvatar
+                                        avatharBgColor="#858aa0"
+                                        avatharTextColor="#fff"
+                                        name={localStorage.getItem('name')}
+                                        border="5px solid #474d56"
+                                        ifBorder={true}
+                                        imgHeight="150px"
+                                        imgWidth="150px" />
+                                </center>
                                <span style={{fontSize: "25px"}}>
-                               <center>User Name</center>
+                               <center>{localStorage.getItem('name')}</center>
                                </span>
                                <span style={{color: "#858aa0"}}>
                                <center><a href="">Change your image</a></center>

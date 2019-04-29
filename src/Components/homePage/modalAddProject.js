@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Modal, Col, Form, FormGroup, Input, Label, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap'
-import DateTimePicker from 'react-datetime-picker'
-import {connect} from 'react-redux'
+import DateTimePicker from 'react-datetime-picker';
+import {connect} from 'react-redux';
 import { addNewProject, getAllProject } from '../../Actions/projectActions';
+import {addNewPersonalProject, getAllPersonalProject} from '../../Actions/personalProjectAction';
+
 
 class modalAddProject extends Component {
     constructor(props){
@@ -47,8 +49,14 @@ class modalAddProject extends Component {
         this.props.toggle();
         if (this.state.type === "Project") {
             this.props.addNewProject(this.state.name);
-        }
-        this.props.getAllProject()
+            this.props.getAllProject();
+        } 
+
+        if (this.state.type === "Task") {
+            this.props.addNewPersonalProject(this.state.name);
+            this.props.getAllPersonalProject();
+        } 
+
         this.setState({
             type: "Project",
     });
@@ -109,6 +117,8 @@ class modalAddProject extends Component {
 }
 const mapActiontoProps = dispatch => ({
     addNewProject: (project_name) => dispatch(addNewProject(project_name)),
-    getAllProject: ()=>dispatch(getAllProject())
+    getAllProject: () => dispatch(getAllProject()),
+    addNewPersonalProject: (personal_name) => dispatch(addNewPersonalProject(personal_name)),
+    getAllPersonalProject: () => dispatch(getAllPersonalProject())
     });
 export default connect(null, mapActiontoProps)(modalAddProject)
