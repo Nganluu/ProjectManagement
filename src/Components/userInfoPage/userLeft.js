@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import UserAvatar from 'react-users-avatar'
 
 export default class userInfoPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: localStorage.getItem('name')
+        }
+    }
+    
     render() {
         return (
             <div>
@@ -13,14 +20,14 @@ export default class userInfoPage extends Component {
                                 <UserAvatar
                                         avatharBgColor="#858aa0"
                                         avatharTextColor="#fff"
-                                        name={localStorage.getItem('name')}
+                                        name={this.props.name}
                                         border="5px solid #474d56"
                                         ifBorder={true}
                                         imgHeight="150px"
                                         imgWidth="150px" />
                                 </center>
                                <span style={{fontSize: "25px"}}>
-                               <center>{localStorage.getItem('name')}</center>
+                               <center>{this.props.name}</center>
                                </span>
                                <span style={{color: "#858aa0"}}>
                                <center><a href="">Change your image</a></center>

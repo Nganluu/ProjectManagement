@@ -7,7 +7,7 @@ class Information extends Component {
     constructor(props){
         super(props);
         this.state = {
-            name: localStorage.getItem('name'),
+            name: "",
             password : "",
             newPassword: "",
             rewritePassword: "",
@@ -92,12 +92,12 @@ class Information extends Component {
     handleChangeName = ()=>{
         if(this.state.name){
             this.props.updateName(this.state.name);
-            console.log(localStorage.getItem('name'));
+            localStorage.setItem('name', this.state.name);
+            this.props.changeName(this.state.name);
             this.setState({
                 flagChangeName: true,
                 saved: true
             })
-            localStorage.setItem('name', this.state.name);
         }
     }
 
