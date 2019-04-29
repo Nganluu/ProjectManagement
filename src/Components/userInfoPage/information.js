@@ -7,7 +7,7 @@ class Information extends Component {
     constructor(props){
         super(props);
         this.state = {
-            name: "",
+            name: localStorage.getItem('name'),
             password : "",
             newPassword: "",
             rewritePassword: "",
@@ -127,7 +127,7 @@ class Information extends Component {
                         <div className="col-md-8 col-6">
                         {this.state.isTypingName? 
                         <input type="text" onBlur={this.typingName} onChange={this.onChangeName} value={this.state.name}></input>
-                        :  <i onClick={this.typingName}>{this.state.name}</i>
+                        :  <i onClick={this.typingName}>{localStorage.getItem('name')}</i>
                         }
                            
                         </div>
