@@ -108,11 +108,15 @@ class PersonalJobList extends Component {
                                             </Form>
                                         </div>
                                         <div className="col-md-3">
-                                            <Button type="submit" outline color="primary"
-                                                onClick={this.update}>
-                                                Edit
+                                        <Button color="link">
+                                                <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                                                onClick={this.update} className="fas fa-pen"></i>
                                             </Button>
-                                            <Button type="submit" outline color="primary" onClick={this.editPersonalProjectName}>Cancel</Button>
+                                            <span style={{color: "blue"}}>|</span>
+                                            <Button color="link">
+                                                <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                                                onClick={this.editPersonalProjectName} className="fas fa-times"></i>
+                                            </Button>
                                         </div>
                                     </div>
                             }

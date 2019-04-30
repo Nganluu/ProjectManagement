@@ -6,32 +6,21 @@ import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import ModalAddProject from '../homePage/modalAddProject'
 import DetailTask from './detailTask'
+import { getProjectWithId } from '../../Actions/projectActions'
+import { getAllJobGroup, getJobGroupWithId } from '../../Actions/jobGroupAction';
+
 class boardList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalAddProject: false,
-            modalAddTask: false,
-            modalShowDetailTask: false,
-            date: new Date()
-        }
-    }
-    toggleAddProject = () => {
-        this.setState({
-            modalAddProject: !this.state.modalAddProject
-        })
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    
+    //     }
+    // }
+
+    componentDidMount = () => {
 
     }
-    toggleShowDetailTask = () => {
-        this.setState({
-            modalShowDetailTask: !this.state.modalShowDetailTask
-        })
-    }
-    toggleAddTask = () => {
-        this.setState({
-            modalAddTask: !this.state.modalAddTask
-        })
-    }
+
     render() {
         return (
             <div style={{ backgroundColor: "rgba(231, 231, 231, 0.07)" }}>
@@ -40,7 +29,7 @@ class boardList extends Component {
                         <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
                             <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                                 <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                <b style={{ fontSize: "20px" }}>CÔNG NGHỆ111 WEB</b>
+                                <b style={{ fontSize: "20px" }}>CÔNG NGHE</b>
                             </div>
                             <div style={{ marginBottom: "5%" }}>
                                 <Button color="light" style={{ width: "100%", textAlign: "left" }}>
@@ -88,6 +77,7 @@ class boardList extends Component {
                                     </div>
                                 </div>
                             </CardGroup>
+
                             {/* công việc đang làm  */}
                             <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "408px", top: "-281px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
@@ -102,6 +92,7 @@ class boardList extends Component {
                                     </div>
                                 </div>
                             </CardGroup>
+
                             {/* công việc đã làm xong */}
                             <CardGroup className="card col-md-4" style={{ height: "60%", width: "40%", left: "814px", top: "-564px" }}>
                                 <div style={{ height: "100%", width: "100%" }}>
@@ -123,11 +114,16 @@ class boardList extends Component {
 }
 const mapStatetoProps = state => {
     return {
-        project: state.project
+        project: state.project,
+        jobGroup: state.jobGroup
     }
 }
+
 const mapActiontoProps = (dispatch) => ({
-    
+    getProjectWithId: (id) => dispatch(getProjectWithId(id)),
+    getJobGroupWithId: (id) => dispatch(getJobGroupWithId(id)),
+    getAllJobGroup: (id) => dispatch(getAllJobGroup(id))
 })
+
 export default connect(mapStatetoProps, mapActiontoProps)(boardList)
 

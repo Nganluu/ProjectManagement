@@ -18,8 +18,14 @@ export const DELETE_PROJECT = "DELETE_PROJECT"
 
 //types about member
 export const GET_ALL_MEMBER = "GET_ALL_MEMBER"
+export const DELETE_MEMBER = "DELETE_MEMBER"
 
 //types about job_group
+export const GET_ALL_JOB_GROUP = "GET_ALL_JOB_GROUP"
+export const GET_JOB_GROUP_WITH_ID = "GET_JOB_GROUP_WITH_ID"
+export const ADD_NEW_JOB_GROUP = 'ADD_NEW_JOB_GROUP'
+export const UPDATE_JOB_GROUP_NAME = "UPDATE_JOB_GROUP_NAME"
+export const DELETE_JOB_GROUP = "DELETE_JOB_GROUP"
 
 //types about job
 

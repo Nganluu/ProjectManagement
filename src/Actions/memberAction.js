@@ -1,4 +1,4 @@
-import GET_ALL_MEMBER from './types';
+import { GET_ALL_MEMBER, DELETE_MEMBER, API_CALLING }from './types';
 
 export const getAllMember = () => {
     dispatch({

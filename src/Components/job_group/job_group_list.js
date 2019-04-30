@@ -9,7 +9,8 @@ import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css'
-import { getProjectWithId, updateProjectName, getAllProject } from '../../Actions/projectActions'
+import { getProjectWithId, updateProjectName, getAllProject } from '../../Actions/projectActions';
+import { getAllJobGroup, addNewJobGroup, deleteJobGroup} from '../../Actions/jobGroupAction';
 
 
 class JobGroupList extends Component {
@@ -18,6 +19,8 @@ class JobGroupList extends Component {
         this.state = {
             isEditProjectName: false,
             isDeleteJobGroup: false,
+            idDeleteJobGroup: "",
+            newJobGroupName: "",
             inputShown: false,
             name: ""
         }
@@ -27,7 +30,8 @@ class JobGroupList extends Component {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();
         const id = url.substr(9);
-        this.props.getProjectWithId(id)
+        this.props.getProjectWithId(id);
+        this.props.getAllJobGroup(id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,12 +51,6 @@ class JobGroupList extends Component {
             name: event.target.value
         })
     }
-
-    deleteJobGroup = () => {
-        this.setState({
-            isDeleteJobGroup: !this.state.isDeleteJobGroup
-        });
-    }
     
     update = () => {
         //lấy giá trị id của url hiện tại
@@ -63,17 +61,63 @@ class JobGroupList extends Component {
         this.props.getAllProject()       
         this.editProjectName()
     }
+
+    deleteJobGroup = (id) => {
+        this.setState({
+            idDeleteJobGroup: id
+        });
+
+        this.setState({
+            isDeleteJobGroup: !this.state.isDeleteJobGroup
+        });
+    }
+
+    cancelDeleteJobGroup = () => {
+        this.setState({
+            idDeleteJobGroup: ""
+        });
+
+        this.setState({
+            isDeleteJobGroup: !this.state.isDeleteJobGroup
+        });
+    }
+
+    handleDeleteJobGroup = () => {
+        const url = window.location.pathname.toString();
+        const id = url.substr(9);
+        console.log(this.state.idDeleteJobGroup);
+        this.props.deleteJobGroup(this.state.idDeleteJobGroup);
+        this.setState({
+            isDeleteJobGroup: ""
+        });
+        this.props.getAllJobGroup(id)
+    }
+
     clickAdd = () => {
         this.setState({
             inputShown: !this.state.inputShown
         });
     }
 
+    handleChangeName = event => {
+        this.setState({
+            newJobGroupName: event.target.value
+        })
+    }
+
+    addNewJobGroup = () => {
+        const url = window.location.pathname.toString();
+        const id = url.substr(9);
+        this.props.addNewJobGroup(id, this.state.newJobGroupName);
+        this.setState({
+            newJobGroupName: ""
+        });
+    }
+
     render() {
-         
         return (
             <div className="col-md-8 project">
-                {this.props.project.callapidone? 
+                {/* {this.props.project.callapidone?  */}
                     <div>
                         <div style={{ fontSize: "24px", margin: "2%" }}>
                             {
@@ -104,38 +148,48 @@ class JobGroupList extends Component {
                                             </Form>
                                         </div>
                                         <div className="col-md-3">
-                                            <Button type="submit" outline color="primary"
-                                                onClick={this.update}>
-                                                Edit
+                                            <Button color="link">
+                                                <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                                                onClick={this.update} className="fas fa-pen"></i>
                                             </Button>
-                                            <Button type="submit" outline color="primary" onClick={this.editProjectName}>Cancel</Button>
+                                            <span style={{color: "blue"}}>|</span>
+                                            <Button color="link">
+                                                <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                                                onClick={this.editProjectName} className="fas fa-times"></i>
+                                            </Button>
                                         </div>
                                     </div>
                             }
                         </div>
 
                         <div className="row">
-                            <div className="col-md-3 menu-inside">
-                                <div className="delete">
-                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteJobGroup}></i>
-                                </div>
+                            {this.props.jobGroup.jobGroupList ? this.props.jobGroup.jobGroupList.map(
+                                item => 
+                                    <div className="col-md-3 menu-inside jobGroup">
+                                    {console.log(item.id)}
+                                        <div className="delete">
+                                            <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJobGroup(item.id)}></i>
+                                        </div>
 
-                                <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
-                                    <div >
-                                        <span>Write 3D table in Js</span>
-                                    </div>
-                                    <div style={{ width: "100%", marginRight: "5%" }}>
-                                        <Progress value="30" style={{ marginBottom: "10px" }} />
-                                        <center>30%</center>
-                                    </div>
-                                </CardGroup>
+                                        <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
+                                            <div >
+                                                <span>{item.job_group_name}</span>
+                                            </div>
+                                            <div style={{ width: "100%", marginRight: "5%" }}>
+                                                <Progress value={item.job_group_process} style={{ marginBottom: "10px" }} />
+                                                <center>{item.job_group_process}%</center>
+                                            </div>
+                                        </CardGroup>
 
-                                <div className="mask">
-                                    <Link to='/detailPage' style={{ textDecoration: "none" }}>
-                                        <Button type="submit" outline color="primary"><b>View Detail</b></Button>
-                                    </Link>
-                                </div>
-                            </div>
+                                        <div className="mask">
+                                            <Link to={'/detailPage/' + item.id} style={{ textDecoration: "none" }}>
+                                                <Button type="submit" outline color="primary"><b>View Detail</b></Button>
+                                            </Link>
+                                        </div>
+                                    </div>     
+                                )
+                                :null
+                            }
 
                             <div>
                                 <Modal isOpen={this.state.isDeleteJobGroup} >
@@ -143,13 +197,13 @@ class JobGroupList extends Component {
                                         <p>Do you want to delete this job group?</p>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button type="submit" outline color="primary" onClick={this.deleteJobGroup}><b>Cancel</b></Button>
-                                        <Button type="submit" outline color="primary"><b>Delete</b></Button>
+                                        <Button type="submit" outline color="primary" onClick={this.cancelDeleteJobGroup}><b>Cancel</b></Button>
+                                        <Button type="submit" outline color="primary" onClick={this.handleDeleteJobGroup}><b>Delete</b></Button>
                                     </ModalFooter>
                                 </Modal>
                             </div>
 
-                            <div className="col-md-3" style={{ color: "#4267b2" }}>
+                            <div className="col-md-3 jobGroup" style={{ color: "#4267b2" }}>
                                 <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
                                     {
                                         !this.state.inputShown ?
@@ -168,15 +222,13 @@ class JobGroupList extends Component {
                                                             <i>New job group</i>
                                                             <Input
                                                                 type="text"
-                                                                id="Content"
-                                                                name="Content"
-                                                                value={this.state.name}
+                                                                value={this.state.newJobGroupName}
                                                                 onChange={this.handleChangeName}
                                                             />
                                                         </Col>
                                                     </FormGroup>
                                                     <center>
-                                                        <Button type="submit" outline color="primary" onClick="">Add</Button>
+                                                        <Button type="submit" outline color="primary" onClick={this.addNewJobGroup}>Add</Button>
                                                     </center>
                                                 </Form>
                                             </div>
@@ -185,19 +237,26 @@ class JobGroupList extends Component {
                             </div>
                         </div>
                     </div>
-                    : <Spinner color="primary"/>
-                }
+                    {/* : <Spinner color="primary"/>
+                } */}
             </div>
         );
     }
 }
 const mapActiontoProps = dispatch => ({
+    //actions about project
     getProjectWithId: (id) => dispatch(getProjectWithId(id)),
     updateProjectName: (name, id) => dispatch(updateProjectName(name, id)),
-    getAllProject: () => dispatch(getAllProject())
+    getAllProject: () => dispatch(getAllProject()),
+
+    //actions about jobGroup
+    getAllJobGroup: (id) => dispatch(getAllJobGroup(id)),
+    addNewJobGroup: (project_id, job_group_name) => dispatch(addNewJobGroup(project_id, job_group_name)),
+    deleteJobGroup: (id) => dispatch(deleteJobGroup(id))
 })
 const mapStatetoProps = state => ({
-    project: state.project
+    project: state.project,
+    jobGroup: state.jobGroup
 })
 
 export default connect(mapStatetoProps, mapActiontoProps)(JobGroupList)
