@@ -4,7 +4,7 @@ import {
     Input, Button, Form, FormGroup, Col, CardGroup, Progress,
     Modal, ModalHeader, ModalBody, ModalFooter, Spinner
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
@@ -28,8 +28,7 @@ class JobGroupList extends Component {
 
     componentDidMount() {
         //lấy giá trị id của url hiện tại
-        const url = window.location.pathname.toString();
-        const id = url.substr(9);
+        const id = this.props.match.params.project_id
         this.props.getProjectWithId(id);
         this.props.getAllJobGroup(id);
     }
@@ -54,8 +53,7 @@ class JobGroupList extends Component {
     
     update = () => {
         //lấy giá trị id của url hiện tại
-        const url = window.location.pathname.toString();
-        const id = url.substr(9);
+        const id = this.props.match.params.project_id;
         this.props.updateProjectName(this.state.name, id)
         this.props.getProjectWithId(id)
         this.props.getAllProject()       
@@ -110,8 +108,10 @@ class JobGroupList extends Component {
         const id = url.substr(9);
         this.props.addNewJobGroup(id, this.state.newJobGroupName);
         this.setState({
-            newJobGroupName: ""
+            newJobGroupName: "",
+            inputShown: false
         });
+        this.props.getAllJobGroup(id);
     }
 
     render() {
@@ -166,7 +166,6 @@ class JobGroupList extends Component {
                             {this.props.jobGroup.jobGroupList ? this.props.jobGroup.jobGroupList.map(
                                 item => 
                                     <div className="col-md-3 menu-inside jobGroup">
-                                    {console.log(item.id)}
                                         <div className="delete">
                                             <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJobGroup(item.id)}></i>
                                         </div>
@@ -182,7 +181,7 @@ class JobGroupList extends Component {
                                         </CardGroup>
 
                                         <div className="mask">
-                                            <Link to={'/detailPage/' + item.id} style={{ textDecoration: "none" }}>
+                                            <Link to={'/detailPage/' + item.id + '.' + item.project_id} style={{ textDecoration: "none" }}>
                                                 <Button type="submit" outline color="primary"><b>View Detail</b></Button>
                                             </Link>
                                         </div>
@@ -213,8 +212,8 @@ class JobGroupList extends Component {
                                             </div>
                                             :
                                             <div>
-                                                <div className="delete-add">
-                                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.clickAdd}></i>
+                                                <div className="delete-add" onClick={this.clickAdd}>
+                                                    <i className="fas fa-times-circle" style={{ fontSize: "28px", cursor: "pointer" }}></i>
                                                 </div>
                                                 <Form>
                                                     <FormGroup>
@@ -228,7 +227,7 @@ class JobGroupList extends Component {
                                                         </Col>
                                                     </FormGroup>
                                                     <center>
-                                                        <Button type="submit" outline color="primary" onClick={this.addNewJobGroup}>Add</Button>
+                                                        <Button outline color="primary" onClick={this.addNewJobGroup}>Add</Button>
                                                     </center>
                                                 </Form>
                                             </div>
@@ -259,4 +258,4 @@ const mapStatetoProps = state => ({
     jobGroup: state.jobGroup
 })
 
-export default connect(mapStatetoProps, mapActiontoProps)(JobGroupList)
+export default withRouter(connect(mapStatetoProps, mapActiontoProps)(JobGroupList))

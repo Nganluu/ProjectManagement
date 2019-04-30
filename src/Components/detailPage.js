@@ -1,13 +1,25 @@
-import React, { Component } from 'react'
-import BoardList from './detailPage/boardList'
-import Header from './header'
-export default class detailPage extends Component {
+import React, { Component } from 'react';
+import BoardList from './detailPage/boardList';
+import Header from './header';
+import { connect } from 'react-redux';
+import { getJobGroupWithId } from '../Actions/jobGroupAction';
+
+class detailPage extends Component {
   render() {
+    console.log(this.props.jobGroup.jobGroupDetail);
     return (
       <div>
       <Header/>
-      <BoardList/>
+      <BoardList />
       </div>
     )
   }
 }
+
+const mapStatetoProps = state => {
+  return {
+    jobGroup: state.jobGroup
+  }
+}
+
+export default connect( mapStatetoProps, {getJobGroupWithId} ) (detailPage) 
