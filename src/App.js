@@ -28,7 +28,7 @@ class App extends Component {
          <PrivateRoute exact path='/personalProject/:personal_id' component={personalDetailPage}/>
          <Route exact path='/contact' component={contactPage}/>
          <PrivateRoute exact path='/user' component={userInfo}/>
-         <PrivateRoute exact path='/detailpage' component={detailPage}/>
+         <PrivateRoute exact path='/detailpage/:jobgroup_id' component={detailPage}/>
          </Switch>
          </div>
        </Router>

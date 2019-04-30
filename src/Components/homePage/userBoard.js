@@ -60,7 +60,7 @@ class homePage extends Component {
                     <b style={{ fontSize: "25px" }}>PERSONAL</b>
                     {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
                         (item) =>
-                            <a key={item.id} href={`/home`}>
+                            <a key={item.id} href={`/personalProject/${item.id}`}>
                                 <Button  color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>{item.personal_name}</b>
