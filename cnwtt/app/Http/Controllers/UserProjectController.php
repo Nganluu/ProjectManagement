@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Project;
+use App\User;
 
-class UserController extends Controller
+class UserProjectController extends Controller
 {
     /**
      *Xem danh sách thành viên của dự án 
@@ -15,6 +16,9 @@ class UserController extends Controller
      */
     public function index($project_id)
     {
+     
+        $inProject = auth()->user()->project()->find($project_id) == true;
+
         $project = Project::find($project_id);
        
         if(!$project){
@@ -22,14 +26,22 @@ class UserController extends Controller
                 'success' => false,
                 'message' => "Không tồn tại dự án này"//400: Lỗi. Đây là lỗi cơ bản khi không vượt qua được xác nhận yêu cầu từ server.
             ], 400);
+        }
+        if($project && $inProject){
+            $user = $project->user;
+            if($user->count() != 0){
+                return response()->json([
+                    'success' => true,
+                    'data' => $user,
+                ], 200);
+            }
         }else{
-        $user = $project->user;
-        return response()->json([
-            'success' => true,
-            'data' => $user,
-        ], 200);
+            return response()->json([
+                'success' => false,
+                'message' => 'Người dùng không có quyền xem'
+            ]);
+        }
     }
-}
     
 
    
@@ -43,22 +55,39 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required',
+            'email' => 'required|email',
             'project_id' => 'required'
         ]);
-    
+
+        $admin = auth()->user()->project()->find($request['project_id'])->pivot->user_role == 'admin';
+        if(!$admin){
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có quyền thêm'
+            ]);
+        }
+        $users = User::where('email', $request['email'])->get();
+        if($users->count() == 0){
+            return response()->json([
+                'success' => false,
+                'message' => 'email không tồn tại'
+            ], 400);
+        }
+        foreach($users as $user){
+            $user_id = $user->id;
+        }
         $project = Project::find($request['project_id']);
-        if($project->user()->find($request['user_id'])){
+        if($project->user()->find($user_id)){
             return response()->json([
                 'success' => false,
                 'message' => 'Đã là thành viên dự án '
             ], 400);
         }else{
-            $project->user()->attach($request['user_id'], ['user_role' => 'user']);
+            $project->user()->attach($user_id, ['user_role' => 'user']);
             return response()->json([
                 'success' => true,
                 'message' => 'Đã được thêm vào dự án'
-            ], 200);
+            ], 201);
         }
           
     }
@@ -110,6 +139,14 @@ class UserController extends Controller
             'user_id' => 'required',
             'project_id' => 'required'
         ]);
+        
+        $admin = auth()->user()->project()->find($request['project_id'])->pivot->user_role == 'admin';
+        if(!$admin){
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có quyền xóa thành viên'
+            ]);
+        }
 
 
         $project = Project::find($request['project_id']);

@@ -214,17 +214,17 @@ route::middleware('auth:api')->group(function () {
 
 });
 
-// JobGroup
-    // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
-route::get('alljobgroup/{project_id}', 'JobGroupController@index');
-    // Hiển thị một jobgroup truyền vào id
-route::get('jobgroup/{id}', 'JobGroupController@show');
-    // Thêm một nhóm công việc truyền vào job_group_name, project_id
-route::post('jobgroup', 'JobGroupController@store');
-    // Chỉnh sửa một nhóm công việc truyền vào job_group_name
-route::put('jobgroup/{id}', 'JobGroupController@update');
-    // Xóa một nhóm công việc truyền vào id nhóm công việc
-route::delete('jobgroup/{id}', 'JobGroupController@destroy');
+// // JobGroup
+//     // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
+// route::get('alljobgroup/{project_id}', 'JobGroupController@index');
+//     // Hiển thị một jobgroup truyền vào id
+// route::get('jobgroup/{id}', 'JobGroupController@show');
+//     // Thêm một nhóm công việc truyền vào job_group_name, project_id
+// route::post('jobgroup', 'JobGroupController@store');
+//     // Chỉnh sửa một nhóm công việc truyền vào job_group_name
+// route::put('jobgroup/{id}', 'JobGroupController@update');
+//     // Xóa một nhóm công việc truyền vào id nhóm công việc
+// route::delete('jobgroup/{id}', 'JobGroupController@destroy');
    
 
 
@@ -287,24 +287,29 @@ route::middleware('auth:api')->group(function () {
     // Hiển thị tất cả các job_group trong dự án truyền vào: project_id
     route::get('alljobgroup/{project_id}', 'JobGroupController@index');
     // Hiển thị một jobgroup truyền vào id
-route::get('jobgroup/{id}', 'JobGroupController@show');
+    route::get('jobgroup/{id}', 'JobGroupController@show');
     // Thêm một nhóm công việc truyền vào job_group_name, project_id
-route::post('jobgroup', 'JobGroupController@store');
+    route::post('jobgroup', 'JobGroupController@store');
     // Chỉnh sửa một nhóm công việc truyền vào job_group_name
-route::put('jobgroup/{id}', 'JobGroupController@update');
+    route::put('jobgroup/{id}', 'JobGroupController@update');
     // Xóa một nhóm công việc truyền vào id nhóm công việc
-route::delete('jobgroup/{id}', 'JobGroupController@destroy');
+    route::delete('jobgroup/{id}', 'JobGroupController@destroy');
    
 });
 
-//user_project
+// CRUD người tương ứng với dự án
 
-    //Hiển thị danh sách dự án của người đang đăng nhập
-    route::get('alluser/{id}', 'UserController@index');
-    //Thêm người dùng vào trong dự án ,truyền vào user_id, project_id
-    route::post('adduser','UserController@store');
-//Xóa  người dùng vào trong dự án ,truyền vào user_id, project_id
-    route::delete('deleteuser','UserController@store');
+    // Tất cả các api cần xác thực thì cần truyền lên token để nhận biết người dùng hiện tại
+route::middleware('auth:api')->group(function() {
+    //Hiển thị danh sách người trong dự án truyền vào project_id
+    route::get('userproject/{project_id}', 'UserProjectController@index');
+    //Thêm người dùng vào trong dự án ,truyền vào email, project_id
+    route::post('userproject','UserProjectController@store');
+    //Xóa  người dùng vào trong dự án ,truyền vào user_id (người) , project_id (dự án)
+    route::delete('userproject','UserProjectController@destroy');
+});
+
+   
 
 
 

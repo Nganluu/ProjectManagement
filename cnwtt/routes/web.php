@@ -194,6 +194,10 @@ route::get('test/history', function(){
     // echo "thêm lịch sử thành công";
     echo "lala " . $task->task_name;
 });
+route::get('testabc', function(){
+    $users = App\User::where('email', 'phuong1@gmail.com')->get();
+    echo $users->count();
+});
 
 
 
