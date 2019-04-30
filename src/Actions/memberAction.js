@@ -1,6 +1,7 @@
-import GET_ALL_MEMBER from './types';
+import {GET_ALL_MEMBER, API_CALLING} from './types';
+import axios from 'axios'
 
-export const getAllMember = () => {
+export const getAllMember = ()=>dispatch => {
     dispatch({
         type: API_CALLING
     },
