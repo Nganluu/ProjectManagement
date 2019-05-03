@@ -164,7 +164,7 @@ class JobGroupList extends Component {
                         <div className="row">
                             {this.props.jobGroup.jobGroupList ? this.props.jobGroup.jobGroupList.map(
                                 item => 
-                                    <div className="col-md-3 menu-inside jobGroup">
+                                    <div key={item.id} className="col-md-3 menu-inside jobGroup">
                                         <div className="delete">
                                             <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJobGroup(item.id)}></i>
                                         </div>

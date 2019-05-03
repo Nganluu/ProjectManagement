@@ -16,6 +16,11 @@ export const GET_PROJECT_WITH_ID = "GET_PROJECT_WITH_ID"
 export const UPDATE_PROJECT_NAME = "UPDATE_PROJECT_NAME"
 export const DELETE_PROJECT = "DELETE_PROJECT"
 
+//types about users of a project
+export const GET_PROJECT_USER = "GET_PROJECT_USER"
+export const ADD_PROJECT_USER = "ADD_PROJECT_USER"
+export const DELETE_PROJECT_USER = "DELETE_PROJECT_USER"
+
 //types about member
 export const GET_ALL_MEMBER = "GET_ALL_MEMBER"
 export const DELETE_MEMBER = "DELETE_MEMBER"

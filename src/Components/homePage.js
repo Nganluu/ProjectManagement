@@ -13,12 +13,12 @@ export default class homePage extends Component {
           <UserBoard />
           <div className="col-md-9 project">
           <div className="content">
-            <i class="fas fa-star"></i>
+            <i className="fas fa-star"></i>
             <span> Projects with your teams</span>
           </div>
           <ProjectList />
           <div className="content">
-            <i class="fas fa-star"></i>
+            <i className="fas fa-star"></i>
             <span> Your project - List of job</span>
           </div>
             <PersonalProjectList />

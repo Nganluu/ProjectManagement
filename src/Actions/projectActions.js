@@ -1,4 +1,4 @@
-import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME, DELETE_PROJECT } from "./types";
+import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID, UPDATE_PROJECT_NAME, DELETE_PROJECT, GET_PROJECT_USER, DELETE_PROJECT_USER } from "./types";
 import axios from "axios";
 
 
@@ -73,5 +73,34 @@ export const deleteProject = (id) => dispatch => {
             payload: res.data
         }))
 
+}
+
+export const getProjectUser = (id)=>dispatch=>{
+    dispatch({
+        type: API_CALLING
+    }, console.log("GETTING_PROJECT_USER"))
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
+    axios.get('/api/userproject/'+id)
+    .then(res=>dispatch({
+        type: GET_PROJECT_USER,
+        payload: res.data
+    }))
+}
+
+export const deleteProjectUser = (user_id, project_id)=>dispatch=>{
+    dispatch({
+        type: API_CALLING
+    }, console.log("DELETING_PROJECT_USER"))
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
+    axios.delete('/api/userproject', {data: {
+        user_id: user_id,
+        project_id: project_id
+    }})
+    .then(res => dispatch({
+        type: DELETE_PROJECT_USER,
+        payload: res.data
+    }))
 }
 

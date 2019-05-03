@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, Input } from 'reactstrap';
 import '../../styles/member.css'
-
-export default class MemberList extends Component {
+import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getProjectUser, deleteProjectUser} from '../../Actions/projectActions'
+class MemberList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            user_id: "",
             isDeleteMember: false,
             isInviteMember: false
         }
     }
-
-    deleteMember = () => {
+    componentDidMount(){
+        const url = window.location.pathname.toString();
+        const id = url.substr(9);
+        this.props.getProjectUser(id)
+    }
+    deleteMemberModal = (user_id) => {
         this.setState({
+            user_id: user_id,
             isDeleteMember: !this.state.isDeleteMember
         });
     }
-
+    toggleDelete = ()=>{
+        this.setState({
+            isDeleteMember: !this.state.isDeleteMember
+        })
+    }
+    deleteProjectUser = ()=>{
+        const project_id = this.props.match.params.project_id
+        this.props.deleteProjectUser(this.state.user_id, project_id)
+        this.props.getProjectUser(project_id)
+        this.setState({
+            isDeleteMember: !this.state.isDeleteMember
+        })
+    }
     inviteMember = () => {
         this.setState({
             isInviteMember: !this.state.isInviteMember
@@ -26,21 +46,22 @@ export default class MemberList extends Component {
 
     render() {
         return(
+            
             <div className="col-md-2 members">
                 <center style={{ fontSize: "20px"}}><i>Member</i></center>
                 <hr />
-                <div className="member">
-                    <span>Vu Xinh</span>
-                    <i className="fas fa-times-circle" style={{ fontSize: "14px" }} onClick={this.deleteMember}></i>
+                {this.props.project.projectUser ? 
+                this.props.project.projectUser.map(
+                    item => 
+                    <div key = {item.id} className="member">
+                    <span>{item.name}</span>
+                    <i className="fas fa-times-circle" style={{ fontSize: "14px" }} onClick={()=>this.deleteMemberModal(item.id)}></i>
                 </div>
+                ) : null
+                }
             
-                <div className="member">
-                    <span>Ngan Luu</span>
-                    <i className="fas fa-times-circle" style={{ fontSize: "14px" }} onClick={this.deleteMember}></i>
-                </div>
-
                 <div style={{ color: "#989999" }} onClick={this.inviteMember}>
-                    <span>+ Invite</span>
+                    <span style={{cursor: "pointer"}}>+ Invite</span>
                 </div>
 
                 <div>
@@ -49,8 +70,8 @@ export default class MemberList extends Component {
                             <p>Do you want to delete this member?</p>
                         </ModalBody>
                         <ModalFooter>
-                            <Button type="submit" outline color="primary" onClick={this.deleteMember}><b>Cancel</b></Button>
-                            <Button type="submit" outline color="primary" ><b>Delete</b></Button>
+                            <Button type="submit" outline color="primary" onClick={this.toggleDelete}><b>Cancel</b></Button>
+                            <Button type="submit" outline color="primary" onClick={this.deleteProjectUser}><b>Delete</b></Button>
                         </ModalFooter>
                     </Modal>
                 </div>
@@ -77,3 +98,11 @@ export default class MemberList extends Component {
         );
     }
 }
+const mapStatetoProps = state => ({
+    project: state.project
+})
+const mapActiontoProps = dispatch => ({
+    getProjectUser: (id)=>dispatch(getProjectUser(id)),
+    deleteProjectUser : (user_id, project_id)=>dispatch(deleteProjectUser(user_id, project_id))
+})
+export default withRouter(connect(mapStatetoProps, mapActiontoProps)(MemberList))
