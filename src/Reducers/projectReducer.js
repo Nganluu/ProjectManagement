@@ -1,10 +1,11 @@
 import { GET_ALL_PROJECT, API_CALLING, ADD_NEW_PROJECT, GET_PROJECT_WITH_ID,
-             UPDATE_PROJECT_NAME, DELETE_PROJECT, GET_PROJECT_USER, DELETE_PROJECT_USER 
+             UPDATE_PROJECT_NAME, DELETE_PROJECT, GET_PROJECT_USER, DELETE_PROJECT_USER, ADD_PROJECT_USER, HANDLE_ERROR 
         } from "../Actions/types";
 
 
 const iniState = {
     callapidone: "",
+    success: false,
     projectList: [],
     projectUser : [],
     projectDetail: []
@@ -66,6 +67,19 @@ export default function projectReducer(state=iniState, action){
             if(action.payload.success) {console.log("DELETE_PROJECT_USER_DONE")}
             return {
                 ...state,
+                callapidone: true
+            }
+        case ADD_PROJECT_USER: 
+            if(action.payload.success) {console.log("ADD_PROJECT_USER_DONE")}
+            return {
+                ...state,
+                success: action.payload.success,
+                callapidone: true
+            }
+        case HANDLE_ERROR: 
+            return {
+                ...state,
+                error: action.error,
                 callapidone: true
             }
         default: 

@@ -116,7 +116,6 @@ class JobGroupList extends Component {
     render() {
         return (
             <div className="col-md-8 project">
-                {/* {this.props.project.callapidone?  */}
                     <div>
                         <div style={{ fontSize: "24px", margin: "2%" }}>
                             {
