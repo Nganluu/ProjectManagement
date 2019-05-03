@@ -33,6 +33,12 @@ export const UPDATE_JOB_GROUP_NAME = "UPDATE_JOB_GROUP_NAME"
 export const DELETE_JOB_GROUP = "DELETE_JOB_GROUP"
 
 //types about job
+export const GET_ALL_JOB = "GET_ALL_JOB"
+export const GET_JOB_WITH_ID = "GET_JOB_WITH_ID"
+export const ADD_NEW_JOB = 'ADD_NEW_JOB'
+export const UPDATE_JOB = "UPDATE_JOB"
+export const DELETE_JOB = "DELETE_JOB"
+
 
 //types about comment
 
