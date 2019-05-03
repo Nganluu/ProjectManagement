@@ -15,6 +15,7 @@ export const ADD_NEW_PROJECT = 'ADD_NEW_PROJECT'
 export const GET_PROJECT_WITH_ID = "GET_PROJECT_WITH_ID"
 export const UPDATE_PROJECT_NAME = "UPDATE_PROJECT_NAME"
 export const DELETE_PROJECT = "DELETE_PROJECT"
+export const HANDLE_ERROR = "HANDLE_ERROR"
 
 //types about users of a project
 export const GET_PROJECT_USER = "GET_PROJECT_USER"
