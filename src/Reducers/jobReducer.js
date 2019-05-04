@@ -1,4 +1,4 @@
-import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING } from '../Actions/types';
+import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, GET_ALL_TASK } from '../Actions/types';
 
 const iniState = {
 callapidone: "",
@@ -6,7 +6,7 @@ jobList: [],
 jobDetail: []
 }
 
-export default function jobGroupReducer(state=iniState, action){
+export default function jobReducer(state=iniState, action){
 switch(action.type){
     case API_CALLING: 
         return{

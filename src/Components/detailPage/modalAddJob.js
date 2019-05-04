@@ -32,8 +32,6 @@ class modalAddJob extends Component {
         })
     }
 
-   
-
     handleChangeName = (event) => {
         this.setState({
             name: event.target.value
@@ -45,7 +43,8 @@ class modalAddJob extends Component {
     const id = this.props.match.params.jobgroup_id;
     const startDate = dateFormat(this.state.startDate, "yyyy/mm/dd");
     const endDate = dateFormat(this.state.endDate, "yyyy/mm/dd");
-    if (startDate > endDate ) {
+    const now = dateFormat(new Date(), "yyyy/mm/dd");
+    if (startDate > endDate || now > endDate ) {
         this.setState({
             isDatesInvalid: !this.state.isDatesInvalid
         })

@@ -40,6 +40,12 @@ export const ADD_NEW_JOB = 'ADD_NEW_JOB'
 export const UPDATE_JOB = "UPDATE_JOB"
 export const DELETE_JOB = "DELETE_JOB"
 
+//types about task
+export const GET_ALL_TASK = "GET_ALL_TASK"
+export const GET_TASK_WITH_ID = "GET_TASK_WITH_ID"
+export const ADD_NEW_TASK = 'ADD_NEW_TASK'
+export const UPDATE_TASK = "UPDATE_TASK"
+export const DELETE_TASK = "DELETE_TASK"
 
 //types about comment
 

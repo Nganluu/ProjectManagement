@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Progress, Button} from 'reactstrap';
+import { Progress, Button, Modal, ModalBody, ModalFooter} from 'reactstrap';
 import { connect } from 'react-redux';
 import '../../styles/Login.css';
 import '../../styles/homePage.css';
+import '../../styles/menu.css';
 import ModalAddJob from './modalAddJob';
 import DetailTask from './detailTask';
 import { getAllJob, getJobWithId, addNewJob, deleteJob } from '../../Actions/jobAction';
 import { userInfo } from 'os';
+import dateFormat from 'dateformat';
 
 class JobList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modalShowDetailTask: false,
-            modalAddJob: false
-            // jobList: this.props.job.jobList
+            modalAddJob: false,
+            isDeleteJob: false,
+            idDeleteJob: "",
+            idSelectedJob: ""
         }
     }
 
@@ -24,16 +28,47 @@ class JobList extends Component {
         this.props.getAllJob(this.props.match.params.jobgroup_id);
     }
 
-    toggleShowDetaiTask = () => {
+    toggleShowDetaiTask = (id) => {
         this.setState({
-            modalShowDetailTask: !this.state.modalShowDetailTask
-        })
+            modalShowDetailTask: !this.state.modalShowDetailTask,
+            idSelectedJob: id
+        });
+        console.log(id);
+    }
+
+    cancelShowDetailTask = () => {
+        this.setState({
+            modalShowDetailTask: !this.state.modalShowDetailTask,
+        });
+        this.props.getAllJob(this.props.match.params.jobgroup_id);
     }
 
     toggleAddJob = () => {
         this.setState({
             modalAddJob: !this.state.modalAddJob
         })
+    }
+
+    deleteJob = (id) => {
+        this.setState({
+            isDeleteJob: !this.state.isDeleteJob,
+            idDeleteJob: id
+        });
+
+    }
+
+    cancelDeleteJob = () => {
+        this.setState({
+            isDeleteJob: !this.state.isDeleteJob,
+            idDeleteJob: ""
+        });
+    }
+
+    handleDeleteJob = () => {
+        const id = this.props.match.params.jobgroup_id;
+        this.props.deleteJob(this.state.idDeleteJob);
+        this.props.getAllJob(id);
+        this.cancelDeleteJob();
     }
 
     render() {
@@ -48,19 +83,25 @@ class JobList extends Component {
                             {this.props.job.jobList ? this.props.job.jobList.map(
                                 item => 
                                     item.job_process === 0 ?
-                                        <Button key={'job' + item.id} onClick={this.toggleShowDetaiTask}
-                                            color="light" style={{ width: "98%", textAlign: "left" }}>
-                                            {item.job_name}
-                                            <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
-                                                <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
-                                                    <i className="far fa-clock"></i>{item.end_date}
-                                            </span>
-                                        </Button>
+                                        <div className="menu-inside" style={{ width: "100%"}}>
+                                            <div className="delete">
+                                                <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
+                                            </div>
+                                            <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
+                                                color="light" style={{ width: "98%", textAlign: "left" }}>
+                                                {item.job_name}
+                                                <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
+                                                    <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
+                                                        <i className="far fa-clock"></i>{dateFormat(item.end_date, "dd/mm/yyyy")}
+                                                </span>
+                                            </Button>
+                                        </div>
                                     : null
                             ): null}
 
                             <DetailTask
-                                toggle={this.toggleShowDetaiTask}
+                                toggle={this.cancelShowDetailTask}
+                                id={this.state.idSelectedJob}
                                 modal={this.state.modalShowDetailTask} />
                             <Button onClick={this.toggleAddJob}
                                 color="light" style={{ color: "#989999", width: "98%", textAlign: "left" }}>
@@ -80,16 +121,21 @@ class JobList extends Component {
                         {this.props.job.jobList ? this.props.job.jobList.map(
                                 item => 
                                     item.job_process > 0 && item.job_process < 100 ?
-                                        <Button key={'job' + item.id} onClick={this.toggleShowDetaiTask}
-                                            color="light" style={{ width: "98%", textAlign: "left" }}>
-                                            {item.job_name}
-                                            <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
-                                            <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
-                                                <i className="far fa-clock"></i>{item.end_date}
-                                            </span>
-                                            <center style={{ marginBottom: "-20px" }}>{item.job_process}%</center>
-                                            <Progress value={item.job_process} style={{ width: "100%", marginBottom: "10px" }} />
-                                        </Button>
+                                        <div className="menu-inside" style={{ width: "100%"}}>
+                                            <div className="delete">
+                                                <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
+                                            </div>
+                                            <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
+                                                color="light" style={{ width: "98%", textAlign: "left" }}>
+                                                {item.job_name}
+                                                <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
+                                                <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
+                                                    <i className="far fa-clock"></i>{dateFormat(item.end_date, "dd/mm/yyyy")}
+                                                </span>
+                                                <center style={{ marginBottom: "-20px" }}>{item.job_process}%</center>
+                                                <Progress value={item.job_process} style={{ width: "100%", marginBottom: "10px" }} />
+                                            </Button>
+                                        </div>
                                     : null
                             ): null}
                         </div>
@@ -104,17 +150,35 @@ class JobList extends Component {
                             {this.props.job.jobList ? this.props.job.jobList.map(
                                 item => 
                                     item.job_process === 100 ?
-                                        <Button key={'job' + item.id} onClick={this.toggleShowDetaiTask}
+                                    <div className="menu-inside" style={{ width: "100%"}}>
+                                        <div className="delete">
+                                            <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
+                                        </div>
+                                        <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
                                             color="light" style={{ width: "98%", textAlign: "left" }}>
                                             {item.job_name}
                                             <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
-                                            <center style={{ marginBottom: "-20px" }}>{item.job_process}%</center>
-                                            <Progress value={item.job_process} style={{ width: "100%", marginBottom: "10px" }} />
+                                            <span style={{ backgroundColor: "aqua", padding: "1px 5px", borderRadius: "5px" }}>
+                                                <i className="fas fa-check-circle"></i>{dateFormat(item.done_date, "dd/mm/yyyy")}
+                                            </span>
                                         </Button>
+                                    </div>
                                     : null
                             ): null}
                         </div>
                     </div>
+                </div>
+                
+                <div>
+                    <Modal isOpen={this.state.isDeleteJob} >
+                        <ModalBody>
+                            <p>Do you want to delete this job?</p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline color="primary" onClick={this.cancelDeleteJob}><b>Cancel</b></Button>
+                            <Button type="submit" outline color="primary" onClick={this.handleDeleteJob}><b>Delete</b></Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </div>
         )

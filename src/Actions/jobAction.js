@@ -5,7 +5,7 @@ export const getAllJob = (id) => dispatch => {
     dispatch({
         type: API_CALLING
     },
-        console.log("GETTING_JOB_GROUP")
+        console.log("GETTING_ALL_TASK")
     )
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
     axios.get("/api/alljob/" + id)
@@ -51,16 +51,59 @@ export const addNewJob = (job_group_id, job_name, start_date, end_date) => dispa
     )
 }
 
-export const updateJob = (id, name, start_date, end_date) => dispatch => {
+export const updateJobName = (id, name) => dispatch => {
     dispatch({
         type: API_CALLING
-    }, console.log("UPDATING_JOB"))
+    }, console.log("UPDATING_JOB_NAME"))
 
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
     axios.put('/api/job/' + id, {
-        job_name: name,
-        start_date: start_date,
-        end_date: end_date
+        job_name: name
+    }).then(res => dispatch({
+            type: UPDATE_JOB,
+            payload: res.data
+        })
+    )
+}
+
+export const updateJobDescription = (id, description) => dispatch => {
+    dispatch({
+        type: API_CALLING
+    }, console.log("UPDATING_JOB_DESCRIPTION"))
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
+    axios.put('/api/job/' + id, {
+        job_description: description
+    }).then(res => dispatch({
+            type: UPDATE_JOB,
+            payload: res.data
+        })
+    )
+}
+
+export const updateJobStartDate = (id, startDate) => dispatch => {
+    dispatch({
+        type: API_CALLING
+    }, console.log("UPDATING_JOB_START_DATE"))
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
+    axios.put('/api/job/' + id, {
+        start_date: startDate
+    }).then(res => dispatch({
+            type: UPDATE_JOB,
+            payload: res.data
+        })
+    )
+}
+
+export const updateJobEndDate = (id, endDate) => dispatch => {
+    dispatch({
+        type: API_CALLING
+    }, console.log("UPDATING_JOB_END_DATE"))
+
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
+    axios.put('/api/job/' + id, {
+        end_date: endDate 
     }).then(res => dispatch({
             type: UPDATE_JOB,
             payload: res.data
@@ -74,7 +117,7 @@ dispatch({
 }, console.log("DELETING_JOB"));
 
 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token');
-axios.delete('/api/jobg/' + id).then(res => dispatch({
+axios.delete('/api/job/' + id).then(res => dispatch({
         type: DELETE_JOB,
         payload: res.data
     })
