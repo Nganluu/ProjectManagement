@@ -1,4 +1,4 @@
-import { GET_ALL_TASK, GET_TASK_WITH_ID, ADD_NEW_TASK, UPDATE_TASK, DELETE_TASK, API_CALLING} from "./types";
+import { GET_ALL_TASK, GET_TASK_WITH_ID, ADD_NEW_TASK, UPDATE_TASK, DELETE_TASK, API_CALLING, HANDLE_GET_ALL_ERROR} from "./types";
 import axios from "axios";
 
 export const getAllTask = (id) => dispatch => {
@@ -12,8 +12,13 @@ export const getAllTask = (id) => dispatch => {
         .then(response => dispatch({
             type: GET_ALL_TASK,
             payload: response.data
+        })).catch(function (error) {
+            dispatch({
+                type: HANDLE_GET_ALL_ERROR,
+                error: error.response.status,
+                taskList: []
+            })
         })
-    )
 }
 
 export const getTaskWithId = (id) => dispatch => {

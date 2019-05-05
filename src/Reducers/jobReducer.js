@@ -1,4 +1,4 @@
-import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, GET_ALL_TASK } from '../Actions/types';
+import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_ERROR } from '../Actions/types';
 
 const iniState = {
 callapidone: "",
@@ -26,6 +26,14 @@ switch(action.type){
             return {
                 ...state,
                 callapidone: true
+            }
+        }
+
+        case HANDLE_GET_ALL_ERROR: {
+            console.log(action.error);
+            return {
+                ...state,
+                jobList: action.jobList
             }
         }
 

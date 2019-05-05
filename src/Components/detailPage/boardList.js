@@ -23,6 +23,12 @@ class boardList extends Component {
         this.props.getAllJobGroup(this.props.match.params.project_id)
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        if ( nextProps.match.params.jobgroup_id != this.props.match.params.jobgroup_id ) {
+            nextProps.getJobGroupWithId(nextProps.match.params.jobgroup_id);
+        }
+    }
+
     editJobGroupName = () => {
         this.setState({
             isEditJobGroupName: !this.state.isEditJobGroupName
@@ -56,19 +62,21 @@ class boardList extends Component {
                     <div className="row">
                         {/* Menu */}
                         <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
-                            <div style={{ marginBottom: "5%", color: "#4267b2" }}>
-                                <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                <b style={{ fontSize: "20px" }}>{this.props.project.projectDetail.project_name}</b>
-                            </div>
+                            <Link to={'/project/' + this.props.project.projectDetail.project_id} >
+                                <div style={{ marginBottom: "5%", color: "#4267b2" }}>
+                                    <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
+                                    <b style={{ fontSize: "20px" }}>{this.props.project.projectDetail.project_name}</b>
+                                </div>
+                            </Link>
                             <div style={{ marginBottom: "5%" }}>
                                 {this.props.jobGroup.jobGroupList ? this.props.jobGroup.jobGroupList.map(
                                     item =>
-                                        <a key={item.id} href={'/detailPage/' + item.id + '.' + item.project_id}>
-                                        <Button color="light" style={{ width: "100%", textAlign: "left" }}>
-                                            <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                            <b>{item.job_group_name}</b>
-                                        </Button>
-                                        </a>
+                                        <Link key={item.id} to={'/detailPage/' + item.id + '.' + item.project_id}>
+                                            <Button color="light" style={{ width: "100%", textAlign: "left" }}>
+                                                <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
+                                                <b>{item.job_group_name}</b>
+                                            </Button>
+                                        </Link>
                                 ): null }
                             </div>
                         </div>

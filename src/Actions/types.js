@@ -1,6 +1,10 @@
 //api calling
 export const API_CALLING = "API_CALLING"
 
+//handle error
+export const HANDLE_ERROR = "HANDLE_ERROR"
+export const HANDLE_GET_ALL_ERROR = "HANDLE_GET_ALL_ERROR"
+
 //types about user
 export const USER_SIGNUP = 'USER_SIGNUP'
 export const USER_LOGIN = "USER_LOGIN"
@@ -15,7 +19,6 @@ export const ADD_NEW_PROJECT = 'ADD_NEW_PROJECT'
 export const GET_PROJECT_WITH_ID = "GET_PROJECT_WITH_ID"
 export const UPDATE_PROJECT_NAME = "UPDATE_PROJECT_NAME"
 export const DELETE_PROJECT = "DELETE_PROJECT"
-export const HANDLE_ERROR = "HANDLE_ERROR"
 
 //types about users of a project
 export const GET_PROJECT_USER = "GET_PROJECT_USER"

@@ -1,4 +1,4 @@
-import { GET_ALL_TASK, GET_TASK_WITH_ID, ADD_NEW_TASK, UPDATE_TASK, DELETE_TASK, API_CALLING } from '../Actions/types';
+import { GET_ALL_TASK, GET_TASK_WITH_ID, ADD_NEW_TASK, UPDATE_TASK, DELETE_TASK, API_CALLING, HANDLE_GET_ALL_ERROR} from '../Actions/types';
 
 const iniState = {
     callapidone: "",
@@ -28,6 +28,14 @@ export default function taskReducer(state=iniState, action){
                     callapidone: true
                 }
             }
+
+        case HANDLE_GET_ALL_ERROR: {
+            console.log(action.error);
+            return {
+                ...state,
+                taskList: action.taskList
+            }
+        }
 
         case GET_TASK_WITH_ID:
             if(action.payload.success) {

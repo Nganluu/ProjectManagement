@@ -4,7 +4,7 @@ import {
     Input, Button, Form, FormGroup, Col, CardGroup, Progress,
     Modal, ModalHeader, ModalBody, ModalFooter, Spinner
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
@@ -30,10 +30,11 @@ class PersonalJobList extends Component {
         this.props.getPersonalProjectWithId(id)
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            name: nextProps.personalProject.personalProjectDetail.personal_name
-        })
+    componentWillReceiveProps( nextProps) {
+        if ( nextProps.match.params.personal_id != this.props.match.params.personal_id ) {
+            console.log(nextProps.match.params.personal_id);
+            nextProps.getPersonalProjectWithId(nextProps.match.params.personal_id);
+        }
     }
    
     editPersonalProjectName = () => {
@@ -84,7 +85,7 @@ class PersonalJobList extends Component {
                                 !this.state.isEditPersonalProjectName ?
                                     <div>
                                         <b style={{ marginRight: "1rem", fontSize: "30px" }} >
-                                            {this.state.name}
+                                            {this.props.personalProject.personalProjectDetail.personal_name}
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
@@ -209,4 +210,4 @@ const mapStatetoProps = state => ({
     personalProject: state.personalProject
 });
 
-export default connect(mapStatetoProps, mapActiontoProps)(PersonalJobList)
+export default withRouter(connect(mapStatetoProps, mapActiontoProps)(PersonalJobList))

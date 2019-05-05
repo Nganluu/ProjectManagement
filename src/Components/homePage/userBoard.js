@@ -45,12 +45,12 @@ class homePage extends Component {
                 <div style={{ marginBottom: "5%" }}>
                     {this.props.project.projectList ?  this.props.project.projectList.map(
                         (item) =>
-                            <a key={item.id} href={`/project/${item.id}`}>
+                            <Link key={item.id} to={`/project/${item.id}`}>
                                 <Button  color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>{item.project_name}</b>
                                 </Button>
-                            </a>
+                            </Link>
                     ) : null}
 
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
@@ -60,12 +60,12 @@ class homePage extends Component {
                     <b style={{ fontSize: "25px" }}>PERSONAL</b>
                     {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
                         (item) =>
-                            <a key={item.id} href={`/personalProject/${item.id}`}>
+                            <Link key={item.id} to={`/personalProject/${item.id}`}>
                                 <Button  color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>{item.personal_name}</b>
                                 </Button>
-                            </a>
+                            </Link>
                     ) : null}
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                 </div>

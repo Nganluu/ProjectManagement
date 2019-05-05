@@ -34,9 +34,11 @@ class JobGroupList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            name: nextProps.project.projectDetail.project_name
-        })
+        if( nextProps.match.params.project_id != this.props.match.params.project_id ) {
+            nextProps.getProjectWithId(nextProps.match.params.project_id);
+            nextProps.getAllJobGroup(nextProps.match.params.project_id);
+
+        }
     }
    
     editProjectName = () => {
@@ -122,7 +124,7 @@ class JobGroupList extends Component {
                                 !this.state.isEditProjectName ?
                                     <div>
                                         <b style={{ marginRight: "1rem", fontSize: "30px" }} >
-                                            {this.state.name}
+                                            {this.props.project.projectDetail.project_name}
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 

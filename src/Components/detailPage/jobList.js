@@ -28,6 +28,12 @@ class JobList extends Component {
         this.props.getAllJob(this.props.match.params.jobgroup_id);
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        if ( nextProps.match.params.jobgroup_id != this.props.match.params.jobgroup_id ) {
+            nextProps.getAllJob(nextProps.match.params.jobgroup_id);
+        }
+    }
+
     toggleShowDetaiTask = (id) => {
         this.setState({
             modalShowDetailTask: !this.state.modalShowDetailTask,

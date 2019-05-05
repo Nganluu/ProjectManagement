@@ -1,19 +1,25 @@
-import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING} from "./types";
+import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_ERROR } from "./types";
 import axios from "axios";
 
 export const getAllJob = (id) => dispatch => {
     dispatch({
         type: API_CALLING
     },
-        console.log("GETTING_ALL_TASK")
+        console.log("GETTING_ALL_JOB")
     )
     axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
     axios.get("/api/alljob/" + id)
         .then(response => dispatch({
-            type: GET_ALL_JOB,
-            payload: response.data
+                type: GET_ALL_JOB,
+                payload: response.data
+            })
+        ).catch(function (error) {
+            dispatch({
+                type: HANDLE_GET_ALL_ERROR,
+                error: error.response.status,
+                jobList: []
+            })
         })
-    )
 }
 
 export const getJobWithId = (id) => dispatch => {
