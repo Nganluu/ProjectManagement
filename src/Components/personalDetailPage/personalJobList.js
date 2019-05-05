@@ -35,6 +35,9 @@ class PersonalJobList extends Component {
             console.log(nextProps.match.params.personal_id);
             nextProps.getPersonalProjectWithId(nextProps.match.params.personal_id);
         }
+        this.setState({
+            name: nextProps.personalProject.personalProjectDetail.personal_name
+        })
     }
    
     editPersonalProjectName = () => {
@@ -70,12 +73,7 @@ class PersonalJobList extends Component {
         });
     }
 
-    render() {
-        const url = window.location.pathname.toString();
-        const id = url.substr(17);
-        console.log(id);
-        console.log(this.props.personalProject.personalProjectDetail.personal_name)
-         
+    render() {    
         return (
             <div className="col-md-9 project">
                 {this.props.personalProject.callapidone? 
@@ -140,7 +138,7 @@ class PersonalJobList extends Component {
                                 </CardGroup>
 
                                 <div className="mask">
-                                    <Link to='/detailPage' style={{ textDecoration: "none" }}>
+                                    <Link to={'/detailPage/'} style={{ textDecoration: "none" }}>
                                         <Button type="submit" outline color="primary"><b>View Detail</b></Button>
                                     </Link>
                                 </div>

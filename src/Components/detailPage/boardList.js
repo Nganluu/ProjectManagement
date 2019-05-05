@@ -54,7 +54,6 @@ class boardList extends Component {
     }
 
     render() {
-        console.log(this.props.jobGroup.jobGroupDetail)
         return (
             
             <div style={{ backgroundColor: "rgba(231, 231, 231, 0.07)" }}>
@@ -134,8 +133,6 @@ class boardList extends Component {
                                     Setting
                             </span>
                             </div>
-
-                            
                                 <JobList />
                             
 

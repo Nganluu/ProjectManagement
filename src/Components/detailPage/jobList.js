@@ -8,7 +8,6 @@ import '../../styles/menu.css';
 import ModalAddJob from './modalAddJob';
 import DetailTask from './detailTask';
 import { getAllJob, getJobWithId, addNewJob, deleteJob } from '../../Actions/jobAction';
-import { userInfo } from 'os';
 import dateFormat from 'dateformat';
 
 class JobList extends Component {

@@ -37,8 +37,10 @@ class JobGroupList extends Component {
         if( nextProps.match.params.project_id != this.props.match.params.project_id ) {
             nextProps.getProjectWithId(nextProps.match.params.project_id);
             nextProps.getAllJobGroup(nextProps.match.params.project_id);
-
         }
+        this.setState({
+            name: nextProps.project.projectDetail.project_name
+        })
     }
    
     editProjectName = () => {
@@ -128,7 +130,7 @@ class JobGroupList extends Component {
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
-                                        onClick={this.editProjectName} className="fas fa-pen"></i>
+                                       onClick={this.editProjectName} className="fas fa-pen"></i>
                                         </Button>
                                     </div>
                                     :
@@ -138,7 +140,7 @@ class JobGroupList extends Component {
                                             <Form>
                                                 <FormGroup>
                                                     <Col sm="12" md={{ size: 12 }}>
-                                                        <Input
+                                                        <Input 
                                                             type="text"
                                                             value={this.state.name}
                                                             onChange={this.onChangeProjectName}

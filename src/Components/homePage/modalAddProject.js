@@ -52,13 +52,14 @@ class modalAddProject extends Component {
             this.props.getAllProject();
         } 
 
-        if (this.state.type === "Task") {
+        if (this.state.type === "Personal") {
             this.props.addNewPersonalProject(this.state.name);
             this.props.getAllPersonalProject();
         } 
 
         this.setState({
             type: "Project",
+            name: ""
     });
     }
     render() {
@@ -74,7 +75,7 @@ class modalAddProject extends Component {
                                    {/* <input type="text"  onChange={this.handleChangeType}/> */}
                                    <select onChange={this.handleChangeType}>
                                        <option value = "Project">Project</option>
-                                       <option value="Task">Task</option>
+                                       <option value="Personal">Personal</option>
                                    </select>
                                    
                                 </Col>
@@ -91,7 +92,7 @@ class modalAddProject extends Component {
                                     />
                                 </Col>
                             </FormGroup>
-                        { this.state.type === "Task" &&
+                        {/* { this.state.type === "Personal" &&
                        <div>
                         <div style={{marginLeft: "4%"}}>
                             <b>Start Date</b><br/>
@@ -102,7 +103,7 @@ class modalAddProject extends Component {
                             <DateTimePicker onChange={this.handleChangeEndDate} value={this.state.endDate} />
                             </div>
                             </div> 
-                            }  
+                            }   */}
                          
                         </Form>
                     </ModalBody>

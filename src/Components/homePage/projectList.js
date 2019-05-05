@@ -51,16 +51,19 @@ class ProjectList extends Component {
     }
 
     render() {
-        
+
         return (
             <div className="row">
                 {this.props.project.projectList ?
                     this.props.project.projectList.map(
                         item =>
                             <div key={item.id} className="col-md-3 menu-inside">
-                                <div className="delete">
-                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.clickDeleteProject(item.id)}></i>
-                                </div>
+                                {(localStorage.getItem("userId") == item.pivot.user_id && item.pivot.user_role === "admin") ?
+                                    <div className="delete">
+                                        <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.clickDeleteProject(item.id)}></i>
+                                    </div> : null
+                                }
+
 
                                 <div>
                                     <CardGroup className="card" style={{ cursor: "pointer" }}>
@@ -95,4 +98,4 @@ class ProjectList extends Component {
 const mapStatetoProps = state => ({
     project: state.project
 })
-export default connect(mapStatetoProps, {getAllProject, deleteProject })(ProjectList)
+export default connect(mapStatetoProps, { getAllProject, deleteProject })(ProjectList)
