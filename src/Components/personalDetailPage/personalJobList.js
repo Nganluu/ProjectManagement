@@ -6,10 +6,15 @@ import {
 } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
+import dateFormat from 'dateformat'
 import '../../styles/menu.css';
 import '../../styles/Login.css';
 import '../../styles/homePage.css';
-import { getPersonalProjectWithId, updatePersonalProjectName, getAllPersonalProject } from '../../Actions/personalProjectAction';
+import DetailTask from '../detailPage/detailTask'
+import ModalAddJob from '../detailPage/modalAddJob'
+
+import { getPersonalProjectWithId, updatePersonalProjectName,
+     getAllPersonalProject, getAllPersonalTask } from '../../Actions/personalProjectAction';
 
 
 class PersonalJobList extends Component {
@@ -19,7 +24,9 @@ class PersonalJobList extends Component {
             isEditPersonalProjectName: false,
             isDeletePersonalJob: false,
             inputShown: false,
-            name: ""
+            name: "",
+            modalShowDetailTask: false,
+            idSelectedJob: ''
         }
     }
 
@@ -28,6 +35,7 @@ class PersonalJobList extends Component {
         const url = window.location.pathname.toString();
         const id = url.substr(17);
         this.props.getPersonalProjectWithId(id)
+        this.props.getAllPersonalTask(id)
     }
 
     componentWillReceiveProps( nextProps) {
@@ -57,7 +65,14 @@ class PersonalJobList extends Component {
             isDeletePersonalJob: !this.state.isDeletePersonalJob
         });
     }
-    
+
+    toggleShowDetaiTask = (id) => {
+        this.setState({
+            modalShowDetailTask: !this.state.modalShowDetailTask,
+            idSelectedJob: id
+        });
+    }
+
     update = () => {
         //lấy giá trị id của url hiện tại
         const url = window.location.pathname.toString();
@@ -122,75 +137,109 @@ class PersonalJobList extends Component {
                         </div>
 
                         <div className="row">
-                            <div className="col-md-3 menu-inside">
-                                <div className="delete">
-                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.deleteJobGroup}></i>
-                                </div>
-
-                                <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
-                                    <div >
-                                        <span>Write 3D table in Js</span>
-                                    </div>
-                                    <div style={{ width: "100%", marginRight: "5%" }}>
-                                        <Progress value="30" style={{ marginBottom: "10px" }} />
-                                        <center>30%</center>
-                                    </div>
-                                </CardGroup>
-
-                                <div className="mask">
-                                    <Link to={'/detailPage/'} style={{ textDecoration: "none" }}>
-                                        <Button type="submit" outline color="primary"><b>View Detail</b></Button>
-                                    </Link>
-                                </div>
-                            </div>
-
-                            <div>
-                                <Modal isOpen={this.state.isDeletePersonalJob} >
-                                    <ModalBody>
-                                        <p>Do you want to delete this job?</p>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button type="submit" outline color="primary" onClick={this.deletePersonalJob}><b>Cancel</b></Button>
-                                        <Button type="submit" outline color="primary"><b>Delete</b></Button>
-                                    </ModalFooter>
-                                </Modal>
-                            </div>
-
-                            <div className="col-md-3" style={{ color: "#4267b2" }}>
-                                <CardGroup className="card" style={{ height: "100%", width: "100%", cursor: "pointer" }}>
-                                    {
-                                        !this.state.inputShown ?
-
-                                            <div onClick={this.clickAdd}>
-                                                <span><i className="fas fa-plus-circle"></i> Add new</span>
+                {/* công việc đang lên kế hoạch */}
+                <div className="col-md-4">
+                    <div className="card" style={{ height: "100%"}}>
+                        <b> Plan </b>
+                        <div>
+                            {this.props.personalProject.pTaskList? this.props.personalProject.pTaskList.map(
+                                item => 
+                                    item.p_task_tick === 0 ?
+                                        <div key={item.id} className="menu-inside" style={{ width: "100%"}}>
+                                            <div className="delete">
+                                                <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
                                             </div>
-                                            :
-                                            <div>
-                                                <div className="delete-add">
-                                                    <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={this.clickAdd}></i>
-                                                </div>
-                                                <Form>
-                                                    <FormGroup>
-                                                        <Col sm="12" md={{ size: 12 }}>
-                                                            <i>New job group</i>
-                                                            <Input
-                                                                type="text"
-                                                                id="Content"
-                                                                name="Content"
-                                                            
-                                                                onChange={this.handleChangeName}
-                                                            />
-                                                        </Col>
-                                                    </FormGroup>
-                                                    <center>
-                                                        <Button type="submit" outline color="primary" onClick="">Add</Button>
-                                                    </center>
-                                                </Form>
-                                            </div>
-                                    }
-                                </CardGroup>
-                            </div>
+                                            <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
+                                                color="light" style={{ width: "98%", textAlign: "left" }}>
+                                                {item.p_task_name}
+                                                <i className="fas fa-pen" style={{ paddingLeft: "1rem" }}></i><br />
+                                           </Button>
+                                        </div>
+                                    : null
+                            ): null}
+
+                            <DetailTask
+                                toggle={this.cancelShowDetailTask}
+                                id={this.state.idSelectedJob}
+                                modal={this.state.modalShowDetailTask} />
+                            <Button onClick={this.toggleAddJob}
+                                color="light" style={{ color: "#989999", width: "98%", textAlign: "left" }}>
+                                + Add more
+                            </Button>
+
+                            <ModalAddJob modal={this.state.modalAddJob} cancel={this.toggleAddJob} />
                         </div>
+                    </div>
+                </div>
+
+                {/* công việc đang làm  */}
+                <div className="col-md-4">
+                    <div className="card" style={{ height: "100%"}}>    
+                        <b> Doing </b>
+                        <div>
+                        {this.props.personalProject.pTaskList? this.props.personalProject.pTaskList.map(
+                                item => 
+                                    item.personal_process > 0 && item.personal_process < 100 ?
+                                        <div className="menu-inside" style={{ width: "100%"}}>
+                                            <div className="delete">
+                                                <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
+                                            </div>
+                                            <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
+                                                color="light" style={{ width: "98%", textAlign: "left" }}>
+                                                {item.job_name}
+                                                <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
+                                                <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
+                                                    <i className="far fa-clock"></i>{dateFormat(item.end_date, "dd/mm/yyyy")}
+                                                </span>
+                                                <center style={{ marginBottom: "-20px" }}>{item.personal_process}%</center>
+                                                <Progress value={item.personal_process} style={{ width: "100%", marginBottom: "10px" }} />
+                                            </Button>
+                                        </div>
+                                    : null
+                            ): null}
+                        </div>
+                    </div>
+                </div>
+
+                {/* công việc đã làm xong */}
+                <div className="col-md-4">
+                    <div className="card" style={{ height: "100%"}}>
+                        <b> Done </b>
+                        <div>
+                            {this.props.personalProject.pTaskList? this.props.personalProject.pTaskList.map(
+                                item => 
+                                    item.personal_process === 100 ?
+                                    <div className="menu-inside" style={{ width: "100%"}}>
+                                        <div className="delete">
+                                            <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
+                                        </div>
+                                        <Button key={'job' + item.id} onClick={() => this.toggleShowDetaiTask(item.id)}
+                                            color="light" style={{ width: "98%", textAlign: "left" }}>
+                                            {item.job_name}
+                                            <i className="fas fa-pen" style={{ textAlign: "right" }}></i><br />
+                                            <span style={{ backgroundColor: "aqua", padding: "1px 5px", borderRadius: "5px" }}>
+                                                <i className="fas fa-check-circle"></i>{dateFormat(item.done_date, "dd/mm/yyyy")}
+                                            </span>
+                                        </Button>
+                                    </div>
+                                    : null
+                            ): null}
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <Modal isOpen={this.state.isDeleteJob} >
+                        <ModalBody>
+                            <p>Do you want to delete this job?</p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline color="primary" onClick={this.cancelDeleteJob}><b>Cancel</b></Button>
+                            <Button type="submit" outline color="primary" onClick={this.handleDeleteJob}><b>Delete</b></Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </div>
                     </div>
                     : null
                 }
@@ -201,7 +250,8 @@ class PersonalJobList extends Component {
 const mapActiontoProps = dispatch => ({
     getPersonalProjectWithId: (id) => dispatch(getPersonalProjectWithId(id)),
     updatePersonalProjectName: (name, id) => dispatch(updatePersonalProjectName(name, id)),
-    getAllPersonalProject: () => dispatch(getAllPersonalProject())
+    getAllPersonalProject: () => dispatch(getAllPersonalProject()),
+    getAllPersonalTask: (id)=>dispatch(getAllPersonalTask(id))
 });
 
 const mapStatetoProps = state => ({

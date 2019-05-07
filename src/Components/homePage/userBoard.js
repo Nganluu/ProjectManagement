@@ -57,15 +57,14 @@ class homePage extends Component {
                 </div>
                 <div style={{ color: "#4267b2" }}>
                     <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                    <b style={{ fontSize: "25px" }}>PERSONAL</b>
+                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "25px" }}>PERSONAL</b></a>
                     {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
                         (item) =>
-                            <Link key={item.id} to={`/personalProject/${item.id}`}>
-                                <Button  color="light" style={{ width: "100%", textAlign: "left" }}>
+                                <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
                                     <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                     <b>{item.personal_name}</b>
                                 </Button>
-                            </Link>
+                           
                     ) : null}
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                 </div>

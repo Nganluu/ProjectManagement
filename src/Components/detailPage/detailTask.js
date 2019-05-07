@@ -197,12 +197,12 @@ class detailTask extends Component {
         id: "",
         taskName: ""
       });
-      this.props.getAllTask(this.props
-        .id);
+      this.props.getAllTask(this.props.id);
     }
   }
 
   handleDeleteTask = (id) => {
+    
     this.props.deleteTask(id);
     this.props.getAllTask(this.props.id);
   }
