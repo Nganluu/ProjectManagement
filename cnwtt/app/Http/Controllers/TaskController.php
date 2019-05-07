@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\User;
 use App\Job;
+use App\JobGroup;
 use App\History;
 use Carbon\Carbon;
 
@@ -101,61 +102,72 @@ class TaskController extends Controller
             'task_name' => 'required',
             'job_id' => 'required'
         ]);
-        $task = Task::create($request->all());
-        if($task){
-            // Cập nhật phần trăm job
-            $job = $task->job;
-            $count =  $job->task()->count();
-            $tick = 0;
-            foreach($job->task as $task_tick){
-                if($task_tick->task_tick == 1){
-                    $tick++;
-                }
-            }
-            if($tick == $count){
-                $job->job_process = 100;
-                $job->save();
-            }
-            else{
-                $job->job_process = (int)($tick/$count*100);
-                $job->save();
-            }       
-            // Cập nhật phần trăm job_group
-            $job_group = $task->job->jobgroup;
-            $count = 0;
-            foreach($job_group->job as $job){
-                $count += $job->task()->count();
-            }
-            $tick = 0;
-            foreach($job_group->job as $job){
+        $inJob = auth()->user()->job()->find($request['job_id']) == true;
+        $project_id = Job::find($request['job_id'])->jobgroup->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
+        if($inJob || $admin)
+        {
+            $task = Task::create($request->all());
+            if($task){
+                // Cập nhật phần trăm job
+                $job = $task->job;
+                $count =  $job->task()->count();
+                $tick = 0;
                 foreach($job->task as $task_tick){
                     if($task_tick->task_tick == 1){
                         $tick++;
                     }
                 }
+                if($tick == $count){
+                    $job->job_process = 100;
+                    $job->save();
+                }
+                else{
+                    $job->job_process = (int)($tick/$count*100);
+                    $job->save();
+                }       
+                // Cập nhật phần trăm job_group
+                $job_group = $task->job->jobgroup;
+                $count = 0;
+                foreach($job_group->job as $job){
+                    $count += $job->task()->count();
+                }
+                $tick = 0;
+                foreach($job_group->job as $job){
+                    foreach($job->task as $task_tick){
+                        if($task_tick->task_tick == 1){
+                            $tick++;
+                        }
+                    }
+                }
+                if($tick == $count){
+                    $job_group->job_group_process = 100;
+                    $job_group->save();
+                }
+                else{
+                    $job_group->job_group_process = (int)($tick/$count*100);
+                    $job_group->save();
+                }   
+                // Chèn vào bảng lịch sử  
+                $history = new History();
+                $history->content = auth()->user()->name . " đã thêm Task: " . $task->task_name . ", Thời gian: " . Carbon::now();
+                $history->job_id = $request['job_id'];
+                $history->save();
+                return response()->json([
+                    'success' => true,
+                    'data' => $task
+                ], 201);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể tạo mới task'
+                ], 500);
             }
-            if($tick == $count){
-                $job_group->job_group_process = 100;
-                $job_group->save();
-            }
-            else{
-                $job_group->job_group_process = (int)($tick/$count*100);
-                $job_group->save();
-            }   
-            // Chèn vào bảng lịch sử  
-            $history = new History();
-            $history->content = auth()->user()->name . " đã thêm Task: " . $task->task_name . ", Thời gian: " . Carbon::now();
-            $history->job_id = $request['job_id'];
-            $history->save();
-            return response()->json([
-                'success' => true,
-                'data' => $task
-            ], 201);
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Không thể tạo mới task'
-            ], 500);
+                'message' => 'Người dùng Không có quyền thêm task'
+            ], 400);
         }
 
     }
@@ -203,82 +215,96 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $job_id = Task::find($id)->job->id;
+        $inJob = auth()->user()->job()->find($job_id) == true;
+        $project_id = Task::find($id)->job->jobgroup->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
+
+
         //
-        $task = Task::find($id);
-        $task_name_old = $task->task_name;
-        $updated = $task->update($request->all());
-        if($updated){
-            $job = $task->job;
-            $count =  $job->task()->count();
-            $tick = 0;
-            foreach($job->task as $task_tick){
-                if($task_tick->task_tick == 1){
-                    $tick++;
-                }
-            }
-            if($tick == $count){
-                $job->job_process = 100;
-                $job->save();
-            }
-            else{
-                $job->job_process = (int)($tick/$count*100);
-                $job->save();
-            }       
-            // Cập nhật phần trăm job_group
-            $job_group = $task->job->jobgroup;
-            $count = 0;
-            foreach($job_group->job as $job){
-                $count += $job->task()->count();
-            }
-            $tick = 0;
-            foreach($job_group->job as $job){
+        if($inJob || $admin){
+            $task = Task::find($id);
+            $task_name_old = $task->task_name;
+            $updated = $task->update($request->all());
+            if($updated){
+                $job = $task->job;
+                $count =  $job->task()->count();
+                $tick = 0;
                 foreach($job->task as $task_tick){
                     if($task_tick->task_tick == 1){
                         $tick++;
                     }
                 }
-            }
-            if($tick == $count){
-                $job_group->job_group_process = 100;
-                $job_group->save();
-            }
-            else{
-                $job_group->job_group_process = (int)($tick/$count*100);
-                $job_group->save();
-            }   
+                if($tick == $count){
+                    $job->job_process = 100;
+                    $job->save();
+                }
+                else{
+                    $job->job_process = (int)($tick/$count*100);
+                    $job->save();
+                }       
+                // Cập nhật phần trăm job_group
+                $job_group = $task->job->jobgroup;
+                $count = 0;
+                foreach($job_group->job as $job){
+                    $count += $job->task()->count();
+                }
+                $tick = 0;
+                foreach($job_group->job as $job){
+                    foreach($job->task as $task_tick){
+                        if($task_tick->task_tick == 1){
+                            $tick++;
+                        }
+                    }
+                }
+                if($tick == $count){
+                    $job_group->job_group_process = 100;
+                    $job_group->save();
+                }
+                else{
+                    $job_group->job_group_process = (int)($tick/$count*100);
+                    $job_group->save();
+                }   
 
-            if($request['task_name']){
-                 // Chèn vào bảng lịch sử  
-                $history = new History();
-                $history->content = auth()->user()->name . " đã sửa Task: " . $task_name_old . " thành Task: " . $task->task_name . " Thời gian: " . Carbon::now();
-                $history->job_id = $job->id;
-                $history->save();
+                if($request['task_name']){
+                    // Chèn vào bảng lịch sử  
+                    $history = new History();
+                    $history->content = auth()->user()->name . " đã sửa Task: " . $task_name_old . " thành Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                    $history->job_id = $job->id;
+                    $history->save();
+                }
+                if($request['task_tick'] == 1){
+                    // Chèn vào bảng lịch sử  
+                    $history = new History();
+                    $history->content = auth()->user()->name . " đã tick vào Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                    $history->job_id = $job->id;
+                    $history->save();
             }
-            if($request['task_tick'] == 1){
-                // Chèn vào bảng lịch sử  
-                $history = new History();
-                $history->content = auth()->user()->name . " đã tick vào Task: " . $task->task_name . " Thời gian: " . Carbon::now();
-                $history->job_id = $job->id;
-                $history->save();
-           }
-           if($request['task_tick'] == 0){
-                // Chèn vào bảng lịch sử  
-                $history = new History();
-                $history->content = auth()->user()->name . " đã bỏ tick ở Task: " . $task->task_name . " Thời gian: " . Carbon::now();
-                $history->job_id = $job->id;
-                $history->save();
-            }
+            if($request['task_tick'] == 0){
+                    // Chèn vào bảng lịch sử  
+                    $history = new History();
+                    $history->content = auth()->user()->name . " đã bỏ tick ở Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                    $history->job_id = $job->id;
+                    $history->save();
+                }
 
+                return response()->json([
+                    'success' => true,
+                    'data' => $task
+                ], 200);
+
+            }
             return response()->json([
-                'success' => true,
-                'data' => $task
-            ], 200);
-
+                'success' => false,
+                'message' => 'task không được cập nhật'
+            ], 500);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Người dùng không được phép cập nhật Task'
+            ], 400);
         }
-        return response()->json([
-            'success' => false,
-            'message' => 'task không được cập nhật'
-        ], 500);
     }
 
     /**
@@ -289,71 +315,83 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $task = Task::find($id);
-        if(!$task){
-            return response()->json([
-                'success' => false,
-                'message' => 'Không tìm thấy task'
-            ], 400);
-        }
-        if($task->delete()){
-            $job = $task->job;
-            $count =  $job->task()->count();
-            $tick = 0;
-            foreach($job->task as $task_tick){
-                if($task_tick->task_tick == 1){
-                    $tick++;
-                }
+        $job_id = Task::find($id)->job->id;
+        $inJob = auth()->user()->job()->find($job_id) == true;
+        $project_id = Task::find($id)->job->jobgroup->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
+
+        if($inJob || $admin){
+            //
+            $task = Task::find($id);
+            if(!$task){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy task'
+                ], 400);
             }
-            if($tick == $count){
-                $job->job_process = 100;
-                $job->save();
-            }
-            else{
-                $job->job_process = (int)($tick/$count*100);
-                $job->save();
-            }       
-            // Cập nhật phần trăm job_group
-            $job_group = $task->job->jobgroup;
-            $count = 0;
-            foreach($job_group->job as $job){
-                $count += $job->task()->count();
-            }
-            $tick = 0;
-            foreach($job_group->job as $job){
+            if($task->delete()){
+                $job = $task->job;
+                $count =  $job->task()->count();
+                $tick = 0;
                 foreach($job->task as $task_tick){
                     if($task_tick->task_tick == 1){
                         $tick++;
                     }
                 }
+                if($tick == $count){
+                    $job->job_process = 100;
+                    $job->save();
+                }
+                else{
+                    $job->job_process = (int)($tick/$count*100);
+                    $job->save();
+                }       
+                // Cập nhật phần trăm job_group
+                $job_group = $task->job->jobgroup;
+                $count = 0;
+                foreach($job_group->job as $job){
+                    $count += $job->task()->count();
+                }
+                $tick = 0;
+                foreach($job_group->job as $job){
+                    foreach($job->task as $task_tick){
+                        if($task_tick->task_tick == 1){
+                            $tick++;
+                        }
+                    }
+                }
+                if($tick == $count){
+                    $job_group->job_group_process = 100;
+                    $job_group->save();
+                }
+                else{
+                    $job_group->job_group_process = (int)($tick/$count*100);
+                    $job_group->save();
+                }   
+
+                // Chèn vào bảng lịch sử  
+                $history = new History();
+                $history->content = auth()->user()->name . " đã xóa Task: " . $task->task_name . " Thời gian: " . Carbon::now();
+                $history->job_id = $job->id;
+                $history->save();
+
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã xóa task thành công'
+                ], 200);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Xóa task thất bại'
+                ], 500);
+                
             }
-            if($tick == $count){
-                $job_group->job_group_process = 100;
-                $job_group->save();
-            }
-            else{
-                $job_group->job_group_process = (int)($tick/$count*100);
-                $job_group->save();
-            }   
-
-            // Chèn vào bảng lịch sử  
-            $history = new History();
-            $history->content = auth()->user()->name . " đã xóa Task: " . $task->task_name . " Thời gian: " . Carbon::now();
-            $history->job_id = $job->id;
-            $history->save();
-
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã xóa task thành công'
-            ], 200);
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Xóa task thất bại'
-            ], 500);
-            
+                'message' => 'Người dùng không được phép xóa Task'
+            ]);
         }
         
     }
