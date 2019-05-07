@@ -19,9 +19,9 @@ class TaskController extends Controller
     public function index($job_id)
     {
         //
-        $project_id = Job::find($job_id)->jobgroup->project->id;
-        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin';
-        $job = auth()->user()->job()->find($job_id);      
+        // $project_id = Job::find($job_id)->jobgroup->project->id;
+        // $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin';
+        // $job = auth()->user()->job()->find($job_id);      
         // if(!$job || !$admin){
         //     return response()->json([
         //         'success' => false,
@@ -41,26 +41,40 @@ class TaskController extends Controller
         //         'message' => 'Công việc không có task nào'
         //     ], 500);
         // }
-        if($job || $admin){
-            $task = Job::find($job_id)->task;
-            if($task->count() != null){
-                return response()->json([
-                    'success' => true,
-                    'data' => $task
-                ], 200);
+        // if($job || $admin){
+        //     $task = Job::find($job_id)->task;
+        //     if($task->count() != null){
+        //         return response()->json([
+        //             'success' => true,
+        //             'data' => $task
+        //         ], 200);
             
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Công việc không có task nào'
-                ], 500);     
-            }
+        //     }else{
+        //         return response()->json([
+        //             'success' => false,
+        //             'message' => 'Công việc không có task nào'
+        //         ], 500);     
+        //     }
+        // }
+        // elseif(!$job){
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Người dùng không nằm trong công việc này'
+        //     ], 400);
+        // }
+
+        $task = Job::find($job_id)->task;
+        if($task->count() != null){
+            return response()->json([
+                'success' => true,
+                'data' => $task
+            ], 200);
         }
-        elseif(!$job){
+        else{
             return response()->json([
                 'success' => false,
-                'message' => 'Người dùng không nằm trong công việc này'
-            ], 400);
+                'message' => 'Công việc không có task nào'
+            ], 500);     
         }
     }
 

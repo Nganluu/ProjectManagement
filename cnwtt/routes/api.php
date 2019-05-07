@@ -230,30 +230,26 @@ route::middleware('auth:api')->group(function () {
 
 
 // Job
+route::middleware('auth:api')->group(function(){
+    // Thêm vào một job truyền vào: job_name, start_date, end_date, job_group_id
+    route::post('job', 'JobController@store');
+    // Chỉnh sủa một job truyền vào: job_name, start_date, end_date, job_description
+    route::put('job/{id}', 'JobController@update');
+    // Xóa một job truyền vào một id
+    route::delete('job/{id}', 'JobController@destroy');
+});
+    // Hiển thị tất cả lịch sử trong job hiện tại truyền vào id của job
+route::get('showhistory/{id}', 'JobController@showHistory');
     // Hiển thị tất cả các job trong một job_group truyền vào: job_group_id
 route::get('alljob/{job_group_id}', 'JobController@index');
     // Hiển thị một job truyền vào id
 route::get('job/{id}', 'JobController@show');
-    // Thêm vào một job truyền vào: job_name, start_date, end_date, job_group_id
-route::post('job', 'JobController@store');
-    // Chỉnh sủa một job truyền vào: job_name, start_date, end_date,
-route::put('job/{id}', 'JobController@update');
-    // Xóa một job truyền vào một id
-route::delete('job/{id}', 'JobController@destroy');
-    // Hiển thị tất cả lịch sử trong job hiện tại truyền vào id của job
-route::get('showhistory/{id}', 'JobController@showHistory');
 
 
 
 // Task
     
 route::middleware('auth:api')->group(function(){
-    // Hiển thị tất cả các task trong 1 job.... Vì thế người nào có trong job
-    // hoặc là admin mới có quyền xem
-    // truyền vào: Authorization = Bearer + ' ' + 'Mã Token'
-    // truyền vào: job_id
-    route::get('alltask/{job_id}', 'TaskController@index');   
-
     // Thêm sửa xóa một task cần lưu lại lịch sử nên cần truyền vào 
     // Authorization = Bearer + ' ' + 'Mã Token'
         // Thêm một task truyền vào: task_name, job_id, Authorization = Bearer + ' ' + 'Mã Token'
@@ -266,20 +262,21 @@ route::middleware('auth:api')->group(function(){
 
 });
     // Hiển thị một task truyền vào: id
+    route::get('alltask/{job_id}', 'TaskController@index');   
     route::get('task/{id}', 'TaskController@show');
 
 
 // CRUD người tương ứng với công việc
 
-    // Vì cài đặt job không hiển thị cho user bình thường mà chỉ hiện thị cho admin cho nên
-    // không cần xác thực người dùng
-    // Hiển thị tất cả các người trong một job truyền vào job_id
-    route::get('userjob/{job_id}', 'UserJobController@index');
-
+route::middleware('auth:api')->group(function(){
     // Thêm người vào job truyền vào: user_id, job_id
     route::post('userjob', 'UserJobController@store');
     // Xóa người ra khỏi job truyền vào: 'user_id (người), 'job_id' (công việc)
     route::delete('userjob', 'UserJobController@destroy');
+});
+     // Hiển thị tất cả các người trong một job truyền vào job_id
+     route::get('userjob/{job_id}', 'UserJobController@index');
+    
 
 // JobGroup__Xác thực
 

@@ -63,18 +63,30 @@ class JobController extends Controller
             'end_date' => 'required',
             'job_group_id' => 'required'
         ]);
-        $job = Job::create($request->all());
-        if($job){
-            return response()->json([
-                'success' => true,
-                'data' => $job
-            ], 201);
+        $project_id = JobGroup::find($request['job_group_id'])->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin';  
+        
+        if($admin){
+            $job = Job::create($request->all());
+            if($job){
+                return response()->json([
+                    'success' => true,
+                    'data' => $job
+                ], 201);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Công việc không được thêm'
+                ], 500);
+            }
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Công việc không được thêm'
-            ], 500);
+                'message' => 'Không có quyền thêm công việc'
+            ]);
         }
+
+       
 
     }
 
@@ -122,25 +134,37 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $job = Job::find($id);
-        if(!$job){
-            return response()->json([
-                'success' => false,
-                'message' => 'Không tìm thấy công việc'
-            ], 400);
-        }
-        $updated = $job->update($request->all());
-        if($updated){
-            return response()->json([
-                'success' => true,
-                'data'=> $job
-            ], 200);
+        $project_id = Job::find($id)->job_group->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
+
+        if($admin){
+            $job = Job::find($id);
+            if(!$job){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy công việc'
+                ], 400);
+            }
+            $updated = $job->update($request->all());
+            if($updated){
+                return response()->json([
+                    'success' => true,
+                    'data'=> $job
+                ], 200);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Công việc không được cập nhật'
+                ], 500);
+            }
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Công việc không được cập nhật'
-            ], 500);
+                'message' => 'Không có quyền sửa'
+            ]);
         }
+
+      
     }
 
     /**
@@ -152,26 +176,36 @@ class JobController extends Controller
     public function destroy($id)
     {
         //
-        $job = Job::find($id);
-        if(!$job){
-            return response()->json([
-                'success' => false,
-                'message' => 'Không tìm thấy công việc'
-            ], 400);
-        }else{
-            $job->task()->delete();
-            if($job->delete()){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Đã xóa công việc'
-                ], 200);
-            }else{
+        $project_id = Job::find($id)->job_group->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
+        if($admin){
+            $job = Job::find($id);
+            if(!$job){
                 return response()->json([
                     'success' => false,
-                    'message' => 'Không xóa được công việc'
-                ], 500);
+                    'message' => 'Không tìm thấy công việc'
+                ], 400);
+            }else{
+                $job->task()->delete();
+                if($job->delete()){
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Đã xóa công việc'
+                    ], 200);
+                }else{
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Không xóa được công việc'
+                    ], 500);
+                }
             }
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có quyền xóa công việc' 
+            ]);
         }
+       
     }
     public function showHistory($id){
         $job = Job::find($id);

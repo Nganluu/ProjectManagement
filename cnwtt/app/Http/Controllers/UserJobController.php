@@ -60,18 +60,27 @@ class UserJobController extends Controller
             'user_id' => 'required',
             'job_id' => 'required'
         ]);
-        $user = User::find($request['user_id']);
-        if($user->job()->find($request['job_id'])){
+        $project_id = Job::find($request['job_id'])->jobgroup->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin';           
+        if($admin){
+            $user = User::find($request['user_id']);
+            if($user->job()->find($request['job_id'])){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Người này đã có trong công việc'
+                ], 400);
+            }else{
+                $user->job()->attach($request['job_id']);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Thêm người thành công'
+                ], 200);
+            }
+        }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Người này đã có trong công việc'
-            ], 400);
-        }else{
-            $user->job()->attach($request['job_id']);
-            return response()->json([
-                'success' => true,
-                'message' => 'Thêm người thành công'
-            ], 200);
+                'message' => 'Không có quyền thêm người'
+            ]);
         }
           
     }
@@ -123,17 +132,26 @@ class UserJobController extends Controller
             'user_id' => 'required',
             'job_id' => 'required'
         ]);
-        $user = User::find($request['user_id']);
-        if($user->job()->detach($request['job_id'])){
+        $project_id = Job::find($request['job_id'])->jobgroup->project->id;
+        $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin';      
+
+        if($admin){
+            $user = User::find($request['user_id']);
+            if($user->job()->detach($request['job_id'])){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Xóa người khỏi công việc thành công'
+                ]);
+            }
             return response()->json([
-                'success' => true,
-                'message' => 'Xóa người khỏi công việc thành công'
+                'success' => false,
+                'message' => 'Xóa người ra khỏi công việc thất bại'
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Không có quyền xóa người'
             ]);
         }
-        return response()->json([
-            'success' => false,
-            'message' => 'Xóa người ra khỏi công việc thất bại'
-        ]);
-
     }
 }
