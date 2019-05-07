@@ -27,6 +27,7 @@
     left: 27%;
 }
 
+
 .delete-add {
     color: rgb(9, 113, 231);
     position:absolute;
@@ -54,3 +55,22 @@
 /* .jobGroup {
     height: 100px;
 } */
+
+.task {
+    position: relative;
+    display: block;
+    /* float: left; */
+}
+
+.task .delete-task {
+    position: absolute;
+    display: none;
+}
+
+.task:hover .delete-task {
+    display: inline;
+}
+
+.chage-task:hover .delete-task {
+    display: none;
+}

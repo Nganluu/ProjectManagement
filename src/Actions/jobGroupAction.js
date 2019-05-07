@@ -1,5 +1,5 @@
 import { GET_ALL_JOB_GROUP, GET_JOB_GROUP_WITH_ID, ADD_NEW_JOB_GROUP, 
-        UPDATE_JOB_GROUP_NAME, DELETE_JOB_GROUP, API_CALLING
+        UPDATE_JOB_GROUP_NAME, DELETE_JOB_GROUP, API_CALLING, HANDLE_GET_ALL_ERROR
     } from "./types";
 import axios from "axios";
 
@@ -15,7 +15,13 @@ export const getAllJobGroup = (id) => dispatch => {
         .then(response => dispatch({
             type: GET_ALL_JOB_GROUP,
             payload: response.data
-        }))
+        })).catch(function (error) {
+            dispatch({
+                type: HANDLE_GET_ALL_ERROR,
+                error: error.response.status,
+                jobGroupList: []
+            })
+        })
 }
 
 export const getJobGroupWithId = (id) => dispatch => {

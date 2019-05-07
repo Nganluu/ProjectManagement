@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import dateFormat from 'dateformat';
 import DateTimePicker from 'react-datetime-picker';
+import '../../styles/menu.css';
+import UserAvatar from 'react-users-avatar'
 import { Dropdown, DropdownToggle, DropdownItem, DropdownMenu, Modal, Progress, ModalBody, ModalFooter, Button } from 'reactstrap'
 import { getJobWithId, updateJobName, updateJobDescription, updateJobStartDate, updateJobEndDate } from '../../Actions/jobAction';
 import { getAllTask, getTaskWithId, addNewTask, updateTaskName, updateTaskTick, deleteTask } from '../../Actions/taskAction'
@@ -11,19 +13,25 @@ class detailTask extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdown: false,
+      //job name
+      jobTitle: "",
+      jobTitleEditing: false ,
+      //description
       description: false,
       value: "",
+      //startDate
       isStartDateChange: false,
       isStartDateInvalid: false,
       startDate: "",
+      //endDate
       isEndDateChange: false,
       isEndDateInvalid: false,
       endDate: "",
+      //task
+      dropdown: false,
       taskName: "",
       test: "",
-      jobTitle: "",
-      jobTitleEditing: false 
+      id: ""
     }
   }
 
@@ -162,6 +170,42 @@ class detailTask extends Component {
     }
   }
 
+  //Change Task Name
+  onChangeTaskName = (event) => {
+    this.setState({
+      taskName: event.target.value
+    });
+  }
+
+  cancelChangeTaskName = () => {
+    this.setState({
+      taskName: "",
+      id: ""
+    });
+  }
+
+  clickTaskName = (id) => {
+    this.setState({
+      id: id
+    });
+  }
+
+  handleChangeTaskName = (id) => {
+    if(this.state.taskName) {
+      this.props.updateTaskName(id, this.state.taskName);
+      this.setState({
+        id: "",
+        taskName: ""
+      });
+      this.props.getAllTask(this.props
+        .id);
+    }
+  }
+
+  handleDeleteTask = (id) => {
+    this.props.deleteTask(id);
+    this.props.getAllTask(this.props.id);
+  }
  
 
   render() {
@@ -170,9 +214,9 @@ class detailTask extends Component {
         <Modal isOpen={this.props.modal} >
           <ModalBody>
             <div >
-              <div style={{ padding: "10px" }}>
+              <div style={{ padding: "10px"}}>
                 {!this.state.jobTitleEditing ?
-                  <div>
+                  <div style={{ cursor: "pointer" }}>
                     <i className="fas fa-list-ul"></i>
                     <b onClick={this.jobTitleEditing} style={{ paddingLeft: "5px", fontSize: "20px" }}>{this.props.job.jobDetail.job_name} </b>
                   </div>
@@ -193,8 +237,9 @@ class detailTask extends Component {
                 }
               </div>
               <div style={{ padding: "10px", paddingLeft: "30px" }}>
+              {/* Start Date */}
               {!this.state.isStartDateChange ?
-                <div onClick={this.startDateEditing}>
+                <div onClick={this.startDateEditing} style={{ cursor: "pointer" }}>
                   <i className="fas fa-hourglass-start"></i> From: {dateFormat(this.props.job.jobDetail.start_date, "dd/mm/yyyy")}
                 </div>
                 : 
@@ -212,9 +257,10 @@ class detailTask extends Component {
                   {this.state.isStartDateInvalid ? <p style={{color: "red"}}>Date is invalid</p>:null}
                 </div>
               }
+              {/* End Date */}
                 <div>
                   {!this.state.isEndDateChange?
-                  <div onClick={this.endDateEditing}>
+                  <div onClick={this.endDateEditing} style={{ cursor: "pointer" }}>
                     <i className="fas fa-hourglass-end"></i> Til: {dateFormat(this.props.job.jobDetail.end_date, "dd/mm/yyyy")}
                   </div>
                   :
@@ -234,6 +280,22 @@ class detailTask extends Component {
                   }
                   </div>
               </div>
+
+              {/* Member */}
+              <div>
+                <i class="fas fa-users"></i> <b>Members of Job</b>
+                <UserAvatar
+                  avatharBgColor="#858aa0"
+                  avatharTextColor="#fff"
+                  name="Mung Nguyen"
+                  border="1px solid #474d56"
+                  ifBorder={true}
+                  imgHeight="15px"
+                  imgWidth="10px"
+                  />
+              </div>
+
+              {/* Description */}
               <div style={{ padding: "10px" }}>
                 <i className="fas fa-grip-lines"></i>
                 <b style={{ paddingLeft: "5px", fontSize: "20px" }}>Description</b>
@@ -284,9 +346,33 @@ class detailTask extends Component {
                 {/* Task List */}
                 {this.props.task.taskList ? this.props.task.taskList.map(
                   item =>
-                  <p>
-                    <input type="checkbox" style={{fontSize: "20px"}}/> {item.task_name}
-                  </p>
+                  <div>
+                  {this.state.id != item.id ? 
+                    <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                      <input type="checkbox" style={{fontSize: "20px"}}/> 
+                      <span onClick={() => this.clickTaskName(item.id) } style={{marginLeft: "5px", marginRight: "15px" }}>{item.task_name}</span>
+                      <span className="delete-task" onClick={() => this.handleDeleteTask(item.id)}>
+                        <i class="fas fa-trash-alt"></i>
+                      </span>
+                    </p>
+                    :
+                    <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                      <input type="checkbox" style={{fontSize: "20px"}}/> 
+                      <span className="change-task">
+                        <input onChange={this.onChangeTaskName} placeholder="New name..." />
+                      <Button color="link" onClick={() => this.handleChangeTaskName(item.id)}>
+                        <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }} 
+                        className="fas fa-pen"></i>
+                      </Button>
+                      <span style={{color: "blue"}}>|</span>
+                      <Button color="link">
+                          <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }} 
+                          onClick={this.cancelChangeTaskName} className="fas fa-times"></i>
+                      </Button>
+                      </span>
+                    </p>
+                    }
+                    </div>
                 ): null}
               </div>
 
