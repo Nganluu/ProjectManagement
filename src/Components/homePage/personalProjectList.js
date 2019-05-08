@@ -119,6 +119,7 @@ class PersonalProjectList extends Component {
     tickTask = (id, personal_id, tick) => {
         this.props.tickPersonalTask(id, !tick);
         this.props.getAllPersonalTask(personal_id)
+        this.props.getAllPersonalProject()
     }
     render() {
         return (
