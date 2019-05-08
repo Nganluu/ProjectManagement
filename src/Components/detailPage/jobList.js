@@ -39,7 +39,6 @@ class JobList extends Component {
             modalShowDetailTask: !this.state.modalShowDetailTask,
             idSelectedJob: id
         });
-        console.log(id);
     }
 
     cancelShowDetailTask = () => {
@@ -78,7 +77,6 @@ class JobList extends Component {
     }
 
     render() {
-        console.log(this.props.job.jobList);
         return(
             <div className="row">
                 {/* công việc đang lên kế hoạch */}
@@ -89,7 +87,7 @@ class JobList extends Component {
                             {this.props.job.jobList ? this.props.job.jobList.map(
                                 item => 
                                     item.job_process === 0 ?
-                                        <div className="menu-inside" style={{ width: "100%"}}>
+                                        <div key={item.id} className="menu-inside" style={{ width: "100%"}}>
                                             <div className="delete">
                                                 <i className="fas fa-times-circle" style={{ fontSize: "28px" }} onClick={() => this.deleteJob(item.id)}></i>
                                             </div>

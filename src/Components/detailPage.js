@@ -6,8 +6,7 @@ import { getJobGroupWithId } from '../Actions/jobGroupAction';
 
 class detailPage extends Component {
   render() {
-    console.log(this.props.jobGroup.jobGroupDetail);
-    return (
+      return (
       <div>
       <Header/>
       <BoardList />

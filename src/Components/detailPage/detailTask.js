@@ -214,6 +214,7 @@ class detailTask extends Component {
   }
 
   handleDeleteTask = (id) => {
+    
     this.props.deleteTask(id);
     this.props.getAllTask(this.props.id);
     this.props.getJobWithId(this.props.id);
