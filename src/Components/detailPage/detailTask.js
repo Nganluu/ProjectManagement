@@ -436,12 +436,12 @@ class detailTask extends Component {
                         user => user.id
                       ).includes(id))).map(
                       item =>
-                      <DropdownItem>
-                        <span onClick={() => this.chooseMember(item.id)}>
+                      <DropdownItem  onClick={() => this.chooseMember(item.id)}>
+                        <span>
                           {item.name}  
                           <span>
                           { this.state.idAddMemberList.includes(item.id) ?
-                          <i className="fas fa-check"></i>
+                          <i className="fas fa-check" style={{color: "gray", fontSize: "10px", marginLeft: "1em"}}></i>
                           :null}
                           </span>
                         </span>
