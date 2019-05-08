@@ -134,7 +134,7 @@ class JobController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $project_id = Job::find($id)->job_group->project->id;
+        $project_id = Job::find($id)->jobgroup->project->id;
         $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
 
         if($admin){
@@ -176,7 +176,7 @@ class JobController extends Controller
     public function destroy($id)
     {
         //
-        $project_id = Job::find($id)->job_group->project->id;
+        $project_id = Job::find($id)->jobgroup->project->id;
         $admin = auth()->user()->project()->find($project_id)->pivot->user_role == 'admin'; 
         if($admin){
             $job = Job::find($id);
