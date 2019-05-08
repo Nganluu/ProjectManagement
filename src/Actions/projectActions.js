@@ -75,7 +75,7 @@ export const deleteProject = (id) => dispatch => {
 
 }
 
-export const getProjectUser = (id)=>dispatch=>{
+export const getProjectUser = (id) => dispatch=>{
     dispatch({
         type: API_CALLING
     }, console.log("GETTING_PROJECT_USER"))

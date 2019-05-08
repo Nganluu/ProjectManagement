@@ -3,7 +3,12 @@ export const API_CALLING = "API_CALLING"
 
 //handle error
 export const HANDLE_ERROR = "HANDLE_ERROR"
-export const HANDLE_GET_ALL_ERROR = "HANDLE_GET_ALL_ERROR"
+export const HANDLE_GET_ALL_JOB_GROUP_ERROR = "HANDLE_GET_JOB_GROUP_ALL_ERROR"
+export const HANDLE_GET_ALL_JOB_ERROR = "HANDLE_GET_ALL_JOB_ERROR"
+export const HANDLE_GET_ALL_TASK_ERROR = "HANDLE_GET_TASK_ALL_ERROR"
+export const HANDLE_GET_ALL_MEMBER_JOB_ERROR = "HANDLE_GET_ALL_MEMBER_JOB_ERROR"
+export const HANDLE_GET_ALL_COMMENT_ERROR = "HANDLE_GET_ALL_COMMENT_ERROR"
+export const HANDLE_GET_ALL_HISTORY_ERROR = "HANDLE_GET_ALL_HISTORY_ERROR"
 
 //types about user
 export const USER_SIGNUP = 'USER_SIGNUP'
@@ -42,6 +47,7 @@ export const GET_JOB_WITH_ID = "GET_JOB_WITH_ID"
 export const ADD_NEW_JOB = 'ADD_NEW_JOB'
 export const UPDATE_JOB = "UPDATE_JOB"
 export const DELETE_JOB = "DELETE_JOB"
+export const SHOW_HISTORY = "SHOW_HISTORY"
 
 //types about task
 export const GET_ALL_TASK = "GET_ALL_TASK"
@@ -50,7 +56,17 @@ export const ADD_NEW_TASK = 'ADD_NEW_TASK'
 export const UPDATE_TASK = "UPDATE_TASK"
 export const DELETE_TASK = "DELETE_TASK"
 
+//types about members of job
+export const GET_ALL_MEMBER_JOB = "GET_ALL_MEMBER_JOB"
+export const ADD_NEW_MEMBER_JOB = "ADD_NEW_MEMBER_JOB"
+export const DELETE_MEMBER_JOB = "DELETE_MEMBER_JOB"
+
 //types about comment
+export const GET_ALL_COMMENT = "GET_ALL_COMMENT"
+export const GET_COMMENT_WITH_ID = "GET_COMMENT_WITH_ID"
+export const ADD_NEW_COMMENT = 'ADD_NEW_COMMENT'
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
+export const DELETE_COMMENT = "DELETE_COMMENT"
 
 //types about personal project
 export const GET_ALL_PERSONAL_PROJECT = "GET_ALL_PERSONAL_PROJEC" 

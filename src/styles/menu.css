@@ -69,8 +69,53 @@
 
 .task:hover .delete-task {
     display: inline;
+    color: grey;
 }
 
 .chage-task:hover .delete-task {
     display: none;
 }
+
+.member-job {
+    position: relative;
+    display: inline;
+}
+
+.member-job .delete-member-job {
+    position: absolute;
+    display: none;
+    right: -5px;
+    top: -10px;
+}
+
+.member-job:hover .delete-member-job {
+    display: inline;
+    cursor: pointer;
+}
+
+.member-job .member-name {
+    position: absolute;
+    display: none;
+}
+
+.member-job:hover .member-name {
+    display: inline;
+    z-index: 1000;
+    opacity: 30%;
+    background-color: rgb(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 10%;
+    font-size: 10px;
+    top: 5px;
+    right: 1px; 
+}
+
+.comment {
+    font-size: 14px;
+    margin-left: 40px;
+    margin-top: 0px;
+    padding: 0;
+    color: blue;
+    cursor: pointer;
+}
+

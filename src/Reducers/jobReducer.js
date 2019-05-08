@@ -1,9 +1,10 @@
-import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_ERROR } from '../Actions/types';
+import { GET_ALL_JOB, GET_JOB_WITH_ID, SHOW_HISTORY, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_JOB_ERROR, HANDLE_GET_ALL_HISTORY_ERROR } from '../Actions/types';
 
 const iniState = {
 callapidone: "",
 jobList: [],
-jobDetail: []
+jobDetail: {},
+historyList: []
 }
 
 export default function jobReducer(state=iniState, action){
@@ -29,7 +30,7 @@ switch(action.type){
             }
         }
 
-        case HANDLE_GET_ALL_ERROR: {
+        case HANDLE_GET_ALL_JOB_ERROR: {
             console.log(action.error);
             return {
                 ...state,
@@ -50,6 +51,29 @@ switch(action.type){
             return {
                 ...state,
                 callapidone: true
+            }
+        }
+
+        case SHOW_HISTORY: 
+        if(action.payload.success)  {
+            console.log("GET_ALL_JOB_DONE");
+            return {...state,
+                historyList: action.payload.data,
+                callapidone: true 
+            }
+        } else {
+            console.log(action.payload.message);
+            return {
+                ...state,
+                callapidone: true
+            }
+        }
+
+        case HANDLE_GET_ALL_JOB_ERROR: {
+            console.log(action.error);
+            return {
+                ...state,
+                historyList: action.historyList
             }
         }
 

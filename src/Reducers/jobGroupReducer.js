@@ -1,5 +1,5 @@
 import { GET_ALL_JOB_GROUP, GET_JOB_GROUP_WITH_ID, ADD_NEW_JOB_GROUP,
-        UPDATE_JOB_GROUP_NAME, DELETE_JOB_GROUP, API_CALLING, HANDLE_GET_ALL_ERROR
+        UPDATE_JOB_GROUP_NAME, DELETE_JOB_GROUP, API_CALLING, HANDLE_GET_ALL_JOB_GROUP_ERROR
     } from '../Actions/types';
 
 const iniState = {
@@ -31,7 +31,7 @@ export default function jobGroupReducer(state=iniState, action){
                 }
             }
 
-        case HANDLE_GET_ALL_ERROR: {
+        case HANDLE_GET_ALL_JOB_GROUP_ERROR: {
             console.log(action.error);
             return {
                 ...state,

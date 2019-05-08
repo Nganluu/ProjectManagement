@@ -5,6 +5,8 @@ import personalProjectReducer from './personalProjectReducer';
 import jobGroupReducer from './jobGroupReducer';
 import jobReducer from './jobReducer';
 import taskReducer from './taskReducer';
+import memberJobReducer from './memberJobReducer';
+import commentReducer from './commentReducer';
 
 const reducer = combineReducers({
     account: accountReducer,
@@ -12,7 +14,9 @@ const reducer = combineReducers({
     personalProject: personalProjectReducer,
     jobGroup: jobGroupReducer,
     job: jobReducer,
-    task: taskReducer
+    task: taskReducer,
+    memberJob: memberJobReducer,
+    comment: commentReducer
 
 })
 export default reducer

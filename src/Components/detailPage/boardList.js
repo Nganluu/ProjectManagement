@@ -61,7 +61,7 @@ class boardList extends Component {
                     <div className="row">
                         {/* Menu */}
                         <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
-                            <Link to={'/project/' + this.props.project.projectDetail.project_id} >
+                            <Link to={'/project/' + this.props.match.params.project_id} >
                                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                                     <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
                                     <b style={{ fontSize: "20px" }}>{this.props.project.projectDetail.project_name}</b>

@@ -1,4 +1,4 @@
-import { GET_ALL_JOB, GET_JOB_WITH_ID, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_ERROR } from "./types";
+import { GET_ALL_JOB, GET_JOB_WITH_ID, SHOW_HISTORY, ADD_NEW_JOB, UPDATE_JOB, DELETE_JOB, API_CALLING, HANDLE_GET_ALL_JOB_ERROR, HANDLE_GET_ALL_HISTORY_ERROR } from "./types";
 import axios from "axios";
 
 export const getAllJob = (id) => dispatch => {
@@ -15,7 +15,7 @@ export const getAllJob = (id) => dispatch => {
             })
         ).catch(function (error) {
             dispatch({
-                type: HANDLE_GET_ALL_ERROR,
+                type: HANDLE_GET_ALL_JOB_ERROR,
                 error: error.response.status,
                 jobList: []
             })
@@ -35,6 +35,27 @@ export const getJobWithId = (id) => dispatch => {
             payload: res.data
         })
     )
+}
+
+export const getAllHistory = (id) => dispatch => {
+    dispatch({
+        type: API_CALLING
+    },
+        console.log("GETTING_HISTRORY_WITH_ID")
+    )
+    axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('token')
+    axios.get("/api/showhistory/" + id)
+        .then(res => dispatch({
+            type: SHOW_HISTORY,
+            payload: res.data
+        })
+    ).catch(function (error) {
+        dispatch({
+            type: HANDLE_GET_ALL_HISTORY_ERROR,
+            error: error.response.status,
+            historyList: []
+        })
+    })
 }
 
 export const addNewJob = (job_group_id, job_name, start_date, end_date) => dispatch => {

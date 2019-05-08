@@ -29,7 +29,8 @@ class JobList extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         if ( nextProps.match.params.jobgroup_id != this.props.match.params.jobgroup_id ) {
-            nextProps.getAllJob(nextProps.match.params.jobgroup_id);
+
+            this.props.getAllJob(nextProps.match.params.jobgroup_id);
         }
     }
 
