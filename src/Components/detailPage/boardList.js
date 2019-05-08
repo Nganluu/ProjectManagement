@@ -4,6 +4,7 @@ import { Progress, Button, CardGroup, Form, FormGroup, Col, Input} from 'reactst
 import { connect } from 'react-redux'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
+import '../../styles/scrollbar.css'
 import JobList from './jobList'
 import { getProjectWithId } from '../../Actions/projectActions'
 import { getAllJobGroup, getJobGroupWithId, updateJobGroupName } from '../../Actions/jobGroupAction';
@@ -67,7 +68,8 @@ class boardList extends Component {
                                     <b style={{ fontSize: "20px" }}>{this.props.project.projectDetail.project_name}</b>
                                 </div>
                             </Link>
-                            <div style={{ marginBottom: "5%" }}>
+                            <div className="scrollbar" style={{ height: "30em" }}>
+                                <div style={{ width: "10em"}} >
                                 {this.props.jobGroup.jobGroupList ? this.props.jobGroup.jobGroupList.map(
                                     item =>
                                         <Link key={item.id} to={'/detailPage/' + item.id + '.' + item.project_id}>
@@ -77,6 +79,7 @@ class boardList extends Component {
                                             </Button>
                                         </Link>
                                 ): null }
+                                </div>
                             </div>
                         </div>
 
@@ -126,13 +129,6 @@ class boardList extends Component {
                                     </div>
                             }
                         </div>
-                            <div style={{ color: "#989999", cursor: "pointer" }}>
-    
-                                <span>
-                                    <i className="fas fa-cog" style={{ paddingRight: "5px" }} />
-                                    Setting
-                            </span>
-                            </div>
                                 <JobList />
                             
 

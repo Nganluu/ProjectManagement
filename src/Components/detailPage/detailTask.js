@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import dateFormat from 'dateformat';
 import DateTimePicker from 'react-datetime-picker';
 import '../../styles/menu.css';
+import '../../styles/scrollbar.css'
 import Avatar from 'react-avatar'
 import { Dropdown, DropdownToggle, DropdownItem, DropdownMenu, Modal, Progress, ModalBody, ModalFooter, Button } from 'reactstrap'
-import { getJobWithId, updateJobName, updateJobDescription, updateJobStartDate, updateJobEndDate, getAllHistory } from '../../Actions/jobAction';
+import { getAllJob, getJobWithId, updateJobName, updateJobDescription, updateJobStartDate, updateJobEndDate, getAllHistory } from '../../Actions/jobAction';
 import { getAllTask, getTaskWithId, addNewTask, updateTaskName, updateTaskTick, deleteTask } from '../../Actions/taskAction'
 import { getAllMemberJob, addNewMemberJob, deleteMemberJob } from '../../Actions/memberJobAction';
 import { getProjectUser } from '../../Actions/projectActions';
@@ -210,6 +211,7 @@ class detailTask extends Component {
         taskName: ""
       });
       this.props.getAllTask(this.props.id);
+      this.props.getAllHistory(this.props.id);
     }
   }
 
@@ -218,6 +220,7 @@ class detailTask extends Component {
     this.props.deleteTask(id);
     this.props.getAllTask(this.props.id);
     this.props.getJobWithId(this.props.id);
+    this.props.getAllHistory(this.props.id);
   }
 
   tickTask = (id, task_tick) => {
@@ -226,10 +229,14 @@ class detailTask extends Component {
         this.props.updateTaskTick(id, 1);
         this.props.getAllTask(this.props.id);
         this.props.getJobWithId(this.props.id);
+        this.props.getAllHistory(this.props.id);
+        this.props.getAllJob(this.props.match.params.jobgroup_id);
       } else {
         this.props.updateTaskTick(id, 0);
         this.props.getAllTask(this.props.id);
         this.props.getJobWithId(this.props.id);
+        this.props.getAllHistory(this.props.id);
+        this.props.getAllJob(this.props.match.params.jobgroup_id);
       }
     }
 }
@@ -325,7 +332,9 @@ class detailTask extends Component {
     console.log(this.props.task.taskList)
     return (
       <div>
-        <Modal isOpen={this.props.modal} >
+        <Modal isOpen={this.props.modal}>
+          <div className="scrollbar" style={{ height : "36em"}}>
+          <div style={{width: "32em"}}>
           <ModalBody>
             <div >
               <div style={{ padding: "10px"}}>
@@ -513,7 +522,7 @@ class detailTask extends Component {
                           </span>
                           :
                           <span key={item.id} style={{ cursor: "pointer" }} className="task">
-                            <input type="checkbox" style={{fontSize: "20px"}}/> 
+                            <i className="far fa-circle"></i>
                             <span className="change-task">
                               <input onChange={this.onChangeTaskName} placeholder="new name..." />
                             <Button color="link" onClick={() => this.handleChangeTaskName(item.id)}>
@@ -650,9 +659,10 @@ class detailTask extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.props.toggle}>Ok</Button>{' '}
-            <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+            <Button color="primary" onClick={this.props.toggle} style={{ marginRight: "13.5em"}}>Ok</Button>
           </ModalFooter>
+          </div>
+          </div>
         </Modal>
     </div>
     )
@@ -671,6 +681,7 @@ const mapStatetoProps = state => {
 const mapActiontoProps = dispatch => {
  return {
    //Action with job
+   getAllJob: id => dispatch(getAllJob(id)),
    getJobWithId: id => dispatch(getJobWithId(id)),
    updateJobName: (id, name) => dispatch(updateJobName(id, name)),
    updateJobDescription: (id, desc) => dispatch(updateJobDescription(id, desc)),

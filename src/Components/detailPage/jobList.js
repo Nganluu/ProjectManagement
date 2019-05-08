@@ -136,8 +136,8 @@ class JobList extends Component {
                                                 <span style={{ backgroundColor: "orange", padding: "1px 5px", borderRadius: "5px" }}>
                                                     <i className="far fa-clock"></i>{dateFormat(item.end_date, "dd/mm/yyyy")}
                                                 </span>
-                                                <center style={{ marginBottom: "-20px" }}>{item.job_process}%</center>
-                                                <Progress value={item.job_process} style={{ width: "100%", marginBottom: "10px" }} />
+                                                <Progress value={item.job_process} style={{ width: "100%", marginTop: "10px" }} />
+                                                <center style={{ margin: "0", padding: "0" }}>{item.job_process}%</center>
                                             </Button>
                                         </div>
                                     : null

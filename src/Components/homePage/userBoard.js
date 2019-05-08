@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import '../../styles/Login.css'
 import '../../styles/homePage.css'
 import '../../styles/member.css'
+import '../../styles/scrollbar.css'
 import ModalAddProject from './modalAddProject'
 import { getAllProject } from '../../Actions/projectActions'
 import { getAllPersonalProject } from '../../Actions/personalProjectAction'
@@ -37,12 +38,13 @@ class homePage extends Component {
 
     render() {
         return (
-            <div className="col-md-2 menu" style={{ marginTop: "5%", paddingLeft: "3%" }}>
+            <div className="col-md-2 menu" style={{ marginTop: "7%", paddingLeft: "3%" }}>
                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                     <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "23px" }}>MY PROJECT</b></a>
+                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>MY PROJECT</b></a>
                 </div>
-                <div style={{ marginBottom: "5%" }}>
+                <div className="scrollbar">
+                    <div style={{ width: "10em"}} >
                     {this.props.project.projectList ?  this.props.project.projectList.map(
                         (item) =>
                             <Link key={item.id} to={`/project/${item.id}`}>
@@ -52,20 +54,25 @@ class homePage extends Component {
                                 </Button>
                             </Link>
                     ) : null}
-
-                    <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
-                </div>
-                <div style={{ color: "#4267b2" }}>
-                    <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "25px" }}>PERSONAL</b></a>
-                    {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
-                        (item) =>
-                                <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
-                                    <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
-                                    <b>{item.personal_name}</b>
-                                </Button>
-                           
-                    ) : null}
+                    </div>
+                 </div>
+                <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
+               
+                <div style={{ color: "#4267b2", marginTop: "1em"}}>
+                    <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px"}}></i>
+                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>PERSONAL</b></a>
+                    <div className="scrollbar">
+                        <div style={{ width: "10em"}} >
+                        {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
+                            (item) =>
+                                    <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
+                                        <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
+                                        <b>{item.personal_name}</b>
+                                    </Button>
+                            
+                        ) : null}
+                        </div>
+                    </div>
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                 </div>
                 <ModalAddProject modal={this.state.modalAddProject} toggle={this.toggleAddProject} />
