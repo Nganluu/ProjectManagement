@@ -25,6 +25,11 @@ class CommentController extends Controller
             ], 400);
         }else{
             $comment = $job->comment;
+            foreach($comment as $cmt){
+                $user_id = $cmt->user_id;
+                $user = User::find($user_id);
+                $cmt->user_name = $user->name;       
+            }
             return response()->json([
                 'success' => true,
                 'data' => $comment
@@ -81,13 +86,14 @@ class CommentController extends Controller
     public function show($id)
     {
         //
-        $comment = auth()->user()->comment()->find($id);
+        $comment = Comment::find($id);
         if(!$comment){
             return response()->json([
                 'success' => false,
-                'message' => 'Không tồn tại comment này của người dùng hiện tại'
+                'message' => 'Không tồn tại comment này'
             ], 400);
         }else{
+            $comment->user_name =  User::find($comment->user_id)->name;
             return response()->json([
                 'success' => true,
                 'data' => $comment

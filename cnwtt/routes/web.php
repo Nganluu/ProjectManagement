@@ -198,6 +198,15 @@ route::get('testabc', function(){
     $users = App\User::where('email', 'phuong1@gmail.com')->get();
     echo $users->count();
 });
+route::get('testcommentjob', function(){
+    $job = App\Job::find(1);
+    $comment = $job->comment;
+  
+    foreach($comment as $cmt){
+        $cmt->user_akakka = "Anh";
+    }
+    echo $comment;
+});
 
 
 

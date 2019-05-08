@@ -178,12 +178,12 @@ route::delete('ptask/{id}', 'PTaskController@destroy');
 
     // Lấy ra tất cả các comment trong một job truyền vào job_id
 route::get('allcomment/{job_id}', 'CommentController@index');
-
+    // Hiển thị một comment truyền vào id của comment
+route::get('comment/{id}', 'CommentController@show');
     // Làm việc với comment thông qua người dùng cần phải xác thực, truyền thêm:
     // Authorization = 'Bearer' + ' ' + 'Mã Token'
 route::middleware('auth:api')->group(function(){
-    // Hiển thị một comment của một người cụ thể truyền vào id của comment
-    route::get('comment/{id}', 'CommentController@show');
+    
     // Lưu lại một comment truyền vào: content, job_id
     route::post('comment', 'CommentController@store');
     // Cập nhật nội dung của comment truyền vào: content
