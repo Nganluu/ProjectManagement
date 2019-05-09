@@ -177,6 +177,9 @@ class detailTask extends Component {
     if(this.state.taskName) {
       this.props.addNewTask(this.props.id, this.state.taskName);
       this.props.getAllTask(this.props.id);
+      this.props.getJobWithId(this.props.id);
+      this.props.getAllHistory(this.props.id);
+      this.props.getAllJob(this.props.match.params.jobgroup_id);
       this.setState({
         dropdown: false
       })
@@ -216,11 +219,11 @@ class detailTask extends Component {
   }
 
   handleDeleteTask = (id) => {
-    
     this.props.deleteTask(id);
     this.props.getAllTask(this.props.id);
     this.props.getJobWithId(this.props.id);
     this.props.getAllHistory(this.props.id);
+    this.props.getAllJob(this.props.match.params.jobgroup_id);
   }
 
   tickTask = (id, task_tick) => {

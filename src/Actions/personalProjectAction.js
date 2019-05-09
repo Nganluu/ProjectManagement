@@ -1,6 +1,6 @@
 import { GET_ALL_PERSONAL_PROJECT, GET_PERSONAL_PROJECT_WITH_ID, ADD_NEW_PERSONAL_PROJECT,
-        UPDATE_PERSONAL_PROJECT_NAME, DELETE_PERSONAL_PROJECT, API_CALLING, GET_PTASK, 
-        GET_PTASK_WITH_ID, HANDLE_ERROR_IN_GETTING_DETAIL_TASK, ADD_PTASK,
+        UPDATE_PERSONAL_PROJECT_NAME, DELETE_PERSONAL_PROJECT, API_CALLING, HANDLE_GET_ALL_PERSONAL_ERROR,
+        GET_PTASK, GET_PTASK_WITH_ID, HANDLE_ERROR_IN_GETTING_DETAIL_TASK, ADD_PTASK,
         DELETE_PTASK,
         UPDATE_PTASK_NAME,
         TICK_PTASK
@@ -18,7 +18,12 @@ export const getAllPersonalProject = () => dispatch => {
         .then(response => dispatch({
             type: GET_ALL_PERSONAL_PROJECT,
             payload: response.data
-    }))
+    })).catch(error => {
+        dispatch({
+            type: HANDLE_GET_ALL_PERSONAL_ERROR,
+            error: error.response.status
+        })
+    })
 }
 
 export const getPersonalProjectWithId = (id) => dispatch => {

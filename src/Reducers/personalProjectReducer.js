@@ -1,4 +1,4 @@
-import { GET_ALL_PERSONAL_PROJECT, GET_PERSONAL_PROJECT_WITH_ID, ADD_NEW_PERSONAL_PROJECT,
+import { GET_ALL_PERSONAL_PROJECT, GET_PERSONAL_PROJECT_WITH_ID, ADD_NEW_PERSONAL_PROJECT, HANDLE_GET_ALL_PERSONAL_ERROR,
         UPDATE_PERSONAL_PROJECT_NAME, DELETE_PERSONAL_PROJECT, API_CALLING, GET_PTASK, GET_PTASK_WITH_ID, HANDLE_ERROR_IN_GETTING_DETAIL_TASK, ADD_PTASK, DELETE_PTASK, UPDATE_PTASK_NAME, TICK_PTASK
     } from '../Actions/types';
 
@@ -33,6 +33,16 @@ export default function projectReducer(state=iniState, action){
                 callapidone: true
             }
         }
+
+    case HANDLE_GET_ALL_PERSONAL_ERROR: {
+        console.log(action.error)
+        return {
+            ...state,
+            personalProjectList:[],
+            callapidone: true
+
+        }
+    }
 
     case GET_PERSONAL_PROJECT_WITH_ID:
         if(action.payload.success) {

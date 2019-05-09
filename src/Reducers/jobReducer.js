@@ -69,7 +69,7 @@ switch(action.type){
             }
         }
 
-        case HANDLE_GET_ALL_JOB_ERROR: {
+        case HANDLE_GET_ALL_HISTORY_ERROR: {
             console.log(action.error);
             return {
                 ...state,

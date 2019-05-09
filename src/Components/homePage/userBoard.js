@@ -41,7 +41,7 @@ class homePage extends Component {
             <div className="col-md-2 menu" style={{ marginTop: "7%", paddingLeft: "3%" }}>
                 <div style={{ marginBottom: "5%", color: "#4267b2" }}>
                     <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>MY PROJECT</b></a>
+                  <Link to="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>MY PROJECT</b></Link>
                 </div>
                 <div className="scrollbar">
                     <div style={{ width: "10em"}} >
@@ -60,7 +60,7 @@ class homePage extends Component {
                
                 <div style={{ color: "#4267b2", marginTop: "1em"}}>
                     <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px"}}></i>
-                  <a href="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>PERSONAL</b></a>
+                  <Link to="/home" style={{color: "inherit", textDecoration: "none"}}><b style={{ fontSize: "1.2em" }}>PERSONAL</b></Link>
                     <div className="scrollbar">
                         <div style={{ width: "10em"}} >
                         {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(

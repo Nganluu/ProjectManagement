@@ -44,19 +44,19 @@ class PersonalProjectList extends Component {
     }
 
     clickDeletePersonalProject = (id) => {
+        console.log(id);
         this.setState({
-            idDeletePersonalProject: id
-        });
-
-        this.setState({
+            idDeletePersonalProject: id,
             isDeletePersonalProject: !this.state.isDeletePersonalProject
         });
     }
 
     handleDeletePersonalProject = () => {
+        console.log(this.state.idDeletePersonalProject)
         this.props.deletePersonalProject(this.state.idDeletePersonalProject);
         this.setState({
-            isDeletePersonalProject: !this.state.isDeletePersonalProject
+            isDeletePersonalProject: false,
+            idDeletePersonalProject: ""
         })
         this.props.getAllPersonalProject()
     }
@@ -245,7 +245,7 @@ const mapStatetoProps = state => ({
 })
 const mapActiontoProps = dispatch => ({
     getAllPersonalProject: () => dispatch(getAllPersonalProject()),
-    deletePersonalProject: () => dispatch(deletePersonalProject()),
+    deletePersonalProject: (id) => dispatch(deletePersonalProject(id)),
     getPersonalProjectWithId: (id) => dispatch(getPersonalProjectWithId(id)),
     getAllPersonalTask: (id) => dispatch(getAllPersonalTask(id)),
     addPersonalTask: (name, id) => dispatch(addPersonalTask(name, id)),
