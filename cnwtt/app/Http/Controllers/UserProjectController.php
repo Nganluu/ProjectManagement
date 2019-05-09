@@ -140,16 +140,16 @@ class UserProjectController extends Controller
             'project_id' => 'required'
         ]);
         
-        $admin = auth()->user()->project()->find($request['project_id'])->pivot->user_role == 'admin';
-        if(!$admin){
+        $project = auth()->user()->project()->find($request['project_id']);
+        if(!$project){
             return response()->json([
                 'success' => false,
-                'message' => 'Không có quyền xóa thành viên'
+                'message' => 'Không tồn tại dự án '
             ]);
         }
 
 
-        $project = Project::find($request['project_id']);
+       // $project = Project::find($request['project_id']);
         if($project->user()->find($request['user_id'])){
         if($project->user()->detach($request['user_id'])){
             return response()->json([
