@@ -198,40 +198,93 @@ class PersonalProjectList extends Component {
                                 {this.props.personalProject.pTaskList ? this.props.personalProject.pTaskList.map(
                                     item =>
                                         <div key={item.id}>
-                                            {this.state.changeNameId != item.id ?
-                                                <p key={item.id} style={{ cursor: "pointer" }} className="task">
-                                                    <input type="checkbox"
+                                            {(item.p_task_tick === 0) ?
+                                                <p>
+                                                    {this.state.changeNameId != item.id ?
+                                                        <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                                                            {/* <input type="checkbox"
                                                         checked={item.p_task_tick}
                                                         onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
-
-                                                        style={{ fontSize: "20px" }} />
-                                                    <span onClick={() => this.clickTaskName(item.id)} style={{ marginLeft: "5px", marginRight: "15px" }}>
-                                                        {item.p_task_name}
-                                                    </span>
-                                                    <span className="delete-task" onClick={() => this.handleDeleteTask(item.id, item.personal_id)}>
-                                                        <i className="fas fa-trash-alt"></i>
-                                                    </span>
+                                                        style={{ fontSize: "20px" }} /> */}
+                                                            <i className="far fa-circle"
+                                                                onClick={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}></i>
+                                                            <span onClick={() => this.clickTaskName(item.id)} style={{ marginLeft: "5px", marginRight: "15px" }}>
+                                                                {item.p_task_name}
+                                                            </span>
+                                                            <span className="delete-task" onClick={() => this.handleDeleteTask(item.id, item.personal_id)}>
+                                                                <i className="fas fa-trash-alt"></i>
+                                                            </span>
+                                                        </p>
+                                                        :
+                                                        <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                                                            <input type="checkbox" checked={item.p_task_tick}
+                                                                onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
+                                                                style={{ fontSize: "20px" }} />
+                                                            <span className="change-task">
+                                                                <input onChange={this.onChangeTaskName} placeholder="New name..." />
+                                                                <Button color="link" onClick={() => this.handleChangeTaskName(item.id, item.personal_id)}>
+                                                                    <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
+                                                                        className="fas fa-pen"></i>
+                                                                </Button>
+                                                                <span style={{ color: "blue" }}>|</span>
+                                                                <Button color="link">
+                                                                    <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
+                                                                        onClick={this.cancelChangeTaskName} className="fas fa-times"></i>
+                                                                </Button>
+                                                            </span>
+                                                        </p>
+                                                    }
                                                 </p>
-                                                :
-                                                <p key={item.id} style={{ cursor: "pointer" }} className="task">
-                                                    <input type="checkbox" checked={item.p_task_tick}
-                                                        onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
-                                                        style={{ fontSize: "20px" }} />
-                                                    <span className="change-task">
-                                                        <input onChange={this.onChangeTaskName} placeholder="New name..." />
-                                                        <Button color="link" onClick={() => this.handleChangeTaskName(item.id, item.personal_id)}>
-                                                            <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
-                                                                className="fas fa-pen"></i>
-                                                        </Button>
-                                                        <span style={{ color: "blue" }}>|</span>
-                                                        <Button color="link">
-                                                            <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
-                                                                onClick={this.cancelChangeTaskName} className="fas fa-times"></i>
-                                                        </Button>
-                                                    </span>
-                                                </p>
-                                            }
+                                                : null}
                                         </div>
+
+                                ) : null}
+                                {/* task ticked */}
+                                {this.props.personalProject.pTaskList ? this.props.personalProject.pTaskList.map(
+                                    item =>
+                                        <div key={item.id}>
+                                            {(item.p_task_tick !== 0) ?
+                                                <p>
+                                                    {this.state.changeNameId != item.id ?
+                                                        <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                                                            {/* <input type="checkbox"
+                                                        checked={item.p_task_tick}
+                                                        onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
+                                                        style={{ fontSize: "20px" }} /> */}
+                                                            <i className="far fa-check-circle"
+                                                            style={{color: "grey"}}
+                                                             onClick={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}></i>
+                                                            <span onClick={() => this.clickTaskName(item.id)}
+                                                                style={{ marginLeft: "5px", marginRight: "15px", color: "grey" }} >
+                                                              <strike> {item.p_task_name}</strike>
+                                                            </span>
+                                                            <span className="delete-task" onClick={() => this.handleDeleteTask(item.id, item.personal_id)}>
+                                                                <i className="fas fa-trash-alt"></i>
+                                                            </span>
+                                                        </p>
+                                                        :
+                                                        <p key={item.id} style={{ cursor: "pointer" }} className="task">
+                                                            <input type="checkbox" checked={item.p_task_tick}
+                                                                onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
+                                                                style={{ fontSize: "20px" }} />
+                                                            <span className="change-task">
+                                                                <input onChange={this.onChangeTaskName} placeholder="New name..." />
+                                                                <Button color="link" onClick={() => this.handleChangeTaskName(item.id, item.personal_id)}>
+                                                                    <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
+                                                                        className="fas fa-pen"></i>
+                                                                </Button>
+                                                                <span style={{ color: "blue" }}>|</span>
+                                                                <Button color="link">
+                                                                    <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }}
+                                                                        onClick={this.cancelChangeTaskName} className="fas fa-times"></i>
+                                                                </Button>
+                                                            </span>
+                                                        </p>
+                                                    }
+                                                </p>
+                                                : null}
+                                        </div>
+
                                 ) : null}
                             </div>
                         </ModalBody>

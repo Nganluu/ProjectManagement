@@ -554,8 +554,12 @@ class detailTask extends Component {
                       <p>
                         {this.state.id != item.id ? 
                           <span key={item.id} style={{ cursor: "pointer" }} className="task">
-                            <i class="far fa-check-circle" onClick={() => this.tickTask(item.id, item.task_tick)}></i>
-                            <span onClick={() => this.clickTaskName(item.id) } style={{marginLeft: "5px", marginRight: "15px", color: "grey" }}>{item.task_name}</span>
+                            <i class="far fa-check-circle" onClick={() => this.tickTask(item.id, item.task_tick)}
+                              style={{color: "grey"}}
+                            ></i>
+                            <span onClick={() => this.clickTaskName(item.id) } style={{marginLeft: "5px", marginRight: "15px", color: "grey" }}>
+                            <strike>{item.task_name}</strike>
+                            </span>
                             <span className="delete-task" onClick={() => this.handleDeleteTask(item.id)}>
                               <i class="fas fa-trash-alt"></i>
                             </span>
