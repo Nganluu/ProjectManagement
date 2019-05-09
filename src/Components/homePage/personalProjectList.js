@@ -93,6 +93,7 @@ class PersonalProjectList extends Component {
     handleDeleteTask = (id, personal_id) => {
         this.props.deletePersonalTask(id);
         this.props.getAllPersonalTask(personal_id)
+        this.props.getAllPersonalProject()
     }
     onChangeTaskName = (e) => {
         this.setState({
