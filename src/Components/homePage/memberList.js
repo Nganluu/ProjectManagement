@@ -14,7 +14,9 @@ class MemberList extends Component {
             user_id: "",
             user_role: "",
             isDeleteMember: false,
-            isInviteMember: false
+            isInviteMember: false,
+            isLeaving: false,
+            leaveError: false
         }
     }
     componentDidMount() {
@@ -35,6 +37,33 @@ class MemberList extends Component {
             user_id: user_id,
             isDeleteMember: !this.state.isDeleteMember
         });
+    }
+    leaveModal = ()=>{
+        this.setState({
+            isLeaving: !this.state.isLeaving
+        })
+    }
+    handleLeaveProject = ()=>{
+        const project_id = this.props.match.params.project_id
+        const user_id = localStorage.getItem("userId")
+        if(localStorage.getItem("role") === "user"){
+            console.log(user_id, project_id)
+            this.props.deleteProjectUser(user_id, project_id)
+            this.props.history.push("/home")
+        }
+        else {
+            this.setState({
+                leaveError: true
+            })
+        }
+        this.setState({
+            isLeaving: !this.state.isLeaving
+        })
+    }
+    toggleLeaveError=()=>{
+        this.setState({
+            leaveError: !this.state.leaveError
+        })
     }
     toggleDelete = () => {
         this.setState({
@@ -80,7 +109,6 @@ class MemberList extends Component {
     }
 
     render() {
-        { console.log(this.props.project.projectUser) }
         const role = this.state.user_role;
         return (
             <div className="col-md-2 members">
@@ -107,6 +135,9 @@ class MemberList extends Component {
 
                 <div style={{ color: "#989999" }} onClick={this.toggleInvite}>
                     <span style={{ cursor: "pointer" }}>+ Invite</span>
+                </div>
+                <div style={{backgroundColor: "red", width: "14rem", cursor: "pointer"}}>
+                    <center onClick={this.leaveModal}>Leave this project</center>
                 </div>
 
                 <div>
@@ -157,7 +188,27 @@ class MemberList extends Component {
                         </ModalFooter>
                     </Modal>
                 </div>
-
+                <div>
+                    <Modal isOpen={this.state.isLeaving}>
+                        <ModalBody>
+                            <div>Do you want to leave this project?</div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline onClick={this.leaveModal}>Cancel</Button>
+                            <Button type="submit" outline onClick={this.handleLeaveProject}>Leave</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+                <div>
+                    <Modal isOpen={this.state.leaveError} toggle={this.toggleLeaveError}>
+                        <ModalBody>
+                            <div>Can't leave your own project</div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit" outline onClick={this.toggleLeaveError}>OK</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
             </div>
         );
     }
