@@ -58,8 +58,11 @@ class PersonalProjectList extends Component {
             isDeletePersonalProject: false,
             idDeletePersonalProject: ""
         })
-        this.props.getAllPersonalProject()
+        if(this.props.personalProject.callapidone) {
+            this.props.getAllPersonalProject()
+        }
     }
+
     getDetailTask = (id) => {
         this.props.getPersonalProjectWithId(id);
         this.props.getAllPersonalTask(id);
@@ -68,6 +71,7 @@ class PersonalProjectList extends Component {
         })
         this.toggleViewDetail()
     }
+
     toggleViewDetail = () => {
         this.setState({
             isViewDetail: !this.state.isViewDetail
