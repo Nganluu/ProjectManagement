@@ -118,7 +118,11 @@ class TaskController extends Controller
                         $tick++;
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job->job_process = 0;
+                    $job->save();
+                }
+                else if($tick == $count){
                     $job->job_process = 100;
                     $job->save();
                 }
@@ -140,7 +144,11 @@ class TaskController extends Controller
                         }
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job_group->job_group_process = 0;
+                    $job_group->save();
+                }
+                else if($tick == $count){
                     $job_group->job_group_process = 100;
                     $job_group->save();
                 }
@@ -236,7 +244,11 @@ class TaskController extends Controller
                         $tick++;
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job->job_process = 0;
+                    $job->save();
+                }
+                else if($tick == $count){
                     $job->job_process = 100;
                     $job->save();
                 }
@@ -258,7 +270,11 @@ class TaskController extends Controller
                         }
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job_group->job_group_process = 0;
+                    $job_group->save();
+                }
+                else if($tick == $count){
                     $job_group->job_group_process = 100;
                     $job_group->save();
                 }
@@ -338,7 +354,11 @@ class TaskController extends Controller
                         $tick++;
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job->job_process = 0;
+                    $job->save();
+                }   
+                else if($tick == $count){
                     $job->job_process = 100;
                     $job->save();
                 }
@@ -360,7 +380,11 @@ class TaskController extends Controller
                         }
                     }
                 }
-                if($tick == $count){
+                if($count == 0){
+                    $job_group->job_group_process = 0;
+                    $job_group->save();
+                }
+                else if($tick == $count){
                     $job_group->job_group_process = 100;
                     $job_group->save();
                 }

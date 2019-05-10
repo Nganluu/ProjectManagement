@@ -75,7 +75,11 @@ class PTaskController extends Controller
                     $tick++;
                 }
             }
-            if($tick == $count){
+            if($count == 0){
+                $personal->personal_process = 0;
+                $personal->save();
+            }
+            else if($tick == $count){
                 $personal->personal_process = 100;
                 $personal->save();
             }
@@ -155,7 +159,11 @@ class PTaskController extends Controller
                     $tick++;
                 }
             }
-            if($tick == $count){
+            if($count == 0){
+                $personal->personal_process = 0;
+                $personal->save();
+            }
+            else if($tick == $count){
                 $personal->personal_process = 100;
                 $personal->save();
             }
@@ -202,7 +210,11 @@ class PTaskController extends Controller
                     $tick++;
                 }
             }
-            if($tick == $count){
+            if($count == 0){
+                $personal->personal_process = 0;
+                $personal->save();
+            }
+            else if($tick == $count){
                 $personal->personal_process = 100;
                 $personal->save();
             }
