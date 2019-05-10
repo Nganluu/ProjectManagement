@@ -24,11 +24,14 @@ class MemberList extends Component {
         const id = url.substr(9);
         this.props.getProjectUser(id)
     }
-    componentWillReceiveProps() {
+    componentWillReceiveProps(nextProps) {
         if (this.props.project.error) {
             this.setState({
                 error: true
             })
+        }
+        if (nextProps.match.params.project_id != this.props.match.params.project_id) {
+           nextProps.getProjectUser(nextProps.match.params.project_id)
         }
     }
     deleteMemberModal = (user_id, user_role) => {
@@ -47,7 +50,6 @@ class MemberList extends Component {
         const project_id = this.props.match.params.project_id
         const user_id = localStorage.getItem("userId")
         if(localStorage.getItem("role") === "user"){
-            console.log(user_id, project_id)
             this.props.deleteProjectUser(user_id, project_id)
             this.props.history.push("/home")
         }
@@ -132,11 +134,11 @@ class MemberList extends Component {
                             </div>
                     ) : null
                 }
-
+                {(localStorage.getItem("role")==="admin") ?
                 <div style={{ color: "#989999" }} onClick={this.toggleInvite}>
                     <span style={{ cursor: "pointer" }}>+ Invite</span>
-                </div>
-                <div style={{backgroundColor: "red", width: "14rem", cursor: "pointer"}}>
+                </div> : null}
+                <div style={{backgroundColor: "gray", color: "white", width: "14rem", cursor: "pointer"}}>
                     <center onClick={this.leaveModal}>Leave this project</center>
                 </div>
 

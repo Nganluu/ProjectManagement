@@ -61,6 +61,7 @@ export default function projectReducer(state=iniState, action){
             return {
                 ...state,
                 projectUser: action.payload.data,
+                error: !action.payload.success,
                 callapidone: true
             }
         case DELETE_PROJECT_USER:

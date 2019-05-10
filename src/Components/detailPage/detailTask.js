@@ -335,7 +335,7 @@ class detailTask extends Component {
     console.log(this.props.task.taskList)
     return (
       <div>
-        <Modal isOpen={this.props.modal}>
+        <Modal isOpen={this.props.modal} toggle={this.props.toggle} >
           <div className="scrollbar" style={{ height : "36em"}}>
           <div style={{width: "32em"}}>
           <ModalBody>
