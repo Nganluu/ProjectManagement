@@ -1,4 +1,5 @@
-import {USER_SIGNUP, USER_LOGIN, UPDATE_PASSWORD, UPDATE_NAME, LOGIN_ERROR, UPDATE_PASSWORD_ERROR, API_CALLING} from '../Actions/types';
+import {USER_SIGNUP, USER_LOGIN, UPDATE_PASSWORD, UPDATE_NAME, LOGIN_ERROR, UPDATE_PASSWORD_ERROR, API_CALLING, SIGNUP_ERROR} from '../Actions/types';
+import { stat } from 'fs';
 
 
 const iniState = {
@@ -31,6 +32,11 @@ export default function accountReducer(state= iniState, action){
                 signupSuccess: action.payload.success,
                 signupMessage: action.payload.message,
                 callapidone: true
+            }
+        case SIGNUP_ERROR: 
+            return {
+                ...state,
+                error: action.error
             }
         case USER_LOGIN: 
             if(action.payload.success) {

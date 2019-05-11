@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import {
-    getAllPersonalProject, deletePersonalProject, getPersonalProjectWithId,
+    getAllPersonalProject, deletePersonalProject, getPersonalProjectWithId, updatePersonalProjectName,
     getAllPersonalTask, addPersonalTask, deletePersonalTask, updatePersonalTaskName, tickPersonalTask
 } from '../../Actions/personalProjectAction';
 import '../../styles/menu.css';
@@ -25,6 +25,8 @@ class PersonalProjectList extends Component {
             dropdownAdd: false,
             name: "",
             pId: "",
+            pName: "",
+            edittingPname: false,
             changeNameId: ""
         }
     }
@@ -32,7 +34,11 @@ class PersonalProjectList extends Component {
     componentDidMount() {
         this.props.getAllPersonalProject();
     }
-
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            pName: nextProps.personalProject.personalProjectDetail.personal_name
+        })
+    }
     cancelDeletePersonalProject = () => {
         this.setState({
             idDeletePersonalProject: ""
@@ -52,7 +58,6 @@ class PersonalProjectList extends Component {
     }
 
     handleDeletePersonalProject = () => {
-        console.log(this.state.idDeletePersonalProject)
         this.props.deletePersonalProject(this.state.idDeletePersonalProject);
         this.setState({
             isDeletePersonalProject: false,
@@ -85,6 +90,8 @@ class PersonalProjectList extends Component {
     addTask = () => {
         this.props.addPersonalTask(this.state.name, this.state.pId)
         this.props.getAllPersonalTask(this.state.pId)
+        this.props.getAllPersonalProject()
+        this.props.getPersonalProjectWithId(this.state.pId)
         this.toggleAdd()
     }
 
@@ -96,6 +103,7 @@ class PersonalProjectList extends Component {
 
     handleDeleteTask = (id, personal_id) => {
         this.props.deletePersonalTask(id);
+        this.props.getPersonalProjectWithId(personal_id)
         this.props.getAllPersonalTask(personal_id)
         this.props.getAllPersonalProject()
     }
@@ -125,6 +133,24 @@ class PersonalProjectList extends Component {
         this.props.tickPersonalTask(id, !tick);
         this.props.getAllPersonalTask(personal_id)
         this.props.getAllPersonalProject()
+        this.props.getPersonalProjectWithId(personal_id)
+    }
+    onChangePName = (e)=>{
+        this.setState({
+            pName: e.target.value
+        })
+    }
+    toggleEditPName = ()=>{
+        this.setState({
+            edittingPname: !this.state.edittingPname
+        })
+    }
+    callChangePNameAPI = ()=>{
+        const id = this.props.personalProject.personalProjectDetail.id
+        this.props.updatePersonalProjectName(this.state.pName, id);
+        this.props.getAllPersonalProject()
+        this.props.getPersonalProjectWithId(id)
+        this.toggleEditPName()
     }
     render() {
         return (
@@ -171,10 +197,26 @@ class PersonalProjectList extends Component {
                 <div>
                     <Modal style={{ height: "100%" }} isOpen={this.state.isViewDetail} toggle={this.toggleViewDetail}>
                         <ModalHeader>
-                            {this.props.personalProject.personalProjectDetail.personal_name}
+                        {this.state.edittingPname? 
+                        <div >
+                        <input value={this.state.pName} onChange={this.onChangePName}></input>
+                        <Button color="link">
+                                            <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }}
+                                                onClick={this.callChangePNameAPI} className="fas fa-pen"></i>
+                         </Button>
+                         <span style={{color: "blue"}}>|</span>
+                                            <Button color="link">
+                                                <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                                                onClick={this.toggleEditPName} className="fas fa-times"></i>
+                                            </Button>
+                        </div>
+                        :
+                          <div onClick={this.toggleEditPName}>{this.props.personalProject.personalProjectDetail.personal_name}</div>
+                         }
                         </ModalHeader>
                         <ModalBody>
                             <div style={{ padding: "10px" }}>
+                            
                                 {/* Add Task */}
                                 <i className="fas fa-clipboard-check"></i>
                                 <b style={{ paddingLeft: "5px", fontSize: "20px" }}>To do list</b>
@@ -197,7 +239,10 @@ class PersonalProjectList extends Component {
                                     </DropdownMenu>
                                 </Dropdown>
                                 <br />
-
+                                <div style={{ width: "100%", marginRight: "5%" }}>
+                                            <Progress value={this.props.personalProject.personalProjectDetail.personal_process} style={{ marginBottom: "10px" }} />
+                                            <center>{this.props.personalProject.personalProjectDetail.personal_process}%</center>
+                                        </div>
                                 {/* Task List */}
                                 {this.props.personalProject.pTaskList ? this.props.personalProject.pTaskList.map(
                                     item =>
@@ -206,10 +251,6 @@ class PersonalProjectList extends Component {
                                                 <p>
                                                     {this.state.changeNameId != item.id ?
                                                         <p key={item.id} style={{ cursor: "pointer" }} className="task">
-                                                            {/* <input type="checkbox"
-                                                        checked={item.p_task_tick}
-                                                        onChange={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}
-                                                        style={{ fontSize: "20px" }} /> */}
                                                             <i className="far fa-circle"
                                                                 onClick={() => this.tickTask(item.id, item.personal_id, item.p_task_tick)}></i>
                                                             <span onClick={() => this.clickTaskName(item.id)} style={{ marginLeft: "5px", marginRight: "15px" }}>
@@ -309,6 +350,7 @@ const mapActiontoProps = dispatch => ({
     addPersonalTask: (name, id) => dispatch(addPersonalTask(name, id)),
     deletePersonalTask: (id) => dispatch(deletePersonalTask(id)),
     updatePersonalTaskName: (id, name) => dispatch(updatePersonalTaskName(id, name)),
-    tickPersonalTask: (id, tick) => dispatch(tickPersonalTask(id, tick))
+    tickPersonalTask: (id, tick) => dispatch(tickPersonalTask(id, tick)),
+    updatePersonalProjectName: (name, id)=> dispatch(updatePersonalProjectName(name, id))
 })
 export default connect(mapStatetoProps, mapActiontoProps)(PersonalProjectList)

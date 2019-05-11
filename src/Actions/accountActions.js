@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_SIGNUP, USER_LOGIN, UPDATE_PASSWORD, UPDATE_NAME, LOGIN_ERROR, UPDATE_PASSWORD_ERROR, API_CALLING } from './types'
+import { USER_SIGNUP, USER_LOGIN, UPDATE_PASSWORD, UPDATE_NAME, LOGIN_ERROR, UPDATE_PASSWORD_ERROR, API_CALLING, SIGNUP_ERROR } from './types'
 
 export const userSignup = (name, email, password) => dispatch => {
     dispatch({
@@ -18,7 +18,10 @@ export const userSignup = (name, email, password) => dispatch => {
                 payload: res.data,
             }),
     ).catch(function (error) {
-        console.log(error.response);
+        dispatch({
+            type: SIGNUP_ERROR,
+            error: error.response.status
+        })
     });
 
 }

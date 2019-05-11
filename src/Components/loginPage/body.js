@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../styles/Login.css'
-import {userSignup} from '../../Actions/accountActions'
+import {userSignup, userLogin} from '../../Actions/accountActions'
 import { FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
@@ -15,6 +15,7 @@ class body extends Component {
             emailError: false,
             passError: false,
             modalErr: false,
+            modal422: false,
             checkAccount: false //biến phụ để componentdidupdate không maximumloop
         }
     }
@@ -72,9 +73,7 @@ class body extends Component {
        if(this.state.name&&this.state.email&&this.state.password){
            this.props.userSignup(this.state.name, this.state.email, this.state.password)
            this.setState({
-            name: "",
-            email: "",
-            password: "",
+           
             checkAccount: true
         })
        }
@@ -95,16 +94,40 @@ class body extends Component {
                 })
             }
         }}
+       
+        localStorage.setItem("signined", this.props.account.loginSuccess)
+        localStorage.setItem("userId", this.props.account.id);
+        localStorage.setItem("name", this.props.account.name)
+        localStorage.setItem("email", this.props.account.email)
+        localStorage.setItem("token", this.props.account.token)
+        if (localStorage.getItem("signined")) {
+            this.props.history.push('/home');
+          }
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.account.error === "422"){
+                this.setState({
+                    modal422: true
+                })
+        }
+        
     }
     toggle = ()=>{
+        console.log(this.props.account.signupSuccess)
+        if(this.props.account.signupSuccess === true){
+            console.log(this.state.email )
+            console.log(this.state.password)
+            this.props.userLogin(this.state.email, this.state.password);
+        }
         this.setState({
             modalErr: !this.state.modalErr,
-            
+            name: "",
+            email: "",
+            password: "",
         })
-        if(this.props.account.signUpErr === false){
-            this.props.history.push('/home')
-        }
+        
     }
+
     render() {
         return (
             <div id="body" className="row">
@@ -168,7 +191,15 @@ class body extends Component {
                                 <Button onClick={this.toggle}>OK</Button>
                             </ModalFooter>
                         </Modal>
-                    
+                    <Modal isOpen={this.state.modal422}>
+                            <ModalHeader>Register Error</ModalHeader>
+                            <ModalBody style={{color: "red"}}>Check your email again!</ModalBody>
+                            <ModalFooter>
+                                <Button onClick={()=>{this.setState({
+                                    modal422: !this.state.modal422
+                                })}}>OK</Button>
+                            </ModalFooter>
+                    </Modal>
                     </div>
                 </div>
             </div>
@@ -178,4 +209,4 @@ class body extends Component {
 const mapStatetoProps = state =>({
     account: state.account
 })
-export default connect(mapStatetoProps, {userSignup})(withRouter(body))
+export default connect(mapStatetoProps, {userSignup, userLogin})(withRouter(body))
