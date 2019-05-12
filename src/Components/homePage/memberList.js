@@ -138,7 +138,7 @@ class MemberList extends Component {
                 <div style={{ color: "#989999" }} onClick={this.toggleInvite}>
                     <span style={{ cursor: "pointer" }}>+ Invite</span>
                 </div> : null}
-                <div style={{backgroundColor: "gray", color: "white", width: "14rem", cursor: "pointer"}}>
+                <div style={{backgroundColor: "rgba(204, 197, 197, 0.3)", color: "gray", width: "10.8rem", cursor: "pointer"}}>
                     <center onClick={this.leaveModal}>Leave this project</center>
                 </div>
 

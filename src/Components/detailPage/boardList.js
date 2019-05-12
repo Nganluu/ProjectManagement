@@ -30,9 +30,10 @@ class boardList extends Component {
         }
     }
 
-    editJobGroupName = () => {
+    editJobGroupName = (name) => {
         this.setState({
-            isEditJobGroupName: !this.state.isEditJobGroupName
+            isEditJobGroupName: !this.state.isEditJobGroupName,
+            name: name
         })
     }
 
@@ -96,12 +97,12 @@ class boardList extends Component {
                                         </b>
                                         <Button color="link">
                                         <i style={{ top: "-0.2rem", fontSize: "24px", position: "relative", cursor: "pointer" }} 
-                                        onClick={this.editJobGroupName} className="fas fa-pen"></i>
+                                        onClick={() => this.editJobGroupName(this.props.jobGroup.jobGroupDetail.job_group_name)} className="fas fa-pen"></i>
                                         </Button>
                                     </div>
                                     :
                                     <div className="row input">
-                                        <div className="col-md-3"><i>New name:</i></div>
+                                        <div className="col-md-2"><i style={{ fontSize: "18px", marginLeft: "20px" }}>New name</i></div>
                                         <div className="col-md-4">
                                             <Form>
                                                 <FormGroup>

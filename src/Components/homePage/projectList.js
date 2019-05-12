@@ -22,6 +22,11 @@ class ProjectList extends Component {
         this.props.getAllProject();
     }
 
+    componentDidUpdate = () => {
+        console.log(this.props.project.projectList.length);
+        this.props.changeLength(this.props.project.projectList.length);
+    }
+
     cancelDeleteProject = () => {
         this.setState({
             idDeleteProject: ""

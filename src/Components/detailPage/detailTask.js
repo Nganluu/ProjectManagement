@@ -41,7 +41,8 @@ class detailTask extends Component {
       isclickAddMember: false,
       //comment
       idEditComment: "",
-      content: ""
+      content: "",
+      showHistory: false
     }
   }
 
@@ -58,9 +59,10 @@ class detailTask extends Component {
   }
 
   //Change job name
-  jobTitleEditing = ()=>{
+  jobTitleEditing = (name)=>{
     this.setState({
-      jobTitleEditing: !this.state.jobTitleEditing
+      jobTitleEditing: !this.state.jobTitleEditing,
+      jobTitle: name
     })
   }
 
@@ -79,13 +81,14 @@ class detailTask extends Component {
   }
 
   //Change job description
-  descriptionEditing=()=>{
+  descriptionEditing = (cnt) => {
     this.setState({
-      description: !this.state.description
+      description: !this.state.description,
+      value: cnt
     })
   }
 
-  onEdit=(event)=>{
+  onEdit = (event) => {
     this.setState({
       value: event.target.value
     })
@@ -99,9 +102,10 @@ class detailTask extends Component {
   }
 
   //Change job start date
-  startDateEditing = () => {
+  startDateEditing = (date) => {
     this.setState({
       isStartDateChange: !this.state.isStartDateChange,
+      startDate: date,
       isStartDateInvalid: false
     });
   }
@@ -130,9 +134,10 @@ class detailTask extends Component {
   }
 
   //Change Job End Date
-  endDateEditing = () => {
+  endDateEditing = (date) => {
     this.setState({
       isEndDateChange: !this.state.isEndDateChange,
+      endDate: date,
       isEndDateInvalid: false
     });
   }
@@ -200,9 +205,10 @@ class detailTask extends Component {
     });
   }
 
-  clickTaskName = (id) => {
+  clickTaskName = (id, name) => {
     this.setState({
-      id: id
+      id: id,
+      taskName: name
     });
   }
 
@@ -289,9 +295,12 @@ class detailTask extends Component {
   }
 
   //Comment
-  clickEditComment = (id) => {
+  clickEditComment = (id, cont) => {
     if (this.state.idEditComment != id) {
-      this.setState({idEditComment: id})
+      this.setState({
+        idEditComment: id,
+        content: cont
+      })
     } else {
       this.setState({
         idEditComment: "",
@@ -329,6 +338,13 @@ class detailTask extends Component {
     this.props.deleteComment(id);
     this.props.getAllComment(this.props.id);
   } 
+
+  //Show History
+  clickShowHistory = () => {
+    this.setState({
+      showHistory: !this.state.showHistory
+    });
+  }
  
 
   render() {
@@ -344,12 +360,12 @@ class detailTask extends Component {
                 {!this.state.jobTitleEditing ?
                   <div style={{ cursor: "pointer" }}>
                     <i className="fas fa-list-ul"></i>
-                    <b onClick={this.jobTitleEditing} style={{ paddingLeft: "5px", fontSize: "20px" }}>{this.props.job.jobDetail.job_name} </b>
+                    <b onClick={() => this.jobTitleEditing(this.props.job.jobDetail.job_name)} style={{ paddingLeft: "5px", fontSize: "20px" }}>{this.props.job.jobDetail.job_name} </b>
                   </div>
                   :
                   <div>
                     <i className="fas fa-list-ul"></i>
-                    <input onChange={this.onChangeJobTitle} placeholder="New name..." />
+                    <input onChange={this.onChangeJobTitle} value={this.state.jobTitle} placeholder="New name..." />
                     <Button color="link" onClick={this.handleChangeJobTitle}>
                       <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
                       className="fas fa-pen"></i>
@@ -363,48 +379,57 @@ class detailTask extends Component {
                 }
               </div>
               <div style={{ padding: "10px", paddingLeft: "30px" }}>
+
               {/* Start Date */}
-              {!this.state.isStartDateChange ?
-                <div onClick={this.startDateEditing} style={{ cursor: "pointer" }}>
-                  <i className="fas fa-hourglass-start"></i> From: {dateFormat(this.props.job.jobDetail.start_date, "dd/mm/yyyy")}
-                </div>
-                : 
-                <div>
-                  <DateTimePicker onChange={this.changeStartDate} value={this.state.startDate} />
-                  <Button color="link" onClick={this.handleChangeStartDate}>
-                    <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
-                    className="fas fa-pen"></i>
-                  </Button>
-                  <span style={{color: "blue"}}>|</span>
-                  <Button color="link">
-                      <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
-                      onClick={this.startDateEditing} className="fas fa-times"></i>
-                  </Button>
-                  {this.state.isStartDateInvalid ? <p style={{color: "red"}}>Date is invalid</p>:null}
-                </div>
-              }
-              {/* End Date */}
-                <div>
-                  {!this.state.isEndDateChange?
-                  <div onClick={this.endDateEditing} style={{ cursor: "pointer" }}>
-                    <i className="fas fa-hourglass-end"></i> Til: {dateFormat(this.props.job.jobDetail.end_date, "dd/mm/yyyy")}
-                  </div>
+              <div>
+                <i className="fas fa-hourglass-start"></i> From: {" "}
+                <span>
+                {!this.state.isStartDateChange ?
+                    <span onClick={() => this.startDateEditing(this.props.job.jobDetail.start_date)} style={{ cursor: "pointer" }}>
+                    {dateFormat(this.props.job.jobDetail.start_date, "dd/mm/yyyy")}
+                  </span>
                   :
-                  <div>
-                    <DateTimePicker onChange={this.changeEndDate} value={this.state.endDate} />
-                    <Button color="link" onClick={this.handleChangeEndDate}>
+                  <span>
+                    <DateTimePicker onChange={this.changeStartDate} value={this.state.startDate} />
+                    <Button color="link" onClick={this.handleChangeStartDate}>
                       <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
                       className="fas fa-pen"></i>
                     </Button>
                     <span style={{color: "blue"}}>|</span>
                     <Button color="link">
                         <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
-                        onClick={this.endDateEditing} className="fas fa-times"></i>
+                        onClick={this.startDateEditing} className="fas fa-times"></i>
                     </Button>
-                    {this.state.isEndDateInvalid ? <p style={{color: "red"}}>Date is invalid</p>:null}
-                  </div>
-                  }
-                  </div>
+                    {this.state.isStartDateInvalid ? <p style={{color: "red"}}>Date is invalid</p>:null}
+                  </span>
+                }
+                </span>
+              </div>
+
+              {/* End Date */}
+              <div>
+                <i className="fas fa-hourglass-end"></i> Til: {" "}
+                <span>
+                {!this.state.isEndDateChange?
+                  <span onClick={() => this.endDateEditing(this.props.job.jobDetail.end_date)} style={{ cursor: "pointer" }}>
+                    {dateFormat(this.props.job.jobDetail.end_date, "dd/mm/yyyy")}
+                  </span>
+                :
+                <span>
+                  <DateTimePicker onChange={this.changeEndDate} value={this.state.endDate} />
+                  <Button color="link" onClick={this.handleChangeEndDate}>
+                    <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                    className="fas fa-pen"></i>
+                  </Button>
+                  <span style={{color: "blue"}}>|</span>
+                  <Button color="link">
+                      <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
+                      onClick={this.endDateEditing} className="fas fa-times"></i>
+                  </Button>
+                  {this.state.isEndDateInvalid ? <p style={{color: "red"}}>Date is invalid</p>:null}
+                  </span>
+                }
+                </span>
               </div>
 
               {/* Member */}
@@ -465,24 +490,25 @@ class detailTask extends Component {
                 <b style={{ paddingLeft: "5px", fontSize: "20px" }}>Description</b>
                 {!this.state.description ?
                   <b>
-                  <Button style={{padding: "0px 10px", marginLeft: "10px", marginTop: "-5px"}} onClick={this.descriptionEditing}>Edit</Button>
+                  <Button style={{padding: "0px 10px", marginLeft: "10px", marginTop: "-5px"}} onClick={() => this.descriptionEditing(this.props.job.jobDetail.job_description)}>Edit</Button>
                   </b>
                   :
                   <b>
                   <Button style={{padding: "0px 10px", marginLeft: "10px", marginTop: "-5px"}} onClick={this.handleChangeJodDescription}>Edit</Button>
                   <Button color="link">
                       <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
-                      onClick={this.descriptionEditing} className="fas fa-times"></i>
+                      onClick={() => this.descriptionEditing("")} className="fas fa-times"></i>
                   </Button>
                   </b>
                 }
                 <br/>
                 {this.state.description ?
-                  <textarea onChange={this.onEdit} rows="3" cols="50" placeholder="Add some description..." />
+                  <textarea onChange={this.onEdit} value={this.state.value} rows="3" cols="45" placeholder="Add some description..." />
            
                   : this.props.job.jobDetail.job_description
                 }
               </div>
+
               <div style={{ padding: "10px" }}>
               {/* Add Task */}
                 <i className="fas fa-clipboard-check"></i>
@@ -518,16 +544,16 @@ class detailTask extends Component {
                         {this.state.id != item.id ? 
                           <span key={item.id} style={{ cursor: "pointer" }} className="task">
                             <i className="far fa-circle" onClick={() => this.tickTask(item.id, item.task_tick)}></i>
-                            <span onClick={() => this.clickTaskName(item.id) } style={{marginLeft: "5px", marginRight: "15px" }}>{item.task_name}</span>
+                            <span onClick={() => this.clickTaskName(item.id, item.task_name) } style={{marginLeft: "5px", marginRight: "15px" }}>{item.task_name}</span>
                             <span className="delete-task" onClick={() => this.handleDeleteTask(item.id)}>
                               <i class="fas fa-trash-alt"></i>
                             </span>
                           </span>
                           :
                           <span key={item.id} style={{ cursor: "pointer" }} className="task">
-                            <i className="far fa-circle"></i>
+                            <i className="far fa-circle"></i>{" "}
                             <span className="change-task">
-                              <input onChange={this.onChangeTaskName} placeholder="new name..." />
+                              <input onChange={this.onChangeTaskName} value={this.state.taskName} placeholder="new name..." />
                             <Button color="link" onClick={() => this.handleChangeTaskName(item.id)}>
                               <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }} 
                               className="fas fa-pen"></i>
@@ -557,7 +583,7 @@ class detailTask extends Component {
                             <i class="far fa-check-circle" onClick={() => this.tickTask(item.id, item.task_tick)}
                               style={{color: "grey"}}
                             ></i>
-                            <span onClick={() => this.clickTaskName(item.id) } style={{marginLeft: "5px", marginRight: "15px", color: "grey" }}>
+                            <span onClick={() => this.clickTaskName(item.id, item.task_name) } style={{marginLeft: "5px", marginRight: "15px", color: "grey" }}>
                             <strike>{item.task_name}</strike>
                             </span>
                             <span className="delete-task" onClick={() => this.handleDeleteTask(item.id)}>
@@ -566,9 +592,9 @@ class detailTask extends Component {
                           </span>
                           :
                           <span key={item.id} style={{ cursor: "pointer" }} className="task">
-                            <i className="far fa-check-circle"></i> 
+                            <i className="far fa-check-circle"></i> {" "}
                             <span className="change-task">
-                              <input onChange={this.onChangeTaskName} placeholder="New name..." />
+                              <input onChange={this.onChangeTaskName} value={this.state.taskName} placeholder="New name..." />
                             <Button color="link" onClick={() => this.handleChangeTaskName(item.id)}>
                               <i style={{ fontSize: "14px", position: "relative", cursor: "pointer" }} 
                               className="fas fa-pen"></i>
@@ -595,7 +621,7 @@ class detailTask extends Component {
                 <div style={{ marginTop: "10px"}}>
                   {this.props.comment.commentList ? this.props.comment.commentList.map(
                     item => 
-                      <span>
+                      <p>
                         <span className="member-job">
                           <Avatar
                             name={item.user_name}
@@ -613,7 +639,7 @@ class detailTask extends Component {
                           </span>
                         :
                         <span>
-                          <input style={{ borderRadius: "10px" }} onChange={this.onChangeComment} placeholder="new content..." />
+                          <input style={{ borderRadius: "10px" }} value={this.state.content} onChange={this.onChangeComment} placeholder="new content..." />
                           <Button color="link" onClick={this.handleEditComment}>
                             <i style={{ fontSize: "30px", paddingLeft: "-4px", paddingTop: "-5px  " }} class="fas fa-arrow-alt-circle-up"></i>
                           </Button>
@@ -628,11 +654,11 @@ class detailTask extends Component {
 
                         { item.user_id == localStorage.getItem('userId') ?
                         <p>
-                          <span className="comment" onClick={() => this.clickEditComment(item.id)}>Edit</span>
+                          <span className="comment" onClick={() => this.clickEditComment(item.id, item.content)}>Edit</span>
                           <span className="comment" onClick={() => this.handleDeleteComment(item.id)}>Delete</span>
                         </p>
                         :null}
-                      </span>
+                      </p>
                   ):null}  
                 </div>
 
@@ -654,8 +680,19 @@ class detailTask extends Component {
               <div style={{ padding: "10px",paddingLeft: "5px" }}>
               <i className="fas fa-check-circle"></i>
               <b> Activities</b>
-              {this.props.job.historyList ? this.props.job.historyList.map(
-                item => 
+              { !this.state.showHistory ? 
+                <span className="show-history">
+                  <i className="fas fa-angle-down" onClick={this.clickShowHistory}></i>
+                </span>
+                :
+                <span className="show-history">
+                  <i className="fas fa-angle-up" onClick={this.clickShowHistory}></i>
+                </span>             
+              }
+              {this.props.job.historyList.length > 0 && this.state.showHistory ? (this.props.job.historyList.map(
+                (item, index) => (this.props.job.historyList)[this.props.job.historyList.length - 1 - index]
+              )).map(
+                item =>
                 <p style={{marginLeft: "20px"}}>
                   <i className="fas fa-history"></i>
                   <span> {item.content}</span>
@@ -664,6 +701,7 @@ class detailTask extends Component {
               </div>
             </div>
             </div>
+          </div>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.props.toggle} style={{ marginRight: "13.5em"}}>Ok</Button>

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
     Input, Button, Form, FormGroup, Col, CardGroup, Progress,
@@ -135,7 +134,7 @@ class JobGroupList extends Component {
                                 </div>
                                 :
                                 <div className="row input">
-                                    <div className="col-md-3"><i>Project name:</i></div>
+                                    <div className="col-md-2" style={{ fontSize: "20px"}}><i>Project name:</i></div>
                                     <div className="col-md-4">
                                         <Form>
                                             <FormGroup>

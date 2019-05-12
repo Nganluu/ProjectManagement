@@ -39,6 +39,10 @@ class PersonalProjectList extends Component {
             pName: nextProps.personalProject.personalProjectDetail.personal_name
         })
     }
+
+    componentDidUpdate = () => {
+        this.props.changeLength(this.props.personalProject.personalProjectList.length);
+    }
     cancelDeletePersonalProject = () => {
         this.setState({
             idDeletePersonalProject: ""
@@ -155,7 +159,7 @@ class PersonalProjectList extends Component {
     render() {
         return (
             <div className="row">
-                {this.props.personalProject.personalProjectList ?
+                {this.props.personalProject.personalProjectList.length > 0 ?
                     this.props.personalProject.personalProjectList.map(
                         item =>
                             <div key={item.id} className="col-md-3 menu-inside">

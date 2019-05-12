@@ -65,7 +65,7 @@ class homePage extends Component {
                         <div style={{ width: "10em"}} >
                         {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
                             (item) =>
-                                    <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }}>
+                                    <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }} onClick={() => this.props.choosePersonal(item.id)}>
                                         <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                         <b>{item.personal_name}</b>
                                     </Button>
