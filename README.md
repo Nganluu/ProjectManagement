@@ -1,9 +1,10 @@
 # ProjectManagement
-Để có thể cài đặt project, bạn cần có: 
-	nodejs
-	npm
-	xampp
-	composer-Setup
+  #Để có thể cài đặt project, bạn cần có: 
+  
+	# nodejs
+	# npm
+	# xampp
+	# composer-Setup
 
 # Khởi động server
    #Clone project về và cho vào thư mục xampp/htdocs
