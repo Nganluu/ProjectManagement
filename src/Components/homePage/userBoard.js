@@ -7,6 +7,7 @@ import '../../styles/homePage.css'
 import '../../styles/member.css'
 import '../../styles/scrollbar.css'
 import ModalAddProject from './modalAddProject'
+import ModalShowPersonal from './modalShowPersonal'
 import { getAllProject } from '../../Actions/projectActions'
 import { getAllPersonalProject } from '../../Actions/personalProjectAction'
 
@@ -15,7 +16,8 @@ class homePage extends Component {
         super(props);
         this.state = {
             modalAddProject: false,
-            modalAddTask: false
+            modalAddTask: false,
+            id: "false"
         }
     }
     componentDidMount() {
@@ -33,6 +35,18 @@ class homePage extends Component {
     toggleAddTask = () => {
         this.setState({
             modalAddTask: !this.state.modalAddTask
+        })
+    }
+
+    choosePersonal = (id) => {
+        this.setState({
+            id: id
+        })
+    }
+
+    closePersonal = () => {
+        this.setState({
+            id: ""
         })
     }
 
@@ -65,7 +79,7 @@ class homePage extends Component {
                         <div style={{ width: "10em"}} >
                         {this.props.personalProject.personalProjectList ? this.props.personalProject.personalProjectList.map(
                             (item) =>
-                                    <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }} onClick={() => this.props.choosePersonal(item.id)}>
+                                    <Button key={item.id} color="light" style={{ width: "100%", textAlign: "left" }} onClick={() => this.choosePersonal(item.id)}>
                                         <i className="fas fa-thumbtack" style={{ marginRight: "5%" }}></i>
                                         <b>{item.personal_name}</b>
                                     </Button>
@@ -76,6 +90,7 @@ class homePage extends Component {
                     <div onClick={this.toggleAddProject} style={{ color: "#989999" }}>+ Create new</div>
                 </div>
                 <ModalAddProject modal={this.state.modalAddProject} toggle={this.toggleAddProject} />
+                <ModalShowPersonal id={this.state.id} close={this.closePersonal} />
             </div>
         );
     }

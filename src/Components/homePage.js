@@ -13,20 +13,7 @@ export default class homePage extends Component {
     this.state = ({
       projectLength: 0,
       personalLength: 0,
-      personalId: "",
       modallAdd: false
-    })
-  }
-
-  choosePersonal = (id) => {
-    this.setState({
-      personalId: id
-    })
-  }
-
-  closeDetailPersonal = () => {
-    this.setState({
-      personalId: ""
     })
   }
 
@@ -67,14 +54,11 @@ export default class homePage extends Component {
                 <i className="fas fa-star"></i>
                 <span> Your project - List of job</span>
               </div>
-                <PersonalProjectList changeLength={this.changePersonalLength} 
-                                     idChoose={this.state.personalId}
-                                     closeDetailPersonal={this.closeDetailPersonal}
-                                     />
+                <PersonalProjectList changeLength={this.changePersonalLength} />
             </div>
             : 
             <div className="col-md-10 project bg">
-              <p style={{margin: "7em 11em", fontSize: "2em"}} onClick={this.toggleAdd}>
+              <p style={{margin: "7em 11em", fontSize: "2em", cursor: "pointer"}} onClick={this.toggleAdd}>
                 GETTING STARTED!!!
               </p>
               <ProjectList changeLength={this.changeProjectLength}/>
