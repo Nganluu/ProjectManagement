@@ -42,6 +42,8 @@ class detailTask extends Component {
       //comment
       idEditComment: "",
       content: "",
+      addContent: "",
+      //history
       showHistory: false
     }
   }
@@ -74,10 +76,10 @@ class detailTask extends Component {
 
   handleChangeJobTitle = () => {
     const id = this.props.id;
-    console.log(id);
     this.props.updateJobName(id, this.state.jobTitle);
     this.props.getJobWithId(id);
     this.jobTitleEditing();
+    this.props.getAllJob(this.props.match.params.jobgroup_id);
   }
 
   //Change job description
@@ -102,10 +104,10 @@ class detailTask extends Component {
   }
 
   //Change job start date
-  startDateEditing = (date) => {
+  startDateEditing = () => {
+    this.setState();
     this.setState({
       isStartDateChange: !this.state.isStartDateChange,
-      startDate: date,
       isStartDateInvalid: false
     });
   }
@@ -134,10 +136,9 @@ class detailTask extends Component {
   }
 
   //Change Job End Date
-  endDateEditing = (date) => {
+  endDateEditing = () => {
     this.setState({
       isEndDateChange: !this.state.isEndDateChange,
-      endDate: date,
       isEndDateInvalid: false
     });
   }
@@ -186,7 +187,8 @@ class detailTask extends Component {
       this.props.getAllHistory(this.props.id);
       this.props.getAllJob(this.props.match.params.jobgroup_id);
       this.setState({
-        dropdown: false
+        dropdown: false,
+        taskName: ""
       })
     }
   }
@@ -315,12 +317,20 @@ class detailTask extends Component {
     })
   }
 
-  addComment = () => {
-    this.props.addNewComment(this.props.id, this.state.content);
-    this.props.getAllComment(this.props.id);
+  onChangAddComment = (event) => {
     this.setState({
-      content: ""
-    });
+      addContent: event.target.value
+    })
+  }
+
+  addComment = () => {
+    if(this.state.addContent) {
+      this.props.addNewComment(this.props.id, this.state.addContent);
+      this.props.getAllComment(this.props.id);
+      this.setState({
+        addContent: ""
+      });
+    }
   }
 
   handleEditComment = () => {
@@ -358,9 +368,9 @@ class detailTask extends Component {
             <div >
               <div style={{ padding: "10px"}}>
                 {!this.state.jobTitleEditing ?
-                  <div style={{ cursor: "pointer" }}>
+                  <div>
                     <i className="fas fa-list-ul"></i>
-                    <b onClick={() => this.jobTitleEditing(this.props.job.jobDetail.job_name)} style={{ paddingLeft: "5px", fontSize: "20px" }}>{this.props.job.jobDetail.job_name} </b>
+                    <b onClick={() => this.jobTitleEditing(this.props.job.jobDetail.job_name)} style={{ paddingLeft: "5px", fontSize: "20px", cursor: "pointer" }}>{this.props.job.jobDetail.job_name} </b>
                   </div>
                   :
                   <div>
@@ -385,12 +395,12 @@ class detailTask extends Component {
                 <i className="fas fa-hourglass-start"></i> From: {" "}
                 <span>
                 {!this.state.isStartDateChange ?
-                    <span onClick={() => this.startDateEditing(this.props.job.jobDetail.start_date)} style={{ cursor: "pointer" }}>
+                    <span onClick={this.startDateEditing} style={{ cursor: "pointer" }}>
                     {dateFormat(this.props.job.jobDetail.start_date, "dd/mm/yyyy")}
                   </span>
                   :
                   <span>
-                    <DateTimePicker onChange={this.changeStartDate} value={this.state.startDate} />
+                    <DateTimePicker onChange={this.changeStartDate} value={this.state.startDate}/>
                     <Button color="link" onClick={this.handleChangeStartDate}>
                       <i style={{ fontSize: "20px", position: "relative", cursor: "pointer" }} 
                       className="fas fa-pen"></i>
@@ -411,7 +421,7 @@ class detailTask extends Component {
                 <i className="fas fa-hourglass-end"></i> Til: {" "}
                 <span>
                 {!this.state.isEndDateChange?
-                  <span onClick={() => this.endDateEditing(this.props.job.jobDetail.end_date)} style={{ cursor: "pointer" }}>
+                  <span onClick={this.endDateEditing} style={{ cursor: "pointer" }}>
                     {dateFormat(this.props.job.jobDetail.end_date, "dd/mm/yyyy")}
                   </span>
                 :
@@ -516,7 +526,11 @@ class detailTask extends Component {
                 <Dropdown isOpen={this.state.dropdown} style={{ marginLeft: "102px", marginTop: "-30px" }}>
                   <DropdownToggle tag="span" data-toggle="dropdown">
                     <Button onClick={this.toggle} color="link">
+                    {!this.state.dropdown ?
                       <i className="fas fa-plus-circle" style={{ fontSize: "20px" }}></i>
+                      :
+                      <i className="fas fa-times-circle" style={{ fontSize: "20px" }}></i>
+                    }
                     </Button>
                   </DropdownToggle>
                   <DropdownMenu>
@@ -671,7 +685,7 @@ class detailTask extends Component {
                     round={true}
                   />
                   <i>   </i>
-                  <input style={{ borderRadius: "10px" }} onChange={this.onChangeComment} placeholder="add a comment..." />
+                  <input style={{ borderRadius: "10px" }} onChange={this.onChangAddComment} value={this.state.addContent} placeholder="add a comment..." />
                   <Button color="link" onClick={this.addComment}>
                     <i style={{ fontSize: "30px", paddingLeft: "-4px", paddingTop: "-5px  " }} class="fas fa-arrow-alt-circle-up"></i>
                   </Button>

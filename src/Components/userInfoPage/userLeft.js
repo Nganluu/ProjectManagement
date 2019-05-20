@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import UserAvatar from 'react-users-avatar'
+import {Link} from 'react-router-dom'
 
 export default class userInfoPage extends Component {
     constructor(props) {
@@ -36,20 +37,26 @@ export default class userInfoPage extends Component {
                                <br />
                                <br />
                                
-                               <div style={{ marginBottom: "5%", marginLeft: "70px", color: "#4267b2" }}>
-                                    <i className="fas fa-user-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                    <b style={{ fontSize: "18px" }}>Information</b>
-                               </div>
+                               <Link to="/user">
+                                    <div style={{ marginBottom: "5%", marginLeft: "70px", color: "#4267b2" }}>
+                                            <i className="fas fa-user-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
+                                            <b style={{ fontSize: "18px" }}>Information</b>
+                                    </div>
+                               </Link>
 
-                               <div style={{ marginBottom: "5%", marginLeft: "70px", color: "#4267b2" }}>
-                                    <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                    <b style={{ fontSize: "18px" }}>My Project</b>
-                               </div>
+                                <Link to="/home">
+                                    <div style={{ marginBottom: "5%", marginLeft: "70px", color: "#4267b2" }}>
+                                            <i className="fas fa-users" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
+                                            <b style={{ fontSize: "18px" }}>My Project</b>
+                                    </div>
+                               </Link>
 
-                               <div style={{ marginLeft: "70px", color: "#4267b2" }}>
-                                <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
-                                <b style={{ fontSize: "18px" }}>Personal</b>
-                            </div>
+                                <Link to="/home">
+                                    <div style={{ marginLeft: "70px", color: "#4267b2" }}>
+                                        <i className="far fa-check-circle" style={{ paddingRight: "5%", fontSize: "20px" }}></i>
+                                        <b style={{ fontSize: "18px" }}>Personal</b>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
